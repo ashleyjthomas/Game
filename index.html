@@ -278,8 +278,8 @@ h2  { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center;
   </div>
   <div class="form-row"><label>Condition</label>
     <select id="f-cond">
-      <option value="1+2">Conditions 1 &amp; 2 — Food + Social</option>
-      <option value="3">Condition 3 — Combined</option>
+      <option value="1+2">Conditions 1 &amp; 2 — Food fam then Social fam (two test phases)</option>
+      <option value="3">Condition 3 — Both fams then single test</option>
     </select>
   </div>
   <div class="form-row"><label>Trial Order</label>
@@ -327,7 +327,7 @@ h2  { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center;
   <button class="btn btn-green" onclick="G.startTraining()">I'm Ready! ✅</button>
 </div>
 
-<!-- ══════════ TRAINING — Pip walks into the room ══════════ -->
+<!-- ══════════ TRAINING ══════════ -->
 <div id="s-training" class="screen">
   <div class="prog-wrap">
     <p class="prog-label" id="trn-lbl">Practice 1 of 6</p>
@@ -422,11 +422,11 @@ h2  { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center;
   <div style="display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin:14px 0;">
     <div class="char-wrap">
       <div class="char-display char-md a-float" id="sfi-pos"></div>
-      <span class="ntag nt-blue" id="sfi-pos-tag">Milo</span>
+      <span class="ntag nt-blue" id="sfi-pos-tag"></span>
     </div>
     <div class="char-wrap">
       <div class="char-display char-md a-float" id="sfi-thin"></div>
-      <span class="ntag nt-gray" id="sfi-thin-tag">Benny</span>
+      <span class="ntag nt-gray" id="sfi-thin-tag"></span>
     </div>
   </div>
   <p class="txt">Watch how Pip feels with each one!</p>
@@ -490,66 +490,51 @@ h2  { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center;
 <script>
 /* ═══════════════════════════════════════════════════
    SVG CHARACTER LIBRARY
-   Pip  = red/pink pig — 5 facial expressions
-   Benny = blue pig (same structure, different colour) — not a friend
-   Milo = mouse — Pip's best friend (always)
+   Pip   — red/pink pig, 5 facial expressions
+   Benny — blue pig
+   Milo  — grey mouse
+   Rosie — pink rabbit (tall oval ears)
+   Bruno — brown bear (round ears + snout)
 ═══════════════════════════════════════════════════ */
 const CHARS = {
 
   pip: (state = 'neutral') => {
     const eyes = {
-      neutral: `
-        <circle cx="35" cy="47" r="5"   fill="#2c1a0e"/>
-        <circle cx="65" cy="47" r="5"   fill="#2c1a0e"/>
-        <circle cx="37" cy="45" r="1.8" fill="#fff"/>
-        <circle cx="67" cy="45" r="1.8" fill="#fff"/>`,
-      happy: `
-        <path d="M29 47 Q35 41 41 47" stroke="#2c1a0e" stroke-width="3.5"
-              fill="none" stroke-linecap="round"/>
-        <path d="M59 47 Q65 41 71 47" stroke="#2c1a0e" stroke-width="3.5"
-              fill="none" stroke-linecap="round"/>`,
-      sad: `
-        <path d="M30 43 Q35 48 40 43" stroke="#4a5a7a" stroke-width="2.5"
-              fill="none" stroke-linecap="round"/>
-        <circle cx="35" cy="49" r="5" fill="#5a6a8a"/>
-        <path d="M60 43 Q65 48 70 43" stroke="#4a5a7a" stroke-width="2.5"
-              fill="none" stroke-linecap="round"/>
-        <circle cx="65" cy="49" r="5" fill="#5a6a8a"/>`,
-      hungry: `
-        <circle cx="35" cy="46" r="5.5" fill="#2c1a0e"/>
-        <circle cx="65" cy="46" r="5.5" fill="#2c1a0e"/>
-        <circle cx="37" cy="44" r="2.2" fill="#fff"/>
-        <circle cx="67" cy="44" r="2.2" fill="#fff"/>`,
-      excited: `
-        <path d="M27 47 Q35 40 43 47" stroke="#2c1a0e" stroke-width="4"
-              fill="none" stroke-linecap="round"/>
-        <path d="M57 47 Q65 40 73 47" stroke="#2c1a0e" stroke-width="4"
-              fill="none" stroke-linecap="round"/>`
+      neutral:`<circle cx="35" cy="47" r="5" fill="#2c1a0e"/>
+               <circle cx="65" cy="47" r="5" fill="#2c1a0e"/>
+               <circle cx="37" cy="45" r="1.8" fill="#fff"/>
+               <circle cx="67" cy="45" r="1.8" fill="#fff"/>`,
+      happy:  `<path d="M29 47 Q35 41 41 47" stroke="#2c1a0e" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+               <path d="M59 47 Q65 41 71 47" stroke="#2c1a0e" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+      sad:    `<path d="M30 43 Q35 48 40 43" stroke="#4a5a7a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+               <circle cx="35" cy="49" r="5" fill="#5a6a8a"/>
+               <path d="M60 43 Q65 48 70 43" stroke="#4a5a7a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+               <circle cx="65" cy="49" r="5" fill="#5a6a8a"/>`,
+      hungry: `<circle cx="35" cy="46" r="5.5" fill="#2c1a0e"/>
+               <circle cx="65" cy="46" r="5.5" fill="#2c1a0e"/>
+               <circle cx="37" cy="44" r="2.2" fill="#fff"/>
+               <circle cx="67" cy="44" r="2.2" fill="#fff"/>`,
+      excited:`<path d="M27 47 Q35 40 43 47" stroke="#2c1a0e" stroke-width="4" fill="none" stroke-linecap="round"/>
+               <path d="M57 47 Q65 40 73 47" stroke="#2c1a0e" stroke-width="4" fill="none" stroke-linecap="round"/>`
     };
     const mouths = {
-      neutral: `<path d="M42 63 Q50 67 58 63"
-                      stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
-      happy:   `<path d="M38 62 Q50 73 62 62"
-                      stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
-      sad:     `<path d="M40 68 Q50 61 60 68"
-                      stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
-      hungry:  `<path d="M40 61 Q50 71 60 61"
-                      stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                <ellipse cx="50" cy="67" rx="7" ry="4" fill="#e8a0a0" opacity="0.35"/>`,
-      excited: `<path d="M36 61 Q50 76 64 61"
-                      stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                <ellipse cx="50" cy="68" rx="10" ry="6" fill="#e8a0a0" opacity="0.3"/>`
+      neutral:`<path d="M42 63 Q50 67 58 63" stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
+      happy:  `<path d="M38 62 Q50 73 62 62" stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
+      sad:    `<path d="M40 68 Q50 61 60 68" stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
+      hungry: `<path d="M40 61 Q50 71 60 61" stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+               <ellipse cx="50" cy="67" rx="7" ry="4" fill="#e8a0a0" opacity="0.35"/>`,
+      excited:`<path d="M36 61 Q50 76 64 61" stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+               <ellipse cx="50" cy="68" rx="10" ry="6" fill="#e8a0a0" opacity="0.3"/>`
     };
     const s = ['neutral','happy','sad','hungry','excited'].includes(state) ? state : 'neutral';
-    return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
-                 style="width:100%;height:100%;display:block">
+    return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
       <polygon points="22,40 15,21 36,33" fill="#de7575" stroke="#b85555" stroke-width="1.5"/>
       <polygon points="78,40 85,21 64,33" fill="#de7575" stroke="#b85555" stroke-width="1.5"/>
       <polygon points="23,38 18,24 34,32" fill="#ffb3b3"/>
       <polygon points="77,38 82,24 66,32" fill="#ffb3b3"/>
       <circle cx="50" cy="56" r="34" fill="#de7575" stroke="#b85555" stroke-width="2"/>
-      <circle cx="28" cy="58" r="9"  fill="#ff9999" opacity="0.18"/>
-      <circle cx="72" cy="58" r="9"  fill="#ff9999" opacity="0.18"/>
+      <circle cx="28" cy="58" r="9" fill="#ff9999" opacity="0.18"/>
+      <circle cx="72" cy="58" r="9" fill="#ff9999" opacity="0.18"/>
       ${eyes[s]}
       <ellipse cx="50" cy="57" rx="3.5" ry="2.5" fill="#b85555"/>
       <line x1="16" y1="56" x2="40" y2="58" stroke="#ddd" stroke-width="1.4"/>
@@ -560,18 +545,17 @@ const CHARS = {
     </svg>`;
   },
 
-  /* ── Benny the Blue Pig — same structure as Pip, clearly different colour ── */
-  benny: () => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
-                     style="width:100%;height:100%;display:block">
+  /* Blue pig — same structure as Pip, clearly different colour */
+  benny: () => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
     <polygon points="22,40 15,21 36,33" fill="#7599de" stroke="#4a6db8" stroke-width="1.5"/>
     <polygon points="78,40 85,21 64,33" fill="#7599de" stroke="#4a6db8" stroke-width="1.5"/>
     <polygon points="23,38 18,24 34,32" fill="#b3c8f8"/>
     <polygon points="77,38 82,24 66,32" fill="#b3c8f8"/>
     <circle cx="50" cy="56" r="34" fill="#7599de" stroke="#4a6db8" stroke-width="2"/>
-    <circle cx="28" cy="58" r="9"  fill="#8899ee" opacity="0.18"/>
-    <circle cx="72" cy="58" r="9"  fill="#8899ee" opacity="0.18"/>
-    <circle cx="35" cy="47" r="5"   fill="#1a1a2e"/>
-    <circle cx="65" cy="47" r="5"   fill="#1a1a2e"/>
+    <circle cx="28" cy="58" r="9" fill="#8899ee" opacity="0.18"/>
+    <circle cx="72" cy="58" r="9" fill="#8899ee" opacity="0.18"/>
+    <circle cx="35" cy="47" r="5" fill="#1a1a2e"/>
+    <circle cx="65" cy="47" r="5" fill="#1a1a2e"/>
     <circle cx="37" cy="45" r="1.8" fill="#fff"/>
     <circle cx="67" cy="45" r="1.8" fill="#fff"/>
     <ellipse cx="50" cy="57" rx="3.5" ry="2.5" fill="#4a6db8"/>
@@ -579,21 +563,19 @@ const CHARS = {
     <line x1="16" y1="61" x2="40" y2="61" stroke="#cce" stroke-width="1.4"/>
     <line x1="60" y1="58" x2="84" y2="56" stroke="#cce" stroke-width="1.4"/>
     <line x1="60" y1="61" x2="84" y2="61" stroke="#cce" stroke-width="1.4"/>
-    <path d="M42 63 Q50 67 58 63" stroke="#4a6db8" stroke-width="2.5"
-          fill="none" stroke-linecap="round"/>
+    <path d="M42 63 Q50 67 58 63" stroke="#4a6db8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   </svg>`,
 
-  /* ── Milo the Mouse — always Pip's best friend ── */
-  milo: () => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
-                    style="width:100%;height:100%;display:block">
+  /* Grey mouse — round ears, whiskers */
+  milo: () => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
     <circle cx="28" cy="28" r="16" fill="#b0a0b0" stroke="#8a7890" stroke-width="1.5"/>
     <circle cx="72" cy="28" r="16" fill="#b0a0b0" stroke="#8a7890" stroke-width="1.5"/>
     <circle cx="28" cy="28" r="10" fill="#d4bcc4"/>
     <circle cx="72" cy="28" r="10" fill="#d4bcc4"/>
     <circle cx="50" cy="56" r="34" fill="#b8a8b8" stroke="#8a7890" stroke-width="2"/>
     <ellipse cx="50" cy="60" rx="22" ry="16" fill="#d4bcc4" opacity="0.5"/>
-    <circle cx="37" cy="48" r="5"   fill="#1e1830"/>
-    <circle cx="63" cy="48" r="5"   fill="#1e1830"/>
+    <circle cx="37" cy="48" r="5" fill="#1e1830"/>
+    <circle cx="63" cy="48" r="5" fill="#1e1830"/>
     <circle cx="39" cy="46" r="1.8" fill="#fff"/>
     <circle cx="65" cy="46" r="1.8" fill="#fff"/>
     <ellipse cx="50" cy="59" rx="4" ry="3" fill="#c06070"/>
@@ -601,26 +583,70 @@ const CHARS = {
     <line x1="15" y1="63" x2="42" y2="63" stroke="#9a8898" stroke-width="1.4"/>
     <line x1="58" y1="60" x2="85" y2="57" stroke="#9a8898" stroke-width="1.4"/>
     <line x1="58" y1="63" x2="85" y2="63" stroke="#9a8898" stroke-width="1.4"/>
-    <path d="M44 66 Q50 70 56 66" stroke="#8a6878" stroke-width="2"
-          fill="none" stroke-linecap="round"/>
+    <path d="M44 66 Q50 70 56 66" stroke="#8a6878" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </svg>`,
+
+  /* Pink rabbit — tall oval ears, whiskers */
+  rosie: () => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+    <ellipse cx="33" cy="22" rx="10" ry="21" fill="#f0b8cc" stroke="#c87898" stroke-width="1.5"/>
+    <ellipse cx="67" cy="22" rx="10" ry="21" fill="#f0b8cc" stroke="#c87898" stroke-width="1.5"/>
+    <ellipse cx="33" cy="22" rx="6"  ry="16" fill="#fcd8e8"/>
+    <ellipse cx="67" cy="22" rx="6"  ry="16" fill="#fcd8e8"/>
+    <circle cx="50" cy="58" r="33" fill="#f0b8cc" stroke="#c87898" stroke-width="2"/>
+    <circle cx="27" cy="62" r="9" fill="#ff88aa" opacity="0.2"/>
+    <circle cx="73" cy="62" r="9" fill="#ff88aa" opacity="0.2"/>
+    <circle cx="35" cy="50" r="5" fill="#1a1020"/>
+    <circle cx="65" cy="50" r="5" fill="#1a1020"/>
+    <circle cx="37" cy="48" r="1.8" fill="#fff"/>
+    <circle cx="67" cy="48" r="1.8" fill="#fff"/>
+    <ellipse cx="50" cy="60" rx="3.5" ry="2.5" fill="#c87898"/>
+    <line x1="15" y1="59" x2="40" y2="61" stroke="#ddd" stroke-width="1.4"/>
+    <line x1="15" y1="64" x2="40" y2="64" stroke="#ddd" stroke-width="1.4"/>
+    <line x1="60" y1="61" x2="85" y2="59" stroke="#ddd" stroke-width="1.4"/>
+    <line x1="60" y1="64" x2="85" y2="64" stroke="#ddd" stroke-width="1.4"/>
+    <path d="M43 66 Q50 71 57 66" stroke="#c87898" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </svg>`,
+
+  /* Brown bear — round ears, large snout, no whiskers */
+  bruno: () => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+    <circle cx="24" cy="28" r="16" fill="#a06828" stroke="#784a10" stroke-width="1.5"/>
+    <circle cx="76" cy="28" r="16" fill="#a06828" stroke="#784a10" stroke-width="1.5"/>
+    <circle cx="24" cy="28" r="10" fill="#c88840"/>
+    <circle cx="76" cy="28" r="10" fill="#c88840"/>
+    <circle cx="50" cy="57" r="33" fill="#a06828" stroke="#784a10" stroke-width="2"/>
+    <ellipse cx="50" cy="65" rx="17" ry="12" fill="#c88840"/>
+    <circle cx="24" cy="60" r="9" fill="#b87838" opacity="0.18"/>
+    <circle cx="76" cy="60" r="9" fill="#b87838" opacity="0.18"/>
+    <circle cx="35" cy="46" r="6.5" fill="#fff"/>
+    <circle cx="65" cy="46" r="6.5" fill="#fff"/>
+    <circle cx="35" cy="47" r="4.5" fill="#1a0a00"/>
+    <circle cx="65" cy="47" r="4.5" fill="#1a0a00"/>
+    <circle cx="36" cy="45" r="1.8" fill="#fff"/>
+    <circle cx="66" cy="45" r="1.8" fill="#fff"/>
+    <ellipse cx="50" cy="59" rx="5.5" ry="3.5" fill="#1a0a00"/>
+    <path d="M44 65 Q50 70 56 65" stroke="#1a0a00" stroke-width="2.2" fill="none" stroke-linecap="round"/>
   </svg>`
 };
 
 /* ═══════════════════════════════════════════════════
-   ITEM CATALOGUE
-   charA = Benny (blue pig) — always NOT a friend
-   charB = Milo  (mouse)   — always best friend
+   FOOD POOL — 4 child-friendly foods, 2 randomly selected per session
 ═══════════════════════════════════════════════════ */
-const ITEMS = {
-  foodA:    { emoji:'🍕', label:'Pizza',    type:'foodA',    isSocial:false },
-  foodB:    { emoji:'🥦', label:'Broccoli', type:'foodB',    isSocial:false },
-  unknown1: { emoji:'🫐', label:'Berries',  type:'unknown1', isSocial:false },
-  unknown2: { emoji:'🌽', label:'Corn',     type:'unknown2', isSocial:false },
-  charA:    { emoji:'🐷', label:'Benny',    type:'charA',    isSocial:true,  charKey:'benny' },
-  charB:    { emoji:'🐭', label:'Milo',     type:'charB',    isSocial:true,  charKey:'milo'  },
-  toy1:     { emoji:'🎮', label:'Game',     type:'toy1',     isSocial:false },
-  toy2:     { emoji:'🎪', label:'Tent',     type:'toy2',     isSocial:false },
-};
+const FOOD_POOL = [
+  { emoji:'🍕', label:'Pizza',      type:'food0', isSocial:false },
+  { emoji:'🍦', label:'Ice Cream',  type:'food1', isSocial:false },
+  { emoji:'🍪', label:'Cookie',     type:'food2', isSocial:false },
+  { emoji:'🍓', label:'Strawberry', type:'food3', isSocial:false },
+];
+
+/* ═══════════════════════════════════════════════════
+   CHARACTER POOL — 4 animals, 2 randomly selected per session
+═══════════════════════════════════════════════════ */
+const CHAR_POOL = [
+  { emoji:'🐭', label:'Milo',  type:'char0', isSocial:true, charKey:'milo'  },
+  { emoji:'🐷', label:'Benny', type:'char1', isSocial:true, charKey:'benny' },
+  { emoji:'🐰', label:'Rosie', type:'char2', isSocial:true, charKey:'rosie' },
+  { emoji:'🐻', label:'Bruno', type:'char3', isSocial:true, charKey:'bruno' },
+];
 
 const DCOLS    = ['dc-green','dc-blue','dc-orange','dc-purple'];
 const T_EMOJIS = ['🍎','⭐','🌈','🎈','🐸','🌸','🦋','🍦','🎀','🦄'];
@@ -633,8 +659,9 @@ const G = (() => {
   let S = {
     pid:'', age:0, pType:'child',
     condition:'1+2', orderMode:'random',
-    likedIsA:true,
-    positiveIsA:false,   /* always false — Milo is always best friend */
+    /* Randomly selected per session */
+    likedFoodIdx:0, dislikedFoodIdx:1,
+    posCharIdx:0,   thinCharIdx:1,
     block:1, firstBlock:1, phase:'baseline',
     trialSeq:[], trialIdx:0, trialStart:0,
     trainIdx:0, trainTrials:[],
@@ -662,8 +689,7 @@ const G = (() => {
   };
 
   const setPip = (id, state, animCls = '') => {
-    const el = $(id);
-    if (!el) return;
+    const el = $(id); if (!el) return;
     el.className = el.className.replace(/a-\S+/g,'').trim()
                  + (animCls ? ' '+animCls : '');
     el.innerHTML = CHARS.pip(state);
@@ -688,32 +714,19 @@ const G = (() => {
   });
   if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = () => {};
 
-  const likedFood = () => S.likedIsA ? ITEMS.foodA : ITEMS.foodB;
-  const dislikedFood = () => S.likedIsA ? ITEMS.foodB : ITEMS.foodA;
-  /* Social partners are FIXED — Milo always best friend, Benny never */
-  const posChar  = () => ITEMS.charB;   // Milo (mouse)
-  const thinChar = () => ITEMS.charA;   // Benny (blue pig)
+  /* ── Item helpers — return the session's randomly chosen items ── */
+  const likedFood    = () => FOOD_POOL[S.likedFoodIdx];
+  const dislikedFood = () => FOOD_POOL[S.dislikedFoodIdx];
+  const posChar      = () => CHAR_POOL[S.posCharIdx];
+  const thinChar     = () => CHAR_POOL[S.thinCharIdx];
 
-  const buildChoices = () => {
-    if (S.block===1) return shuf([
-      {...likedFood(),    role:'liked_food'     },
-      {...dislikedFood(), role:'disliked_food'  },
-      {...ITEMS.unknown1, role:'unknown1'       },
-      {...ITEMS.unknown2, role:'unknown2'       },
-    ]);
-    if (S.block===2) return shuf([
-      {...posChar(),      role:'positive_social'},
-      {...thinChar(),     role:'thin_social'    },
-      {...ITEMS.toy1,     role:'toy1'           },
-      {...ITEMS.toy2,     role:'toy2'           },
-    ]);
-    return shuf([
-      {...likedFood(),    role:'liked_food'     },
-      {...dislikedFood(), role:'disliked_food'  },
-      {...posChar(),      role:'positive_social'},
-      {...thinChar(),     role:'thin_social'    },
-    ]);
-  };
+  /* ── Choices are ALWAYS 2 foods + 2 characters ── */
+  const buildChoices = () => shuf([
+    { ...likedFood(),    role:'liked_food'      },
+    { ...dislikedFood(), role:'disliked_food'   },
+    { ...posChar(),      role:'positive_social' },
+    { ...thinChar(),     role:'thin_social'     },
+  ]);
 
   const buildSeq = () => {
     const t = ['food','sad','neutral','toy'];
@@ -745,11 +758,7 @@ const G = (() => {
     });
   };
 
-  /*
-   * makeDoor — builds a door element.
-   * roomOverrideSVG: if provided, shows this SVG in the room instead of the item.
-   *   Used in training so Pip appears in the room when the door opens.
-   */
+  /* roomOverrideSVG: optional SVG string shown inside the room (used for training) */
   const makeDoor = (item, colorClass, roomOverrideSVG = null) => {
     const wrap = document.createElement('div');
     wrap.className = `door-wrap ${colorClass}`;
@@ -797,13 +806,24 @@ const G = (() => {
     S.pType     = $('f-type').value;
     S.condition = $('f-cond').value;
     S.orderMode = $('f-order').value;
-    S.likedIsA  = Math.random()<.5;
-    S.positiveIsA = false;   // Milo always best friend
+
+    /* Randomly select 2 foods from pool of 4 */
+    const fIdxs = shuf([0,1,2,3]);
+    S.likedFoodIdx    = fIdxs[0];
+    S.dislikedFoodIdx = fIdxs[1];
+
+    /* Randomly select 2 characters from pool of 4 */
+    const cIdxs = shuf([0,1,2,3]);
+    S.posCharIdx  = cIdxs[0];
+    S.thinCharIdx = cIdxs[1];
+
+    /* Block/phase */
     S.block      = S.condition==='3' ? 3 : (Math.random()<.5 ? 1 : 2);
     S.firstBlock = S.block;
-    S.phase = 'baseline';
-    S.data  = [];
+    S.phase      = 'baseline';
+    S.data       = [];
 
+    /* Inject Pip SVG into all static slots */
     setPip('wel-pip',         'happy',   'a-bounce');
     setPip('bi-pip',          'neutral', 'a-float');
     setPip('ffi-pip',         'hungry',  'a-bounce');
@@ -813,7 +833,7 @@ const G = (() => {
     setPip('attn-pip-food',   'neutral', 'a-float');
     setPip('attn-pip-social', 'neutral', 'a-float');
 
-    /* Social partners — Milo as pos, Benny as thin */
+    /* Social partner SVGs — whichever 2 were randomly selected */
     $('sfi-pos').innerHTML        = CHARS[posChar().charKey]();
     $('sfi-thin').innerHTML       = CHARS[thinChar().charKey]();
     $('sfi-pos-tag').textContent  = posChar().label;
@@ -823,10 +843,7 @@ const G = (() => {
     setTimeout(() => speak('Hi! Welcome!'), 500);
   };
 
-  /* ══════════════════ TRAINING ══════════════════
-     Pip's SVG is shown in every door's room so the
-     child learns the walk-in mechanic before test trials.
-  ══════════════════════════════════════════════ */
+  /* ══════════════════ TRAINING ══════════════════ */
   const goTrainIntro = () => {
     showScreen('s-train-intro');
     speak("Let's practice! Click the matching door!");
@@ -865,7 +882,7 @@ const G = (() => {
     const grid=$('trn-doors'); grid.innerHTML='';
     const cols=shuf([...DCOLS]);
     t.opts.forEach((opt,idx) => {
-      /* Pass Pip's SVG as the room override — child sees Pip inside when door opens */
+      /* Pip appears inside every training room so child learns the walk-in mechanic */
       const w = makeDoor(
         {emoji:opt, label:'', isSocial:false},
         cols[idx],
@@ -881,22 +898,18 @@ const G = (() => {
     const sRect=screen.getBoundingClientRect();
     const cRect=ce.getBoundingClientRect();
     const dRect=doorWrap.querySelector('.door-frame').getBoundingClientRect();
-    const sx=cRect.left-sRect.left+cRect.width/2;
-    const sy=cRect.top -sRect.top +cRect.height/2;
-    const tx=dRect.left-sRect.left+dRect.width/2;
-    const ty=dRect.top -sRect.top +dRect.height/2;
+    const sx=cRect.left-sRect.left+cRect.width/2,  sy=cRect.top-sRect.top+cRect.height/2;
+    const tx=dRect.left-sRect.left+dRect.width/2,  ty=dRect.top-sRect.top+dRect.height/2;
     const sz=cRect.width;
     wc.innerHTML=CHARS.pip('neutral');
     wc.style.cssText=`display:block;position:absolute;width:${sz}px;height:${sz}px;
       left:${sx}px;top:${sy}px;border-radius:50%;overflow:hidden;
       transform:translate(-50%,-50%) scale(1);opacity:1;transition:none;
       z-index:50;pointer-events:none;`;
-    ce.style.opacity='0.12';
-    await wait(60);
+    ce.style.opacity='0.12'; await wait(60);
     wc.style.transition='all .9s cubic-bezier(.4,0,.2,1)';
     wc.style.left=`${tx}px`; wc.style.top=`${ty}px`;
-    wc.style.transform='translate(-50%,-50%) scale(0.25)';
-    wc.style.opacity='0';
+    wc.style.transform='translate(-50%,-50%) scale(0.25)'; wc.style.opacity='0';
     await wait(960);
     ce.style.opacity='1'; wc.style.display='none';
   };
@@ -922,8 +935,7 @@ const G = (() => {
   };
 
   const onTrainDone = () => {
-    flash('🎉 Practice done!','#e67e22');
-    speak('Amazing!');
+    flash('🎉 Practice done!','#e67e22'); speak('Amazing!');
     setTimeout(()=>{ setBaseIntro(); showScreen('s-base-intro'); },1800);
   };
 
@@ -997,17 +1009,19 @@ const G = (() => {
     chosenWrap.querySelector('.door-panel').classList.add('open');
     await wait(380);
     await walkIntoDoor(chosenWrap);
+
     S.data.push({
-      pid:S.pid,age:S.age,pType:S.pType,
-      condition:S.condition,block:S.block,
-      firstBlock:S.firstBlock,phase:S.phase,
-      trialNum:S.trialIdx+1,trialType,
-      role:choice.role,choiceLabel:choice.label,
-      rt_ms:rt,trialOrder:S.trialSeq.join('-'),
-      likedIsA:S.likedIsA,positiveIsA:S.positiveIsA,
+      pid:S.pid, age:S.age, pType:S.pType,
+      condition:S.condition, block:S.block, firstBlock:S.firstBlock, phase:S.phase,
+      trialNum:S.trialIdx+1, trialType,
+      role:choice.role, choiceLabel:choice.label,
+      rt_ms:rt, trialOrder:S.trialSeq.join('-'),
+      likedFood:likedFood().label, dislikedFood:dislikedFood().label,
+      posChar:posChar().label,     thinChar:thinChar().label,
       attnCorrect:'',
       timestamp:new Date().toISOString(),
     });
+
     await wait(280);
     showResultRoom(choice);
   };
@@ -1017,30 +1031,25 @@ const G = (() => {
     const sRect=screen.getBoundingClientRect();
     const cRect=ce.getBoundingClientRect();
     const dRect=doorWrap.querySelector('.door-frame').getBoundingClientRect();
-    const sx=cRect.left-sRect.left+cRect.width/2;
-    const sy=cRect.top -sRect.top +cRect.height/2;
-    const tx=dRect.left-sRect.left+dRect.width/2;
-    const ty=dRect.top -sRect.top +dRect.height/2;
+    const sx=cRect.left-sRect.left+cRect.width/2,  sy=cRect.top-sRect.top+cRect.height/2;
+    const tx=dRect.left-sRect.left+dRect.width/2,  ty=dRect.top-sRect.top+dRect.height/2;
     const sz=cRect.width;
     wc.innerHTML=CHARS.pip(S.pipState);
     wc.style.cssText=`display:block;position:absolute;width:${sz}px;height:${sz}px;
       left:${sx}px;top:${sy}px;border-radius:50%;overflow:hidden;
       transform:translate(-50%,-50%) scale(1);opacity:1;transition:none;
       z-index:50;pointer-events:none;`;
-    ce.style.opacity='0.12';
-    await wait(60);
+    ce.style.opacity='0.12'; await wait(60);
     wc.style.transition='all .9s cubic-bezier(.4,0,.2,1)';
     wc.style.left=`${tx}px`; wc.style.top=`${ty}px`;
-    wc.style.transform='translate(-50%,-50%) scale(0.25)';
-    wc.style.opacity='0';
+    wc.style.transform='translate(-50%,-50%) scale(0.25)'; wc.style.opacity='0';
     await wait(960);
     ce.style.opacity='1'; wc.style.display='none';
   };
 
   /* ══════════════════ RESULT ROOM — neutral, no reaction ══════════════════ */
   const showResultRoom = (choice) => {
-    const isTest=S.phase==='test';
-    $('rr-phase').textContent=isTest?'🌟 Phase 2':'🐱 Phase 1';
+    $('rr-phase').textContent = S.phase==='test' ? '🌟 Phase 2' : '🐱 Phase 1';
     const stage=$('rr-stage'); stage.innerHTML='';
     const chars=document.createElement('div'); chars.className='rr-chars';
 
@@ -1081,7 +1090,7 @@ const G = (() => {
     }
   };
 
-  /* ══════════════════ FOOD FAM — shown 3 times ══════════════════ */
+  /* ══════════════════ FOOD FAM — 3 repetitions ══════════════════ */
   const playFoodFam = () => { showScreen('s-ff'); runFoodAnim(); };
 
   const runFoodAnim = async () => {
@@ -1089,17 +1098,14 @@ const G = (() => {
     nextDiv.style.display='none'; scene.innerHTML='';
     const lf=likedFood(), df=dislikedFood();
 
-    /* Helpers */
     const mkPip=(state,leftPct)=>{
-      const el=document.createElement('div');
-      el.className='scene-char'; el.style.left=leftPct+'%';
-      el.style.width=el.style.height='58px';
+      const el=document.createElement('div'); el.className='scene-char';
+      el.style.left=leftPct+'%'; el.style.width=el.style.height='58px';
       el.innerHTML=CHARS.pip(state); scene.appendChild(el); return el;
     };
     const mkItem=(emoji,leftPct)=>{
-      const el=document.createElement('div');
-      el.className='scene-item'; el.textContent=emoji;
-      el.style.left=leftPct+'%'; scene.appendChild(el); return el;
+      const el=document.createElement('div'); el.className='scene-item';
+      el.textContent=emoji; el.style.left=leftPct+'%'; scene.appendChild(el); return el;
     };
     const setCaption=txt=>{
       let c=scene.querySelector('.scene-caption');
@@ -1115,45 +1121,37 @@ const G = (() => {
       await wait(400); el.remove();
     };
 
-    /* ── 3 repetitions ── */
     for (let rep=0; rep<3; rep++) {
-
-      /* Liked food */
+      /* Liked */
       scene.innerHTML='';
       setCaption('Pip sees some food!'); capEl.textContent='Pip sees some food!';
       const p1=mkPip('neutral',6); mkItem(lf.emoji,72);
       await wait(1000);
       p1.style.left='54%';
       setCaption(`Pip tries the ${lf.label}…`); capEl.textContent=`Pip tries the ${lf.label}…`;
-      speak(`Pip tries the ${lf.label}.`);
-      await wait(1400);
+      speak(`Pip tries the ${lf.label}.`); await wait(1400);
       p1.innerHTML=CHARS.pip('excited');
       setCaption(`Pip loves the ${lf.label}! 😋`); capEl.textContent=`Pip loves the ${lf.label}! 😋`;
-      speak('Yum!'); popText('😋 YUM!',50,8);
-      await wait(2200);
+      speak('Yum!'); popText('😋 YUM!',50,8); await wait(2200);
 
-      /* Disliked food */
+      /* Disliked */
       scene.innerHTML='';
       setCaption(`Now Pip sees the ${df.label}…`); capEl.textContent=`Now Pip sees the ${df.label}…`;
       const p2=mkPip('neutral',6); mkItem(df.emoji,72);
       await wait(1000);
       p2.style.left='54%';
       setCaption(`Pip tries the ${df.label}…`); capEl.textContent=`Pip tries the ${df.label}…`;
-      speak(`Pip tries the ${df.label}.`);
-      await wait(1400);
+      speak(`Pip tries the ${df.label}.`); await wait(1400);
       p2.innerHTML=CHARS.pip('sad'); p2.style.left='26%';
       setCaption(`Pip does NOT like the ${df.label}! 🤢`);
       capEl.textContent=`Pip does NOT like the ${df.label}! 🤢`;
-      speak('Yuck!'); popText('🤢 YUCK!',22,8);
-      await wait(2200);
+      speak('Yuck!'); popText('🤢 YUCK!',22,8); await wait(2200);
     }
 
-    /* Summary after all 3 reps */
     scene.innerHTML='';
     setCaption(`${lf.label} 😋 YES!   —   ${df.label} 🤢 NO!`);
     capEl.textContent=`${lf.label} 😋 YES!   —   ${df.label} 🤢 NO!`;
-    await wait(1700);
-    nextDiv.style.display='flex';
+    await wait(1700); nextDiv.style.display='flex';
   };
 
   const doneFoodFam = () => {
@@ -1161,26 +1159,22 @@ const G = (() => {
     else             { showFoodAttnCheck(); }
   };
 
-  /* ══════════════════ SOCIAL FAM — shown 3 times ══════════════════ */
+  /* ══════════════════ SOCIAL FAM — 3 repetitions ══════════════════ */
   const playSocialFam = () => { showScreen('s-sf'); runSnuggleAnim(); };
 
   const runSnuggleAnim = async () => {
     const stage=$('snug-stage'), capEl=$('snug-cap'), nextDiv=$('snug-next');
     nextDiv.style.display='none'; stage.innerHTML='';
-    const pos=posChar();   // Milo (mouse) — always best friend
-    const thin=thinChar(); // Benny (blue pig) — never a friend
+    const pos=posChar(), thin=thinChar();
 
-    /* Helpers */
     const mkPip=(state,leftPct,size=58)=>{
-      const el=document.createElement('div');
-      el.className='scene-char'; el.style.left=leftPct+'%';
-      el.style.width=el.style.height=size+'px';
+      const el=document.createElement('div'); el.className='scene-char';
+      el.style.left=leftPct+'%'; el.style.width=el.style.height=size+'px';
       el.innerHTML=CHARS.pip(state); stage.appendChild(el); return el;
     };
     const mkChar=(charKey,leftPct,size=58)=>{
-      const el=document.createElement('div');
-      el.className='scene-char'; el.style.left=leftPct+'%';
-      el.style.width=el.style.height=size+'px';
+      const el=document.createElement('div'); el.className='scene-char';
+      el.style.left=leftPct+'%'; el.style.width=el.style.height=size+'px';
       el.innerHTML=CHARS[charKey](); stage.appendChild(el); return el;
     };
     const setCaption=txt=>{
@@ -1195,10 +1189,8 @@ const G = (() => {
       stage.appendChild(h); setTimeout(()=>h.remove(),1550);
     };
 
-    /* ── 3 repetitions ── */
     for (let rep=0; rep<3; rep++) {
-
-      /* Scene A — best friend (Milo) */
+      /* Best friend scene */
       stage.innerHTML='';
       setCaption(`Pip sees ${pos.label}!`); capEl.textContent=`Pip sees ${pos.label}!`;
       const pipA=mkPip('neutral',8); const posEl=mkChar(pos.charKey,74);
@@ -1206,8 +1198,7 @@ const G = (() => {
       pipA.style.left='37%'; posEl.style.left='53%';
       setCaption(`Pip runs to ${pos.label}!`); capEl.textContent=`Pip runs to ${pos.label}!`;
       await wait(1200);
-      pipA.style.left='40%'; posEl.style.left='50%';
-      await wait(400);
+      pipA.style.left='40%'; posEl.style.left='50%'; await wait(400);
       pipA.innerHTML=CHARS.pip('excited');
       pipA.classList.add('a-snug'); posEl.classList.add('a-snug');
       setCaption(`${pos.label} and Pip are best friends! 💕`);
@@ -1220,25 +1211,23 @@ const G = (() => {
       capEl.textContent=`${pos.label} is Pip's best friend! 💕`;
       await wait(1400);
 
-      /* Scene B — not a friend (Benny) */
+      /* Not a friend scene */
       stage.innerHTML='';
       setCaption(`Now Pip sees ${thin.label}…`); capEl.textContent=`Now Pip sees ${thin.label}…`;
       const pipB=mkPip('neutral',8); const thinEl=mkChar(thin.charKey,74);
       await wait(1000);
-      pipB.style.left='37%';
-      setCaption('Pip moves closer…'); capEl.textContent='Pip moves closer…';
+      pipB.style.left='37%'; setCaption('Pip moves closer…'); capEl.textContent='Pip moves closer…';
       await wait(1200);
       thinEl.style.left='88%';
       setCaption(`${thin.label} is not a friend.`); capEl.textContent=`${thin.label} is not a friend.`;
       speak(`${thin.label} is not a friend.`);
-      pipB.innerHTML=CHARS.pip('sad');
-      await wait(1900);
+      pipB.innerHTML=CHARS.pip('sad'); await wait(1900);
       setCaption(`${thin.label} is not Pip's best friend.`);
       capEl.textContent=`${thin.label} is not Pip's best friend.`;
       await wait(1400);
     }
 
-    /* Summary after all 3 repetitions */
+    /* Summary */
     stage.innerHTML='';
     setCaption(`${pos.label} 💕 is Pip's best friend   —   ${thin.label} is not a friend`);
     capEl.textContent=`${pos.label} 💕 is Pip's best friend   —   ${thin.label} is not a friend`;
@@ -1249,8 +1238,7 @@ const G = (() => {
       for(let i=0;i<5;i++) setTimeout(()=>addHeart(12+i*2,10+i*8),i*200);
     },400);
     setTimeout(()=>{ thinSum.style.left='88%'; },500);
-    await wait(2500);
-    nextDiv.style.display='flex';
+    await wait(2500); nextDiv.style.display='flex';
   };
 
   const doneSocialFam = () => {
@@ -1263,10 +1251,9 @@ const G = (() => {
     showScreen('s-attn-food');
     setPip('attn-pip-food','neutral','a-float');
     speak('Which food does Pip like?');
-    const lf=likedFood(), df=dislikedFood();
     const choices=shuf([
-      {...lf, role:'liked_food',    isCorrect:true  },
-      {...df, role:'disliked_food', isCorrect:false },
+      {...likedFood(),    isCorrect:true  },
+      {...dislikedFood(), isCorrect:false },
     ]);
     const grid=$('attn-food-doors'); grid.innerHTML='';
     const cols=shuf([DCOLS[0],DCOLS[1]]);
@@ -1283,13 +1270,13 @@ const G = (() => {
     grid.querySelectorAll('.door-wrap').forEach(w=>w.classList.add('locked'));
     wrap.querySelector('.door-panel').classList.add('open');
     S.data.push({
-      pid:S.pid,age:S.age,pType:S.pType,
-      condition:S.condition,block:S.block,
-      firstBlock:S.firstBlock,phase:'attn_check',
-      trialNum:'AC_food',trialType:'attn_food',
-      role:choice.role,choiceLabel:choice.label,
-      rt_ms:rt,trialOrder:'',
-      likedIsA:S.likedIsA,positiveIsA:S.positiveIsA,
+      pid:S.pid, age:S.age, pType:S.pType,
+      condition:S.condition, block:S.block, firstBlock:S.firstBlock, phase:'attn_check',
+      trialNum:'AC_food', trialType:'attn_food',
+      role:choice.role||'', choiceLabel:choice.label,
+      rt_ms:rt, trialOrder:'',
+      likedFood:likedFood().label, dislikedFood:dislikedFood().label,
+      posChar:posChar().label,     thinChar:thinChar().label,
       attnCorrect:choice.isCorrect,
       timestamp:new Date().toISOString(),
     });
@@ -1318,10 +1305,9 @@ const G = (() => {
     showScreen('s-attn-social');
     setPip('attn-pip-social','neutral','a-float');
     speak("Who is Pip's best friend?");
-    const pc=posChar(), tc=thinChar();
     const choices=shuf([
-      {...pc, isCorrect:true  },
-      {...tc, isCorrect:false },
+      {...posChar(),  isCorrect:true  },
+      {...thinChar(), isCorrect:false },
     ]);
     const grid=$('attn-social-doors'); grid.innerHTML='';
     const cols=shuf([DCOLS[0],DCOLS[1]]);
@@ -1338,13 +1324,13 @@ const G = (() => {
     grid.querySelectorAll('.door-wrap').forEach(w=>w.classList.add('locked'));
     wrap.querySelector('.door-panel').classList.add('open');
     S.data.push({
-      pid:S.pid,age:S.age,pType:S.pType,
-      condition:S.condition,block:S.block,
-      firstBlock:S.firstBlock,phase:'attn_check',
-      trialNum:'AC_social',trialType:'attn_social',
-      role:choice.role,choiceLabel:choice.label,
-      rt_ms:rt,trialOrder:'',
-      likedIsA:S.likedIsA,positiveIsA:S.positiveIsA,
+      pid:S.pid, age:S.age, pType:S.pType,
+      condition:S.condition, block:S.block, firstBlock:S.firstBlock, phase:'attn_check',
+      trialNum:'AC_social', trialType:'attn_social',
+      role:choice.role||'', choiceLabel:choice.label,
+      rt_ms:rt, trialOrder:'',
+      likedFood:likedFood().label, dislikedFood:dislikedFood().label,
+      posChar:posChar().label,     thinChar:thinChar().label,
       attnCorrect:choice.isCorrect,
       timestamp:new Date().toISOString(),
     });
@@ -1383,8 +1369,8 @@ const G = (() => {
   const downloadCSV = () => {
     if (!S.data.length) { alert('No data yet.'); return; }
     const hdr=['pid','age','pType','condition','block','firstBlock','phase',
-               'trialNum','trialType','role','choiceLabel','rt_ms',
-               'trialOrder','likedIsA','positiveIsA','attnCorrect','timestamp'];
+               'trialNum','trialType','role','choiceLabel','rt_ms','trialOrder',
+               'likedFood','dislikedFood','posChar','thinChar','attnCorrect','timestamp'];
     const rows=S.data.map(d=>hdr.map(k=>String(d[k]??'').replace(/,/g,';')));
     const csv=[hdr,...rows].map(r=>r.join(',')).join('\n');
     const a=document.createElement('a');
@@ -1401,8 +1387,9 @@ const G = (() => {
         $('res-container').innerHTML='<p style="text-align:center;color:#aaa;padding:16px;">No data yet.</p>';
         return;
       }
-      const hdr=['pid','age','pType','condition','block','phase',
-                 'trialNum','trialType','role','choiceLabel','rt_ms','attnCorrect'];
+      const hdr=['pid','age','pType','condition','block','phase','trialNum',
+                 'trialType','role','choiceLabel','rt_ms',
+                 'likedFood','dislikedFood','posChar','thinChar','attnCorrect'];
       let t=`<table class="res-table"><thead><tr>
         ${hdr.map(x=>`<th>${x}</th>`).join('')}
       </tr></thead><tbody>`;
