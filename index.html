@@ -86,11 +86,11 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
 .scene-char { position:absolute; bottom:22px; z-index:2; transition:left 1.1s cubic-bezier(.25,.46,.45,.94),opacity .4s; }
 .scene-char svg { width:100%; height:100%; display:block; }
 .scene-item { position:absolute; bottom:26px; font-size:clamp(1.8em,4.5vw,3em); transition:left 1.1s cubic-bezier(.25,.46,.45,.94),opacity .4s; z-index:2; user-select:none; }
-.stage { width:100%; max-width:580px; height:205px; background:linear-gradient(180deg,#87CEEB 56%,#90EE90 56%); border-radius:20px; position:relative; overflow:hidden; margin:10px 0; border:3px solid #bdc3c7; }
+.stage { width:100%; max-width:580px; height:210px; background:linear-gradient(180deg,#87CEEB 56%,#90EE90 56%); border-radius:20px; position:relative; overflow:hidden; margin:10px 0; border:3px solid #bdc3c7; }
 .stage::before { content:'☀️'; position:absolute; top:7px; right:12px; font-size:1.4em; pointer-events:none; z-index:1; }
 .scene-caption { position:absolute; bottom:5px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,.88); border-radius:10px; padding:2px 14px; font-size:clamp(.72em,1.9vw,.92em); color:#2c3e50; white-space:nowrap; border:1px solid #ddd; z-index:4; }
 @keyframes heartFloat { 0%{opacity:1;transform:translateY(0) scale(.85)} 60%{opacity:1;transform:translateY(-38px) scale(1.1)} 100%{opacity:0;transform:translateY(-65px) scale(1.3)} }
-.heart-p { position:absolute; pointer-events:none; z-index:3; font-size:1.4em; animation:heartFloat 1.4s ease-out forwards; }
+.heart-p { position:absolute; pointer-events:none; z-index:5; font-size:1.4em; animation:heartFloat 1.4s ease-out forwards; }
 .food-pop { position:absolute; background:#fff; border:2px solid #ddd; border-radius:12px; padding:3px 10px; pointer-events:none; opacity:0; transition:opacity .3s; white-space:nowrap; color:#2c3e50; z-index:3; box-shadow:0 2px 6px rgba(0,0,0,.08); font-size:.9em; }
 .food-pop.show { opacity:1; }
 .rr-stage { width:100%; max-width:440px; min-height:165px; background:linear-gradient(180deg,#fffde7 55%,#e8f5e9 55%); border-radius:20px; border:3px solid #bdc3c7; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; margin:12px 0; padding:20px; position:relative; overflow:hidden; box-shadow:inset 0 4px 12px rgba(0,0,0,.04); }
@@ -115,7 +115,7 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
 .flash-box { background:#fff; border-radius:22px; padding:20px 46px; font-size:clamp(1.3em,4.5vw,2.2em); text-align:center; box-shadow:0 16px 50px rgba(0,0,0,.22); font-family:inherit; }
 @keyframes floatUp { 0%{opacity:1;transform:translate(-50%,-50%) translateY(0) scale(1)} 100%{opacity:0;transform:translate(-50%,-50%) translateY(-55px) scale(1.3)} }
 #mute-btn { position:fixed; top:12px; right:12px; width:42px; height:42px; background:rgba(255,255,255,.9); border:2px solid #ddd; border-radius:50%; font-size:1.1em; cursor:pointer; box-shadow:0 3px 8px rgba(0,0,0,.1); z-index:999; display:flex; align-items:center; justify-content:center; }
-@media(max-width:500px){ .screen{padding:16px 12px 12px} .door-area{gap:10px;max-width:340px} .stage{height:155px} }
+@media(max-width:500px){ .screen{padding:16px 12px 12px} .door-area{gap:10px;max-width:340px} .stage{height:165px} }
 </style>
 </head>
 
@@ -364,8 +364,8 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
 ═══════════════════════════════════ */
 const CHARS = {
 
-  pip: (state = 'neutral') => {
-    const eyes = {
+  pip:(state='neutral')=>{
+    const eyes={
       neutral:`<circle cx="35" cy="47" r="5" fill="#2c1a0e"/>
                <circle cx="65" cy="47" r="5" fill="#2c1a0e"/>
                <circle cx="37" cy="45" r="1.8" fill="#fff"/>
@@ -383,7 +383,7 @@ const CHARS = {
       excited:`<path d="M27 47 Q35 40 43 47" stroke="#2c1a0e" stroke-width="4" fill="none" stroke-linecap="round"/>
                <path d="M57 47 Q65 40 73 47" stroke="#2c1a0e" stroke-width="4" fill="none" stroke-linecap="round"/>`
     };
-    const mouths = {
+    const mouths={
       neutral:`<path d="M42 63 Q50 67 58 63" stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
       happy:  `<path d="M38 62 Q50 73 62 62" stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
       sad:    `<path d="M40 68 Q50 61 60 68" stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
@@ -411,7 +411,7 @@ const CHARS = {
     </svg>`;
   },
 
-  benny: ()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+  benny:()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
     <polygon points="22,40 15,21 36,33" fill="#7599de" stroke="#4a6db8" stroke-width="1.5"/>
     <polygon points="78,40 85,21 64,33" fill="#7599de" stroke="#4a6db8" stroke-width="1.5"/>
     <polygon points="23,38 18,24 34,32" fill="#b3c8f8"/>
@@ -431,7 +431,7 @@ const CHARS = {
     <path d="M42 63 Q50 67 58 63" stroke="#4a6db8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   </svg>`,
 
-  milo: ()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+  milo:()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
     <circle cx="28" cy="28" r="16" fill="#b0a0b0" stroke="#8a7890" stroke-width="1.5"/>
     <circle cx="72" cy="28" r="16" fill="#b0a0b0" stroke="#8a7890" stroke-width="1.5"/>
     <circle cx="28" cy="28" r="10" fill="#d4bcc4"/>
@@ -450,7 +450,7 @@ const CHARS = {
     <path d="M44 66 Q50 70 56 66" stroke="#8a6878" stroke-width="2" fill="none" stroke-linecap="round"/>
   </svg>`,
 
-  rosie: ()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+  rosie:()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
     <ellipse cx="33" cy="22" rx="10" ry="21" fill="#f0b8cc" stroke="#c87898" stroke-width="1.5"/>
     <ellipse cx="67" cy="22" rx="10" ry="21" fill="#f0b8cc" stroke="#c87898" stroke-width="1.5"/>
     <ellipse cx="33" cy="22" rx="6" ry="16" fill="#fcd8e8"/>
@@ -470,7 +470,7 @@ const CHARS = {
     <path d="M43 66 Q50 71 57 66" stroke="#c87898" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   </svg>`,
 
-  bruno: ()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+  bruno:()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
     <circle cx="24" cy="28" r="16" fill="#a06828" stroke="#784a10" stroke-width="1.5"/>
     <circle cx="76" cy="28" r="16" fill="#a06828" stroke="#784a10" stroke-width="1.5"/>
     <circle cx="24" cy="28" r="10" fill="#c88840"/>
@@ -493,43 +493,41 @@ const CHARS = {
 /* ═══════════════════════════════════
    POOLS
 ═══════════════════════════════════ */
-const FOOD_POOL = [
-  { emoji:'🍓', label:'Strawberry', type:'food0', isSocial:false },
-  { emoji:'🫐', label:'Blueberry',  type:'food1', isSocial:false },
-  { emoji:'🍌', label:'Banana',     type:'food2', isSocial:false },
-  { emoji:'🍉', label:'Watermelon', type:'food3', isSocial:false },
+const FOOD_POOL=[
+  {emoji:'🍓',label:'Strawberry',type:'food0',isSocial:false},
+  {emoji:'🫐',label:'Blueberry', type:'food1',isSocial:false},
+  {emoji:'🍌',label:'Banana',    type:'food2',isSocial:false},
+  {emoji:'🍉',label:'Watermelon',type:'food3',isSocial:false},
 ];
-const CHAR_POOL = [
-  { emoji:'🐭', label:'Milo',  type:'char0', isSocial:true, charKey:'milo'  },
-  { emoji:'🐷', label:'Benny', type:'char1', isSocial:true, charKey:'benny' },
-  { emoji:'🐰', label:'Rosie', type:'char2', isSocial:true, charKey:'rosie' },
-  { emoji:'🐻', label:'Bruno', type:'char3', isSocial:true, charKey:'bruno' },
+const CHAR_POOL=[
+  {emoji:'🐭',label:'Milo', type:'char0',isSocial:true,charKey:'milo' },
+  {emoji:'🐷',label:'Benny',type:'char1',isSocial:true,charKey:'benny'},
+  {emoji:'🐰',label:'Rosie',type:'char2',isSocial:true,charKey:'rosie'},
+  {emoji:'🐻',label:'Bruno',type:'char3',isSocial:true,charKey:'bruno'},
 ];
 
-const DCOLS    = ['dc-green','dc-blue','dc-orange','dc-purple'];
-const T_EMOJIS = ['🍎','⭐','🌈','🎈','🐸','🌸','🦋','🍦','🎀','🦄'];
+const DCOLS   =['dc-green','dc-blue','dc-orange','dc-purple'];
+const T_EMOJIS=['🍎','⭐','🌈','🎈','🐸','🌸','🦋','🍦','🎀','🦄'];
 
 /* ═══════════════════════════════════
    GAME CONTROLLER
 ═══════════════════════════════════ */
-const G = (() => {
+const G=(()=>{
 
-  let S = {
-    pid:'', age:0, pType:'child',
-    variant:'dislike', orderMode:'random',
-    likedFoodIdx:0, dislikedFoodIdx:1,
-    posCharIdx:0,   thinCharIdx:1,
-    firstBlock:1,
-    round:1,
+  let S={
+    pid:'',age:0,pType:'child',
+    variant:'dislike',orderMode:'random',
+    likedFoodIdx:0,dislikedFoodIdx:1,
+    posCharIdx:0,thinCharIdx:1,
+    firstBlock:1,round:1,
     phase:'baseline',
     attnContext:'post_fam',
-    trialSeq:[], trialIdx:0, trialStart:0,
-    trainIdx:0, trainTrials:[],
-    data:[], muted:false,
-    pipState:'neutral',
+    trialSeq:[],trialIdx:0,trialStart:0,
+    trainIdx:0,trainTrials:[],
+    data:[],muted:false,pipState:'neutral',
   };
 
-  let attnFoodStart=0, attnSocStart=0;
+  let attnFoodStart=0,attnSocStart=0;
 
   const shuf=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;};
   const $=id=>document.getElementById(id);
@@ -555,29 +553,24 @@ const G = (() => {
   $('mute-btn').addEventListener('click',()=>{S.muted=!S.muted;$('mute-btn').textContent=S.muted?'🔇':'🔊';if(S.muted)synth.cancel();});
   if(synth.onvoiceschanged!==undefined)synth.onvoiceschanged=()=>{};
 
-  const likedFood    = ()=>FOOD_POOL[S.likedFoodIdx];
-  const dislikedFood = ()=>FOOD_POOL[S.dislikedFoodIdx];
-  const posChar      = ()=>CHAR_POOL[S.posCharIdx];
-  const thinChar     = ()=>CHAR_POOL[S.thinCharIdx];
+  const likedFood   =()=>FOOD_POOL[S.likedFoodIdx];
+  const dislikedFood=()=>FOOD_POOL[S.dislikedFoodIdx];
+  const posChar     =()=>CHAR_POOL[S.posCharIdx];
+  const thinChar    =()=>CHAR_POOL[S.thinCharIdx];
 
-  /* Always 2 fruits + 2 characters */
   const buildChoices=()=>{
     const f2=S.variant==='unknown'?'unknown_food':'disliked_food';
     const c2=S.variant==='unknown'?'unknown_social':'thin_social';
     return shuf([
-      {...likedFood(),    role:'liked_food'     },
-      {...dislikedFood(), role:f2               },
-      {...posChar(),      role:'positive_social'},
-      {...thinChar(),     role:c2               },
+      {...likedFood(),   role:'liked_food'     },
+      {...dislikedFood(),role:f2               },
+      {...posChar(),     role:'positive_social'},
+      {...thinChar(),    role:c2               },
     ]);
   };
 
-  /*
-   * chosePreferred: 1 if the child chose the preferred item
-   * (liked_food OR positive_social), 0 otherwise.
-   * Recorded for every trial including baseline.
-   */
-  const isPreferred = role => role==='liked_food' || role==='positive_social';
+  /* 1 = chose preferred item (liked_food or positive_social), 0 = did not */
+  const isPreferred=role=>role==='liked_food'||role==='positive_social';
 
   const buildSeq=()=>{const t=['food','sad','neutral','toy'];return S.orderMode==='random'?shuf(t):t;};
 
@@ -698,9 +691,7 @@ const G = (() => {
   const onTrainClick=async(wrap,grid)=>{
     grid.querySelectorAll('.door-wrap').forEach(w=>w.classList.add('locked'));
     wrap.querySelector('.door-panel').classList.add('open');
-    await wait(380);
-    await walkIntoTrainDoor(wrap);
-    await wait(1200);
+    await wait(380);await walkIntoTrainDoor(wrap);await wait(1200);
     S.trainIdx++;renderTrain();
   };
 
@@ -720,7 +711,7 @@ const G = (() => {
     const i=S.trialIdx,type=S.trialSeq[i],isTest=S.phase==='test';
     $('trl-lbl').textContent=`Trial ${i+1} of 4`;
     $('trl-fill').style.width=`${i/4*100}%`;
-    let badge=S.phase==='baseline'?'Practice':(S.round===1?'Round 1':'Round 2');
+    const badge=S.phase==='baseline'?'Practice':(S.round===1?'Round 1':'Round 2');
     $('trl-phase').textContent=badge;
 
     const tear=$('trl-tears'),prompt=$('trl-prompt');
@@ -762,20 +753,12 @@ const G = (() => {
     await wait(380);await walkIntoDoor(chosenWrap);
 
     const phaseLabel=S.phase==='baseline'?'baseline':(S.round===1?'test1':'test2');
-
-    /*
-     * chosePreferred: 1 = chose the liked food or positive social partner
-     *                 0 = chose the disliked/unknown food or thin/unknown social
-     * Recorded on every trial (baseline and test).
-     */
-    const chosePreferred = isPreferred(choice.role) ? 1 : 0;
-
     S.data.push({
       pid:S.pid,age:S.age,pType:S.pType,variant:S.variant,
       firstBlock:S.firstBlock,round:S.round,phase:phaseLabel,
       trialNum:S.trialIdx+1,trialType,
       role:choice.role,choiceLabel:choice.label,
-      chosePreferred,                          /* ← new column */
+      chosePreferred:isPreferred(choice.role)?1:0,
       rt_ms:rt,trialOrder:S.trialSeq.join('-'),
       likedFood:likedFood().label,dislikedFood:dislikedFood().label,
       posChar:posChar().label,thinChar:thinChar().label,
@@ -801,7 +784,7 @@ const G = (() => {
 
   /* ════════ RESULT ROOM ════════ */
   const showResultRoom=(choice)=>{
-    let badge=S.phase==='baseline'?'Practice':(S.round===1?'Round 1':'Round 2');
+    const badge=S.phase==='baseline'?'Practice':(S.round===1?'Round 1':'Round 2');
     $('rr-phase').textContent=badge;
     const stage=$('rr-stage');stage.innerHTML='';
     const chars=document.createElement('div');chars.className='rr-chars';
@@ -826,13 +809,7 @@ const G = (() => {
     }
   };
 
-  /* ════════ FOOD FAM — 3 reps ════════
-   *
-   * LIKED fruit:   Pip moves to 62%, fruit at 68% → OVERLAP ✓
-   * DISLIKED:      Pip moves to 62%, tries, backs away → OVERLAP then retreat ✓
-   * UNKNOWN:       Pip moves to only 36% — stays away from fruit at 68% → NO overlap ✓
-   *                Instead, Pip is shown overlapping with best friend later (social fam)
-   */
+  /* ════════ FOOD FAM ════════ */
   const playFoodFam=()=>{showScreen('s-ff');runFoodAnim();};
 
   const runFoodAnim=async()=>{
@@ -843,7 +820,7 @@ const G = (() => {
     const mkPip=(state,leftPct)=>{
       const el=document.createElement('div');
       el.className='scene-char';
-      el.style.cssText=`left:${leftPct}%;width:58px;height:58px;z-index:3;`;
+      el.style.cssText=`left:${leftPct}%;width:62px;height:62px;z-index:3;`;
       el.innerHTML=CHARS.pip(state);scene.appendChild(el);return el;
     };
     const mkItem=(emoji,leftPct)=>{
@@ -854,42 +831,39 @@ const G = (() => {
     const popText=async(txt,lPct,tPx)=>{const el=document.createElement('div');el.className='food-pop';el.textContent=txt;el.style.left=lPct+'%';el.style.top=tPx+'px';scene.appendChild(el);await wait(50);el.classList.add('show');await wait(1800);el.classList.remove('show');await wait(400);el.remove();};
 
     for(let rep=0;rep<3;rep++){
-
-      /* ── LIKED fruit — Pip overlaps with it ── */
+      /* Liked fruit — Pip overlaps food */
       scene.innerHTML='';
       setCaption('Pip sees some fruit!');capEl.textContent='Pip sees some fruit!';
       const p1=mkPip('neutral',6);mkItem(lf.emoji,68);
       await wait(1000);
-      p1.style.left='62%';  /* Pip at 62%, fruit at 68% → clear overlap */
+      p1.style.left='60%';
       setCaption(`Pip tries the ${lf.label}…`);capEl.textContent=`Pip tries the ${lf.label}…`;
       speak(`Pip tries the ${lf.label}.`);await wait(1400);
       p1.innerHTML=CHARS.pip('excited');
       setCaption(`Pip loves the ${lf.label}!`);capEl.textContent=`Pip loves the ${lf.label}!`;
       speak('Yum!');popText('😋 YUM!',50,8);await wait(2200);
 
-      /* ── SECOND fruit ── */
+      /* Second fruit */
       scene.innerHTML='';
       if(S.variant==='dislike'){
-        /* Disliked: Pip approaches and overlaps, then backs away */
         setCaption(`Now Pip sees the ${df.label}…`);capEl.textContent=`Now Pip sees the ${df.label}…`;
         const p2=mkPip('neutral',6);mkItem(df.emoji,68);
         await wait(1000);
-        p2.style.left='62%';  /* overlap */
+        p2.style.left='60%';
         setCaption(`Pip tries the ${df.label}…`);capEl.textContent=`Pip tries the ${df.label}…`;
         speak(`Pip tries the ${df.label}.`);await wait(1400);
-        p2.innerHTML=CHARS.pip('sad');p2.style.left='26%';  /* backs away */
+        p2.innerHTML=CHARS.pip('sad');p2.style.left='26%';
         setCaption(`Pip does NOT like the ${df.label}!`);capEl.textContent=`Pip does NOT like the ${df.label}!`;
         speak('Yuck!');popText('🤢 YUCK!',22,8);await wait(2200);
       } else {
         /*
-         * UNKNOWN: Pip stays far away — NO overlap with fruit.
-         * Pip remains at ~36%, fruit is at 68%.
-         * This keeps clear visual separation.
+         * UNKNOWN variant: Pip stays well away from the fruit — NO overlap.
+         * Pip stops at 36%, fruit is at 68%.
          */
         setCaption(`Pip sees the ${df.label}…`);capEl.textContent=`Pip sees the ${df.label}…`;
         const p2=mkPip('neutral',6);mkItem(df.emoji,68);
         await wait(1000);
-        p2.style.left='36%';  /* stops well short of fruit — no overlap */
+        p2.style.left='36%';
         setCaption(`Pip doesn't know this fruit.`);capEl.textContent=`Pip doesn't know this fruit.`;
         speak(`Pip doesn't know this fruit.`);await wait(2500);
       }
@@ -919,10 +893,16 @@ const G = (() => {
 
   const afterFoodSummary=()=>{S.attnContext='post_fam';showFoodAttnCheck();};
 
-  /* ════════ SOCIAL FAM — 3 reps ════════
+  /* ════════ SOCIAL FAM ════════
    *
-   * BEST FRIEND: Pip moves to 38%, friend at 46% → characters OVERLAP ✓
-   * NOT FRIEND / UNKNOWN: no overlap
+   * OVERLAP FIX:
+   * Characters are 64px wide. The stage is up to 580px wide.
+   * Pip at left=28%, friend at left=36%:
+   *   On 580px → Pip right = 162+64=226px, Friend left = 209px → 17px overlap
+   *   On 400px → Pip right = 112+64=176px, Friend left = 144px → 32px overlap
+   *   On 340px → Pip right =  95+64=159px, Friend left = 122px → 37px overlap
+   *
+   * Two-step approach then snuggle, each step waits 1200ms (> 1.1s CSS transition).
    */
   const playSocialFam=()=>{showScreen('s-sf');runSnuggleAnim();};
 
@@ -931,12 +911,13 @@ const G = (() => {
     nextDiv.style.display='none';stage.innerHTML='';
     const pos=posChar(),thin=thinChar();
 
-    const mkPip=(state,leftPct,size=58)=>{
+    /* 64px characters so the overlap is generous across all screen sizes */
+    const mkPip=(state,leftPct,size=64)=>{
       const el=document.createElement('div');el.className='scene-char';
       el.style.cssText=`left:${leftPct}%;width:${size}px;height:${size}px;z-index:3;`;
       el.innerHTML=CHARS.pip(state);stage.appendChild(el);return el;
     };
-    const mkChar=(charKey,leftPct,size=58)=>{
+    const mkChar=(charKey,leftPct,size=64)=>{
       const el=document.createElement('div');el.className='scene-char';
       el.style.cssText=`left:${leftPct}%;width:${size}px;height:${size}px;`;
       el.innerHTML=CHARS[charKey]();stage.appendChild(el);return el;
@@ -946,33 +927,35 @@ const G = (() => {
 
     for(let rep=0;rep<3;rep++){
 
-      /* ── BEST FRIEND — Pip and friend overlap ── */
+      /* ── BEST FRIEND scene ── */
       stage.innerHTML='';
       setCaption(`Pip sees ${pos.label}!`);capEl.textContent=`Pip sees ${pos.label}!`;
-      const pipA=mkPip('neutral',8);const posEl=mkChar(pos.charKey,74);
+      const pipA=mkPip('neutral',8);
+      const posEl=mkChar(pos.charKey,72);
       await wait(1000);
 
-      /* First approach — getting close */
-      pipA.style.left='37%';posEl.style.left='53%';
+      /* Step 1 — approach */
+      pipA.style.left='20%';posEl.style.left='52%';
       setCaption(`Pip runs to ${pos.label}!`);capEl.textContent=`Pip runs to ${pos.label}!`;
-      await wait(1200);
+      await wait(1200); /* wait for full 1.1s CSS transition */
 
       /*
-       * Final snuggle positions: Pip at 38%, friend at 46%.
-       * With 58px characters on a ~580px-wide stage:
-       *   Pip right edge  ≈ 38% × 580 + 58 = 278px
-       *   Friend left edge≈ 46% × 580      = 267px
-       * → ~11px overlap — visually snuggling ✓
+       * Step 2 — snuggle.
+       * Pip stops at 28%, friend at 36%.
+       * These positions guarantee visible overlap on every screen size.
+       * We wait 1200ms again so the friend fully reaches 36% before the face swap.
        */
-      pipA.style.left='38%';posEl.style.left='46%';
-      await wait(400);
+      pipA.style.left='28%';posEl.style.left='36%';
+      await wait(1200);
 
-      pipA.innerHTML=CHARS.pip('excited');  /* face swap */
+      /* Face swap and snuggle animation start */
+      pipA.innerHTML=CHARS.pip('excited');
       pipA.classList.add('a-snug');posEl.classList.add('a-snug');
       setCaption(`${pos.label} and Pip are best friends!`);
       capEl.textContent=`${pos.label} and Pip are best friends!`;
       speak(`${pos.label} and Pip are best friends!`);
-      const hi=setInterval(()=>addHeart(36+Math.random()*18,8+Math.random()*40),270);
+      /* Hearts spawn around the overlap zone (~30-46%) */
+      const hi=setInterval(()=>addHeart(28+Math.random()*18,8+Math.random()*38),270);
       await wait(2800);clearInterval(hi);
       pipA.classList.remove('a-snug');posEl.classList.remove('a-snug');
       setCaption(`${pos.label} is Pip's best friend!`);
@@ -981,13 +964,12 @@ const G = (() => {
       /* ── SECOND CHARACTER ── */
       stage.innerHTML='';
       setCaption(`Now Pip sees ${thin.label}…`);capEl.textContent=`Now Pip sees ${thin.label}…`;
-      const pipB=mkPip('neutral',8);const thinEl=mkChar(thin.charKey,74);
+      const pipB=mkPip('neutral',8);const thinEl=mkChar(thin.charKey,72);
       await wait(1000);
       pipB.style.left='37%';
       setCaption('Pip moves closer…');capEl.textContent='Pip moves closer…';await wait(1200);
 
       if(S.variant==='dislike'){
-        /* Moves away — no overlap */
         thinEl.style.left='88%';
         setCaption(`${thin.label} is not a friend.`);capEl.textContent=`${thin.label} is not a friend.`;
         speak(`${thin.label} is not a friend.`);
@@ -995,7 +977,6 @@ const G = (() => {
         setCaption(`${thin.label} is not Pip's best friend.`);
         capEl.textContent=`${thin.label} is not Pip's best friend.`;await wait(1400);
       } else {
-        /* Unknown — stays but no overlap, Pip neutral */
         setCaption(`Pip doesn't know ${thin.label}.`);capEl.textContent=`Pip doesn't know ${thin.label}.`;
         speak(`Pip doesn't know ${thin.label}.`);await wait(2500);
       }
@@ -1036,8 +1017,12 @@ const G = (() => {
   const showFoodAttnCheck=()=>{
     showScreen('s-attn-food');
     setPip('attn-pip-food','neutral','a-float');
-    const isReminder=S.attnContext==='pre_round2';
-    const q=isReminder?'Do you remember? Which fruit does Pip like?':'Which fruit does Pip like?';
+    let q;
+    if(S.attnContext==='pre_round2'||S.attnContext==='pre_test2'){
+      q='Do you remember? Which fruit does Pip like?';
+    } else {
+      q='Which fruit does Pip like?';
+    }
     $('attn-food-q').textContent=q;
     speak(q);
     const choices=shuf([{...likedFood(),isCorrect:true},{...dislikedFood(),isCorrect:false}]);
@@ -1051,13 +1036,16 @@ const G = (() => {
     const rt=Date.now()-attnFoodStart;
     grid.querySelectorAll('.door-wrap').forEach(w=>w.classList.add('locked'));
     wrap.querySelector('.door-panel').classList.add('open');
-    const trialType=S.attnContext==='pre_round2'?'attn_reminder_food':'attn_food';
+    let trialType;
+    if(S.attnContext==='pre_round2')     trialType='attn_reminder_food';
+    else if(S.attnContext==='pre_test2') trialType='attn_pretest2_food';
+    else                                  trialType='attn_food';
     S.data.push({
       pid:S.pid,age:S.age,pType:S.pType,variant:S.variant,
       firstBlock:S.firstBlock,round:S.round,phase:'attn_check',
       trialNum:trialType,trialType,
       role:choice.role||'',choiceLabel:choice.label,
-      chosePreferred: choice.isCorrect ? 1 : 0,   /* ← also recorded for attn checks */
+      chosePreferred:choice.isCorrect?1:0,
       rt_ms:rt,trialOrder:'',
       likedFood:likedFood().label,dislikedFood:dislikedFood().label,
       posChar:posChar().label,thinChar:thinChar().label,
@@ -1075,10 +1063,24 @@ const G = (() => {
 
   const afterFoodAttn=()=>{
     if(S.attnContext==='pre_round2'){
+      /* Reminder check done — start round 2 with social fam */
       S.attnContext='post_fam';S.round=2;
       showScreen('s-sfi');
-    } else {
+    } else if(S.attnContext==='pre_test2'){
+      /* Extra pre-test2 check done — go to test */
       S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');
+    } else {
+      /* post_fam */
+      if(S.round===2){
+        /*
+         * Food was fam2 (so firstBlock===2, social was fam1).
+         * Add extra check about social (fam1) before test2.
+         */
+        S.attnContext='pre_test2';
+        showSocialAttnCheck();
+      } else {
+        S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');
+      }
     }
   };
 
@@ -1086,8 +1088,12 @@ const G = (() => {
   const showSocialAttnCheck=()=>{
     showScreen('s-attn-social');
     setPip('attn-pip-social','neutral','a-float');
-    const isReminder=S.attnContext==='pre_round2';
-    const q=isReminder?`Do you remember? Who is Pip's best friend?`:`Who is Pip's best friend?`;
+    let q;
+    if(S.attnContext==='pre_round2'||S.attnContext==='pre_test2'){
+      q="Do you remember? Who is Pip's best friend?";
+    } else {
+      q="Who is Pip's best friend?";
+    }
     $('attn-social-q').textContent=q;
     speak(q);
     const choices=shuf([{...posChar(),isCorrect:true},{...thinChar(),isCorrect:false}]);
@@ -1101,13 +1107,16 @@ const G = (() => {
     const rt=Date.now()-attnSocStart;
     grid.querySelectorAll('.door-wrap').forEach(w=>w.classList.add('locked'));
     wrap.querySelector('.door-panel').classList.add('open');
-    const trialType=S.attnContext==='pre_round2'?'attn_reminder_social':'attn_social';
+    let trialType;
+    if(S.attnContext==='pre_round2')     trialType='attn_reminder_social';
+    else if(S.attnContext==='pre_test2') trialType='attn_pretest2_social';
+    else                                  trialType='attn_social';
     S.data.push({
       pid:S.pid,age:S.age,pType:S.pType,variant:S.variant,
       firstBlock:S.firstBlock,round:S.round,phase:'attn_check',
       trialNum:trialType,trialType,
       role:choice.role||'',choiceLabel:choice.label,
-      chosePreferred: choice.isCorrect ? 1 : 0,   /* ← also recorded for attn checks */
+      chosePreferred:choice.isCorrect?1:0,
       rt_ms:rt,trialOrder:'',
       likedFood:likedFood().label,dislikedFood:dislikedFood().label,
       posChar:posChar().label,thinChar:thinChar().label,
@@ -1125,10 +1134,24 @@ const G = (() => {
 
   const afterSocialAttn=()=>{
     if(S.attnContext==='pre_round2'){
+      /* Reminder check done — start round 2 with food fam */
       S.attnContext='post_fam';S.round=2;
       showScreen('s-ffi');
-    } else {
+    } else if(S.attnContext==='pre_test2'){
+      /* Extra pre-test2 check done — go to test */
       S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');
+    } else {
+      /* post_fam */
+      if(S.round===2){
+        /*
+         * Social was fam2 (so firstBlock===1, food was fam1).
+         * Add extra check about food (fam1) before test2.
+         */
+        S.attnContext='pre_test2';
+        showFoodAttnCheck();
+      } else {
+        S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');
+      }
     }
   };
 
@@ -1145,7 +1168,7 @@ const G = (() => {
     const hdr=[
       'pid','age','pType','variant','firstBlock','round','phase',
       'trialNum','trialType','role','choiceLabel',
-      'chosePreferred',                            /* ← new column */
+      'chosePreferred',
       'rt_ms','trialOrder',
       'likedFood','dislikedFood','posChar','thinChar',
       'attnCorrect','timestamp'
@@ -1166,8 +1189,7 @@ const G = (() => {
       const hdr=[
         'pid','age','pType','variant','firstBlock','round','phase',
         'trialNum','trialType','role','choiceLabel',
-        'chosePreferred',                          /* ← new column */
-        'rt_ms','attnCorrect'
+        'chosePreferred','rt_ms','attnCorrect'
       ];
       let t=`<table class="res-table"><thead><tr>${hdr.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>`;
       S.data.forEach(d=>{t+=`<tr>${hdr.map(x=>`<td>${d[x]??''}</td>`).join('')}</tr>`;});
