@@ -8,163 +8,114 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'KG Piece By Piece', 'Fredoka', sans-serif;
-  background: linear-gradient(135deg, #a8edea, #fed6e3);
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  padding: 10px;
-}
-
-#app {
-  width: 100%; max-width: 880px;
-  background: #fff; border-radius: 32px;
-  box-shadow: 0 20px 70px rgba(0,0,0,.18);
-  min-height: 640px; position: relative;
-}
-
-.screen {
-  display: none; flex-direction: column; align-items: center;
-  padding: 26px 28px 24px; min-height: 640px;
-  animation: fadeIn .4s ease;
-  position: relative; border-radius: 32px; overflow: hidden;
-}
-.screen.active { display: flex; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-h1 { font-size: clamp(1.8em,5.5vw,2.8em); color: #2c3e50; text-align: center; margin-bottom: 12px; }
-h2 { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center; margin-bottom: 12px; }
-.txt { font-size: clamp(.95em,2.8vw,1.18em); color: #34495e; text-align: center; line-height: 1.7; margin-bottom: 10px; max-width: 520px; }
-
-.btn { padding: 12px 36px; font-size: clamp(.9em,2.7vw,1.15em); font-family: inherit; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; margin: 6px; box-shadow: 0 5px 0 rgba(0,0,0,.2); transition: transform .12s, box-shadow .12s; }
-.btn:hover  { transform: translateY(-3px); box-shadow: 0 8px 0 rgba(0,0,0,.2); }
-.btn:active { transform: translateY(2px);  box-shadow: 0 3px 0 rgba(0,0,0,.2); }
-.btn-green  { background: #27ae60; color: #fff; }
-.btn-blue   { background: #2980b9; color: #fff; }
-.btn-gray   { background: #7f8c8d; color: #fff; }
-.btn-purple { background: #8e44ad; color: #fff; }
-.btn-orange { background: #e67e22; color: #fff; }
-
-.char-display { border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.char-lg { width: clamp(90px,16vw,126px); height: clamp(90px,16vw,126px); }
-.char-md { width: clamp(68px,12vw,96px);  height: clamp(68px,12vw,96px); }
-.char-sm { width: clamp(52px,9vw,72px);   height: clamp(52px,9vw,72px); }
-.char-display svg { width: 100%; height: 100%; display: block; }
-
-.char-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.ntag { color: #fff; padding: 3px 14px; border-radius: 20px; font-size: .85em; display: inline-block; font-family: inherit; }
-.nt-red  { background: #e74c3c; }
-.nt-blue { background: #2980b9; }
-.nt-gray { background: #7f8c8d; }
-
+body { font-family: 'KG Piece By Piece', 'Fredoka', sans-serif; background: linear-gradient(135deg,#a8edea,#fed6e3); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:10px; }
+#app { width:100%; max-width:880px; background:#fff; border-radius:32px; box-shadow:0 20px 70px rgba(0,0,0,.18); min-height:640px; position:relative; }
+.screen { display:none; flex-direction:column; align-items:center; padding:26px 28px 24px; min-height:640px; animation:fadeIn .4s ease; position:relative; border-radius:32px; overflow:hidden; }
+.screen.active { display:flex; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+h1 { font-size:clamp(1.8em,5.5vw,2.8em); color:#2c3e50; text-align:center; margin-bottom:12px; }
+h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-bottom:12px; }
+.txt { font-size:clamp(.95em,2.8vw,1.18em); color:#34495e; text-align:center; line-height:1.7; margin-bottom:10px; max-width:520px; }
+.btn { padding:12px 36px; font-size:clamp(.9em,2.7vw,1.15em); font-family:inherit; font-weight:600; border:none; border-radius:50px; cursor:pointer; margin:6px; box-shadow:0 5px 0 rgba(0,0,0,.2); transition:transform .12s,box-shadow .12s; }
+.btn:hover  { transform:translateY(-3px); box-shadow:0 8px 0 rgba(0,0,0,.2); }
+.btn:active { transform:translateY(2px);  box-shadow:0 3px 0 rgba(0,0,0,.2); }
+.btn-green  { background:#27ae60; color:#fff; }
+.btn-blue   { background:#2980b9; color:#fff; }
+.btn-gray   { background:#7f8c8d; color:#fff; }
+.btn-purple { background:#8e44ad; color:#fff; }
+.btn-orange { background:#e67e22; color:#fff; }
+.char-display { border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.char-lg { width:clamp(90px,16vw,126px); height:clamp(90px,16vw,126px); }
+.char-md { width:clamp(68px,12vw,96px);  height:clamp(68px,12vw,96px); }
+.char-display svg { width:100%; height:100%; display:block; }
+.char-wrap { display:flex; flex-direction:column; align-items:center; gap:6px; }
+.ntag { color:#fff; padding:3px 14px; border-radius:20px; font-size:.85em; display:inline-block; font-family:inherit; }
+.nt-red  { background:#e74c3c; }
+.nt-blue { background:#2980b9; }
+.nt-gray { background:#7f8c8d; }
 @keyframes bounce  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px) scale(1.07)} }
 @keyframes wiggle  { 0%,100%{transform:rotate(-6deg)} 50%{transform:rotate(6deg)} }
 @keyframes sadshk  { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
 @keyframes pulse   { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
 @keyframes floatA  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
 @keyframes snugBob { 0%,100%{transform:rotate(-5deg) translateY(0)} 50%{transform:rotate(5deg) translateY(-5px)} }
-
-.a-bounce { animation: bounce  .8s  ease-in-out infinite; }
-.a-wiggle { animation: wiggle  .7s  ease-in-out infinite; }
-.a-sadshk { animation: sadshk  .5s  ease-in-out infinite; }
-.a-pulse  { animation: pulse   .9s  ease-in-out infinite; }
-.a-float  { animation: floatA  2.2s ease-in-out infinite; }
-.a-snug   { animation: snugBob .7s  ease-in-out infinite; }
-
-.tears { display: flex; gap: 14px; margin-top: 4px; }
+.a-bounce { animation:bounce  .8s  ease-in-out infinite; }
+.a-wiggle { animation:wiggle  .7s  ease-in-out infinite; }
+.a-sadshk { animation:sadshk  .5s  ease-in-out infinite; }
+.a-pulse  { animation:pulse   .9s  ease-in-out infinite; }
+.a-float  { animation:floatA  2.2s ease-in-out infinite; }
+.a-snug   { animation:snugBob .7s  ease-in-out infinite; }
+.tears { display:flex; gap:14px; margin-top:4px; }
 @keyframes drip { 0%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(20px)} }
-.tear { width: 7px; height: 13px; background: #74b9ff; border-radius: 50% 50% 60% 60%; animation: drip 1s ease-in infinite; }
-.tear:nth-child(2) { animation-delay: .5s; }
-
-.prog-wrap  { width: 100%; max-width: 440px; margin-bottom: 12px; }
-.prog-label { font-size: .88em; color: #aaa; text-align: center; margin-bottom: 3px; }
-.prog-track { height: 15px; background: #ecf0f1; border-radius: 8px; overflow: hidden; }
-.prog-fill  { height: 100%; background: linear-gradient(90deg,#e74c3c,#f39c12); border-radius: 8px; transition: width .5s; }
-.phase-badge { background: linear-gradient(135deg,#667eea,#764ba2); color: #fff; padding: 4px 20px; border-radius: 50px; font-size: .88em; margin-bottom: 10px; }
-.div { width: 60%; height: 2px; background: linear-gradient(90deg,transparent,#ddd,transparent); margin: 10px 0; }
-
-.form-row { width: 100%; max-width: 420px; margin: 6px 0; text-align: left; }
-.form-row label { display: block; font-size: 1em; color: #2c3e50; margin-bottom: 3px; font-weight: 600; }
-.form-row input, .form-row select { width: 100%; padding: 9px 12px; font-size: 1em; font-family: inherit; border: 2px solid #bdc3c7; border-radius: 10px; outline: none; }
-.form-row input:focus, .form-row select:focus { border-color: #3498db; }
-
-.door-area { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; margin: 8px auto; }
-.door-wrap { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform .15s; }
-.door-wrap:hover:not(.locked):not(.fading) { transform: translateY(-6px); }
-.door-wrap.locked  { pointer-events: none; }
-.door-wrap.fading  { opacity: .2; transition: opacity .4s; }
-.door-wrap.chosen  { opacity: 1 !important; }
-.door-frame { position: relative; width: clamp(95px,19vw,138px); height: clamp(132px,27vw,190px); border: 7px solid #4a2c0a; border-radius: 14px 14px 0 0; background: #3e1f00; overflow: hidden; box-shadow: inset 0 0 16px rgba(0,0,0,.4); }
-.door-room  { position: absolute; inset: 0; border-radius: 9px 9px 0 0; background: linear-gradient(180deg,#fffde7 55%,#e8f5e9 55%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1; }
-.room-item  { font-size: clamp(1.8em,4.8vw,3em); }
-.door-room .char-display { width: clamp(50px,10vw,70px); height: clamp(50px,10vw,70px); }
-.door-panel { position: absolute; inset: 0; border-radius: 9px 9px 0 0; transform-origin: left center; transform: perspective(450px) rotateY(0deg); transition: transform .75s cubic-bezier(.4,0,.2,1); z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 16%; gap: 5px; }
-.door-panel.open { transform: perspective(450px) rotateY(-82deg); box-shadow: 4px 0 18px rgba(0,0,0,.3); }
-.dc-green  .door-panel { background: linear-gradient(165deg,#4CAF50,#2E7D32); }
-.dc-blue   .door-panel { background: linear-gradient(165deg,#2196F3,#1565C0); }
-.dc-orange .door-panel { background: linear-gradient(165deg,#FF9800,#E65100); }
-.dc-purple .door-panel { background: linear-gradient(165deg,#9C27B0,#6A1B9A); }
-.dp-emoji  { font-size: clamp(1.6em,4.2vw,2.5em); position: relative; z-index: 3; filter: drop-shadow(0 2px 5px rgba(0,0,0,.35)); }
-.dp-label  { font-size: clamp(.44em,1.2vw,.65em); color: rgba(255,255,255,.92); font-family: inherit; text-shadow: 0 1px 3px rgba(0,0,0,.5); position: relative; z-index: 3; text-align: center; padding: 0 4px; }
-.dp-svg    { width: clamp(40px,8vw,56px); height: clamp(40px,8vw,56px); border-radius: 50%; overflow: hidden; position: relative; z-index: 3; flex-shrink: 0; }
-.dp-svg svg { width: 100%; height: 100%; display: block; }
-.door-knob { position: absolute; right: 9px; top: 52%; width: 11px; height: 11px; background: #FFD700; border: 2px solid #F57F17; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,.4); z-index: 3; }
-.door-step { width: clamp(109px,21vw,152px); height: 12px; background: linear-gradient(180deg,#5d4037,#4a2c0a); border-radius: 0 0 7px 7px; box-shadow: 0 3px 8px rgba(0,0,0,.18); }
-
-#walk-char, #trn-walk { position: absolute; border-radius: 50%; overflow: hidden; pointer-events: none; z-index: 50; display: none; }
-#walk-char svg, #trn-walk svg { width: 100%; height: 100%; display: block; }
-
-.scene-char { position: absolute; bottom: 22px; z-index: 2; transition: left 1.1s cubic-bezier(.25,.46,.45,.94), opacity .4s; }
-.scene-char svg { width: 100%; height: 100%; display: block; }
-.scene-item { position: absolute; bottom: 26px; font-size: clamp(1.8em,4.5vw,3em); transition: left 1.1s cubic-bezier(.25,.46,.45,.94), opacity .4s; z-index: 2; user-select: none; }
-.stage { width: 100%; max-width: 580px; height: 205px; background: linear-gradient(180deg,#87CEEB 56%,#90EE90 56%); border-radius: 20px; position: relative; overflow: hidden; margin: 10px 0; border: 3px solid #bdc3c7; }
-.stage::before { content: '☀️'; position: absolute; top: 7px; right: 12px; font-size: 1.4em; pointer-events: none; z-index: 1; }
-.scene-caption { position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,.88); border-radius: 10px; padding: 2px 14px; font-size: clamp(.72em,1.9vw,.92em); color: #2c3e50; white-space: nowrap; border: 1px solid #ddd; z-index: 4; }
-
+.tear { width:7px; height:13px; background:#74b9ff; border-radius:50% 50% 60% 60%; animation:drip 1s ease-in infinite; }
+.tear:nth-child(2) { animation-delay:.5s; }
+.prog-wrap  { width:100%; max-width:440px; margin-bottom:12px; }
+.prog-label { font-size:.88em; color:#aaa; text-align:center; margin-bottom:3px; }
+.prog-track { height:15px; background:#ecf0f1; border-radius:8px; overflow:hidden; }
+.prog-fill  { height:100%; background:linear-gradient(90deg,#e74c3c,#f39c12); border-radius:8px; transition:width .5s; }
+.phase-badge { background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; padding:4px 20px; border-radius:50px; font-size:.88em; margin-bottom:10px; }
+.div { width:60%; height:2px; background:linear-gradient(90deg,transparent,#ddd,transparent); margin:10px 0; }
+.form-row { width:100%; max-width:420px; margin:6px 0; text-align:left; }
+.form-row label { display:block; font-size:1em; color:#2c3e50; margin-bottom:3px; font-weight:600; }
+.form-row input,.form-row select { width:100%; padding:9px 12px; font-size:1em; font-family:inherit; border:2px solid #bdc3c7; border-radius:10px; outline:none; }
+.form-row input:focus,.form-row select:focus { border-color:#3498db; }
+.door-area { display:grid; grid-template-columns:1fr 1fr; gap:16px; width:100%; max-width:480px; margin:8px auto; }
+.door-wrap { display:flex; flex-direction:column; align-items:center; cursor:pointer; transition:transform .15s; }
+.door-wrap:hover:not(.locked):not(.fading) { transform:translateY(-6px); }
+.door-wrap.locked  { pointer-events:none; }
+.door-wrap.fading  { opacity:.2; transition:opacity .4s; }
+.door-wrap.chosen  { opacity:1 !important; }
+.door-frame { position:relative; width:clamp(95px,19vw,138px); height:clamp(132px,27vw,190px); border:7px solid #4a2c0a; border-radius:14px 14px 0 0; background:#3e1f00; overflow:hidden; box-shadow:inset 0 0 16px rgba(0,0,0,.4); }
+.door-room  { position:absolute; inset:0; border-radius:9px 9px 0 0; background:linear-gradient(180deg,#fffde7 55%,#e8f5e9 55%); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:1; }
+.room-item  { font-size:clamp(1.8em,4.8vw,3em); }
+.door-room .char-display { width:clamp(50px,10vw,70px); height:clamp(50px,10vw,70px); }
+.door-panel { position:absolute; inset:0; border-radius:9px 9px 0 0; transform-origin:left center; transform:perspective(450px) rotateY(0deg); transition:transform .75s cubic-bezier(.4,0,.2,1); z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding-top:16%; gap:5px; }
+.door-panel.open { transform:perspective(450px) rotateY(-82deg); box-shadow:4px 0 18px rgba(0,0,0,.3); }
+.dc-green  .door-panel { background:linear-gradient(165deg,#4CAF50,#2E7D32); }
+.dc-blue   .door-panel { background:linear-gradient(165deg,#2196F3,#1565C0); }
+.dc-orange .door-panel { background:linear-gradient(165deg,#FF9800,#E65100); }
+.dc-purple .door-panel { background:linear-gradient(165deg,#9C27B0,#6A1B9A); }
+.dp-emoji  { font-size:clamp(1.6em,4.2vw,2.5em); position:relative; z-index:3; filter:drop-shadow(0 2px 5px rgba(0,0,0,.35)); }
+.dp-label  { font-size:clamp(.44em,1.2vw,.65em); color:rgba(255,255,255,.92); font-family:inherit; text-shadow:0 1px 3px rgba(0,0,0,.5); position:relative; z-index:3; text-align:center; padding:0 4px; }
+.dp-svg    { width:clamp(40px,8vw,56px); height:clamp(40px,8vw,56px); border-radius:50%; overflow:hidden; position:relative; z-index:3; flex-shrink:0; }
+.dp-svg svg { width:100%; height:100%; display:block; }
+.door-knob { position:absolute; right:9px; top:52%; width:11px; height:11px; background:#FFD700; border:2px solid #F57F17; border-radius:50%; box-shadow:0 1px 4px rgba(0,0,0,.4); z-index:3; }
+.door-step { width:clamp(109px,21vw,152px); height:12px; background:linear-gradient(180deg,#5d4037,#4a2c0a); border-radius:0 0 7px 7px; box-shadow:0 3px 8px rgba(0,0,0,.18); }
+#walk-char,#trn-walk { position:absolute; border-radius:50%; overflow:hidden; pointer-events:none; z-index:50; display:none; }
+#walk-char svg,#trn-walk svg { width:100%; height:100%; display:block; }
+.scene-char { position:absolute; bottom:22px; z-index:2; transition:left 1.1s cubic-bezier(.25,.46,.45,.94),opacity .4s; }
+.scene-char svg { width:100%; height:100%; display:block; }
+.scene-item { position:absolute; bottom:26px; font-size:clamp(1.8em,4.5vw,3em); transition:left 1.1s cubic-bezier(.25,.46,.45,.94),opacity .4s; z-index:2; user-select:none; }
+.stage { width:100%; max-width:580px; height:205px; background:linear-gradient(180deg,#87CEEB 56%,#90EE90 56%); border-radius:20px; position:relative; overflow:hidden; margin:10px 0; border:3px solid #bdc3c7; }
+.stage::before { content:'☀️'; position:absolute; top:7px; right:12px; font-size:1.4em; pointer-events:none; z-index:1; }
+.scene-caption { position:absolute; bottom:5px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,.88); border-radius:10px; padding:2px 14px; font-size:clamp(.72em,1.9vw,.92em); color:#2c3e50; white-space:nowrap; border:1px solid #ddd; z-index:4; }
 @keyframes heartFloat { 0%{opacity:1;transform:translateY(0) scale(.85)} 60%{opacity:1;transform:translateY(-38px) scale(1.1)} 100%{opacity:0;transform:translateY(-65px) scale(1.3)} }
-.heart-p { position: absolute; pointer-events: none; z-index: 3; font-size: 1.4em; animation: heartFloat 1.4s ease-out forwards; }
-.food-pop { position: absolute; background: #fff; border: 2px solid #ddd; border-radius: 12px; padding: 3px 10px; pointer-events: none; opacity: 0; transition: opacity .3s; white-space: nowrap; color: #2c3e50; z-index: 3; box-shadow: 0 2px 6px rgba(0,0,0,.08); font-size: .9em; }
-.food-pop.show { opacity: 1; }
-
-.rr-stage { width: 100%; max-width: 440px; min-height: 165px; background: linear-gradient(180deg,#fffde7 55%,#e8f5e9 55%); border-radius: 20px; border: 3px solid #bdc3c7; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; margin: 12px 0; padding: 20px; position: relative; overflow: hidden; box-shadow: inset 0 4px 12px rgba(0,0,0,.04); }
-.rr-chars { display: flex; gap: 22px; align-items: flex-end; }
-.rr-char  { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.rr-lbl   { font-size: .7em; color: #7f8c8d; }
-
-/* Summary cards */
-.sum-row { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 16px 0; }
-.sum-card { border-radius: 18px; padding: 18px 14px; text-align: center; min-width: 130px; max-width: 155px; font-size: 1em; color: #2c3e50; background: #f8f9fa; border: 3px solid #bdc3c7; }
-.sum-card.sum-yes { background: #d5f5e3; border-color: #27ae60; }
-.sum-card.sum-no  { background: #fdecea; border-color: #e74c3c; }
-.sum-card.sum-unk { background: #eaf2ff; border-color: #2980b9; }
-.sum-card p { margin-top: 8px; font-size: 0.9em; }
-
-.star-row { display: flex; flex-wrap: wrap; justify-content: center; margin: 8px 0; }
+.heart-p { position:absolute; pointer-events:none; z-index:3; font-size:1.4em; animation:heartFloat 1.4s ease-out forwards; }
+.food-pop { position:absolute; background:#fff; border:2px solid #ddd; border-radius:12px; padding:3px 10px; pointer-events:none; opacity:0; transition:opacity .3s; white-space:nowrap; color:#2c3e50; z-index:3; box-shadow:0 2px 6px rgba(0,0,0,.08); font-size:.9em; }
+.food-pop.show { opacity:1; }
+.rr-stage { width:100%; max-width:440px; min-height:165px; background:linear-gradient(180deg,#fffde7 55%,#e8f5e9 55%); border-radius:20px; border:3px solid #bdc3c7; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; margin:12px 0; padding:20px; position:relative; overflow:hidden; box-shadow:inset 0 4px 12px rgba(0,0,0,.04); }
+.rr-chars { display:flex; gap:22px; align-items:flex-end; }
+.rr-char  { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.rr-lbl   { font-size:.7em; color:#7f8c8d; }
+.sum-row { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin:16px 0; }
+.sum-card { border-radius:18px; padding:18px 14px; text-align:center; min-width:130px; max-width:155px; font-size:1em; color:#2c3e50; background:#f8f9fa; border:3px solid #bdc3c7; }
+.sum-card.sum-yes { background:#d5f5e3; border-color:#27ae60; }
+.sum-card.sum-no  { background:#fdecea; border-color:#e74c3c; }
+.sum-card.sum-unk { background:#eaf2ff; border-color:#2980b9; }
+.sum-card p { margin-top:8px; font-size:0.9em; }
+.star-row { display:flex; flex-wrap:wrap; justify-content:center; margin:8px 0; }
 @keyframes starPop { 0%{opacity:0;transform:scale(0) rotate(-15deg)} 70%{transform:scale(1.25) rotate(5deg)} 100%{opacity:1;transform:scale(1) rotate(0)} }
-.end-star { font-size: clamp(1.4em,4vw,2.1em); opacity: 0; animation: starPop .5s cubic-bezier(.34,1.56,.64,1) forwards; animation-delay: calc(var(--d)*1s); margin: 3px; }
-
-.res-scroll  { width: 100%; overflow-x: auto; margin-top: 10px; }
-.res-table   { width: 100%; border-collapse: collapse; font-size: .78em; }
-.res-table th{ background: #2c3e50; color: #fff; padding: 7px 9px; }
-.res-table td{ padding: 5px 9px; border-bottom: 1px solid #ecf0f1; }
-.res-table tr:nth-child(even) { background: #f8f9fa; }
-
-.flash-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.18); display: flex; align-items: center; justify-content: center; z-index: 900; pointer-events: none; animation: fadeIn .2s; }
-.flash-box { background: #fff; border-radius: 22px; padding: 20px 46px; font-size: clamp(1.3em,4.5vw,2.2em); text-align: center; box-shadow: 0 16px 50px rgba(0,0,0,.22); font-family: inherit; }
+.end-star { font-size:clamp(1.4em,4vw,2.1em); opacity:0; animation:starPop .5s cubic-bezier(.34,1.56,.64,1) forwards; animation-delay:calc(var(--d)*1s); margin:3px; }
+.res-scroll  { width:100%; overflow-x:auto; margin-top:10px; }
+.res-table   { width:100%; border-collapse:collapse; font-size:.78em; }
+.res-table th{ background:#2c3e50; color:#fff; padding:7px 9px; }
+.res-table td{ padding:5px 9px; border-bottom:1px solid #ecf0f1; }
+.res-table tr:nth-child(even) { background:#f8f9fa; }
+.flash-overlay { position:fixed; inset:0; background:rgba(0,0,0,.18); display:flex; align-items:center; justify-content:center; z-index:900; pointer-events:none; animation:fadeIn .2s; }
+.flash-box { background:#fff; border-radius:22px; padding:20px 46px; font-size:clamp(1.3em,4.5vw,2.2em); text-align:center; box-shadow:0 16px 50px rgba(0,0,0,.22); font-family:inherit; }
 @keyframes floatUp { 0%{opacity:1;transform:translate(-50%,-50%) translateY(0) scale(1)} 100%{opacity:0;transform:translate(-50%,-50%) translateY(-55px) scale(1.3)} }
-
-#mute-btn { position: fixed; top: 12px; right: 12px; width: 42px; height: 42px; background: rgba(255,255,255,.9); border: 2px solid #ddd; border-radius: 50%; font-size: 1.1em; cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,.1); z-index: 999; display: flex; align-items: center; justify-content: center; }
-
-@media (max-width: 500px) {
-  .screen    { padding: 16px 12px 12px; }
-  .door-area { gap: 10px; max-width: 340px; }
-  .stage     { height: 155px; }
-}
+#mute-btn { position:fixed; top:12px; right:12px; width:42px; height:42px; background:rgba(255,255,255,.9); border:2px solid #ddd; border-radius:50%; font-size:1.1em; cursor:pointer; box-shadow:0 3px 8px rgba(0,0,0,.1); z-index:999; display:flex; align-items:center; justify-content:center; }
+@media(max-width:500px){ .screen{padding:16px 12px 12px} .door-area{gap:10px;max-width:340px} .stage{height:155px} }
 </style>
 </head>
 
@@ -206,7 +157,7 @@ h2 { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center; marg
   <p style="font-size:.75em;color:#bbb;margin-top:10px;">Obtain consent before starting.</p>
 </div>
 
-<!-- ══ WELCOME — just Pip, spoken greeting ══ -->
+<!-- ══ WELCOME ══ -->
 <div id="s-welcome" class="screen">
   <div class="char-wrap" style="margin:auto;">
     <div class="char-display char-lg a-bounce" id="wel-pip"></div>
@@ -223,7 +174,7 @@ h2 { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center; marg
   <button class="btn btn-green" style="font-size:2em;padding:14px 40px;margin-bottom:60px;" onclick="G.startTraining()">✅</button>
 </div>
 
-<!-- ══ TRAINING — 4 exploration trials ══ -->
+<!-- ══ TRAINING ══ -->
 <div id="s-training" class="screen">
   <div class="prog-wrap">
     <p class="prog-label" id="trn-lbl">Practice 1 of 4</p>
@@ -284,7 +235,7 @@ h2 { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center; marg
   <button class="btn btn-orange" style="margin-top:30px;" onclick="G.playFoodFam()">👀</button>
 </div>
 
-<!-- ══ FOOD FAM ANIMATION ══ -->
+<!-- ══ FOOD FAM ══ -->
 <div id="s-ff" class="screen">
   <div class="stage" id="food-scene"></div>
   <p class="txt" id="food-cap" style="margin-top:8px;">Watch carefully...</p>
@@ -322,7 +273,7 @@ h2 { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center; marg
   <div class="door-area" id="attn-food-doors" style="max-width:340px;"></div>
 </div>
 
-<!-- ══ SOCIAL FAM INTRO — no title ══ -->
+<!-- ══ SOCIAL FAM INTRO ══ -->
 <div id="s-sfi" class="screen">
   <div style="display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin:auto;">
     <div class="char-wrap">
@@ -337,7 +288,7 @@ h2 { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center; marg
   <button class="btn btn-purple" style="margin-top:30px;" onclick="G.playSocialFam()">👀</button>
 </div>
 
-<!-- ══ SOCIAL FAM ANIMATION ══ -->
+<!-- ══ SOCIAL FAM ══ -->
 <div id="s-sf" class="screen">
   <div class="stage" id="snug-stage"></div>
   <p class="txt" id="snug-cap" style="margin-top:8px;">Watch carefully...</p>
@@ -375,7 +326,7 @@ h2 { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center; marg
   <div class="door-area" id="attn-social-doors" style="max-width:340px;"></div>
 </div>
 
-<!-- ══ TEST INTRO — minimal ══ -->
+<!-- ══ TEST INTRO ══ -->
 <div id="s-ti" class="screen">
   <div class="char-wrap" style="margin:auto;">
     <div class="char-display char-lg a-bounce" id="ti-pip"></div>
@@ -408,14 +359,9 @@ h2 { font-size: clamp(1.2em,4vw,1.9em); color: #2c3e50; text-align: center; marg
 </div><!-- #app -->
 
 <script>
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════
    SVG CHARACTER LIBRARY
-   Pip  = red/pink pig — 5 facial expressions
-   Benny = blue pig
-   Milo  = grey mouse
-   Rosie = pink rabbit
-   Bruno = brown bear
-═══════════════════════════════════════════ */
+═══════════════════════════════════ */
 const CHARS = {
 
   pip: (state = 'neutral') => {
@@ -446,7 +392,7 @@ const CHARS = {
       excited:`<path d="M36 61 Q50 76 64 61" stroke="#b85555" stroke-width="2.5" fill="none" stroke-linecap="round"/>
                <ellipse cx="50" cy="68" rx="10" ry="6" fill="#e8a0a0" opacity="0.3"/>`
     };
-    const s = ['neutral','happy','sad','hungry','excited'].includes(state) ? state : 'neutral';
+    const s=['neutral','happy','sad','hungry','excited'].includes(state)?state:'neutral';
     return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
       <polygon points="22,40 15,21 36,33" fill="#de7575" stroke="#b85555" stroke-width="1.5"/>
       <polygon points="78,40 85,21 64,33" fill="#de7575" stroke="#b85555" stroke-width="1.5"/>
@@ -465,7 +411,7 @@ const CHARS = {
     </svg>`;
   },
 
-  benny: () => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+  benny: ()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
     <polygon points="22,40 15,21 36,33" fill="#7599de" stroke="#4a6db8" stroke-width="1.5"/>
     <polygon points="78,40 85,21 64,33" fill="#7599de" stroke="#4a6db8" stroke-width="1.5"/>
     <polygon points="23,38 18,24 34,32" fill="#b3c8f8"/>
@@ -485,7 +431,7 @@ const CHARS = {
     <path d="M42 63 Q50 67 58 63" stroke="#4a6db8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   </svg>`,
 
-  milo: () => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+  milo: ()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
     <circle cx="28" cy="28" r="16" fill="#b0a0b0" stroke="#8a7890" stroke-width="1.5"/>
     <circle cx="72" cy="28" r="16" fill="#b0a0b0" stroke="#8a7890" stroke-width="1.5"/>
     <circle cx="28" cy="28" r="10" fill="#d4bcc4"/>
@@ -504,11 +450,11 @@ const CHARS = {
     <path d="M44 66 Q50 70 56 66" stroke="#8a6878" stroke-width="2" fill="none" stroke-linecap="round"/>
   </svg>`,
 
-  rosie: () => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+  rosie: ()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
     <ellipse cx="33" cy="22" rx="10" ry="21" fill="#f0b8cc" stroke="#c87898" stroke-width="1.5"/>
     <ellipse cx="67" cy="22" rx="10" ry="21" fill="#f0b8cc" stroke="#c87898" stroke-width="1.5"/>
-    <ellipse cx="33" cy="22" rx="6"  ry="16" fill="#fcd8e8"/>
-    <ellipse cx="67" cy="22" rx="6"  ry="16" fill="#fcd8e8"/>
+    <ellipse cx="33" cy="22" rx="6" ry="16" fill="#fcd8e8"/>
+    <ellipse cx="67" cy="22" rx="6" ry="16" fill="#fcd8e8"/>
     <circle cx="50" cy="58" r="33" fill="#f0b8cc" stroke="#c87898" stroke-width="2"/>
     <circle cx="27" cy="62" r="9" fill="#ff88aa" opacity="0.2"/>
     <circle cx="73" cy="62" r="9" fill="#ff88aa" opacity="0.2"/>
@@ -524,7 +470,7 @@ const CHARS = {
     <path d="M43 66 Q50 71 57 66" stroke="#c87898" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   </svg>`,
 
-  bruno: () => `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+  bruno: ()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
     <circle cx="24" cy="28" r="16" fill="#a06828" stroke="#784a10" stroke-width="1.5"/>
     <circle cx="76" cy="28" r="16" fill="#a06828" stroke="#784a10" stroke-width="1.5"/>
     <circle cx="24" cy="28" r="10" fill="#c88840"/>
@@ -544,16 +490,15 @@ const CHARS = {
   </svg>`
 };
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════
    POOLS
-═══════════════════════════════════════════ */
+═══════════════════════════════════ */
 const FOOD_POOL = [
   { emoji:'🍓', label:'Strawberry', type:'food0', isSocial:false },
   { emoji:'🫐', label:'Blueberry',  type:'food1', isSocial:false },
   { emoji:'🍌', label:'Banana',     type:'food2', isSocial:false },
   { emoji:'🍉', label:'Watermelon', type:'food3', isSocial:false },
 ];
-
 const CHAR_POOL = [
   { emoji:'🐭', label:'Milo',  type:'char0', isSocial:true, charKey:'milo'  },
   { emoji:'🐷', label:'Benny', type:'char1', isSocial:true, charKey:'benny' },
@@ -564,94 +509,94 @@ const CHAR_POOL = [
 const DCOLS    = ['dc-green','dc-blue','dc-orange','dc-purple'];
 const T_EMOJIS = ['🍎','⭐','🌈','🎈','🐸','🌸','🦋','🍦','🎀','🦄'];
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════
    GAME CONTROLLER
-═══════════════════════════════════════════ */
+═══════════════════════════════════ */
 const G = (() => {
 
   let S = {
     pid:'', age:0, pType:'child',
-    variant:'dislike',
-    orderMode:'random',
+    variant:'dislike', orderMode:'random',
     likedFoodIdx:0, dislikedFoodIdx:1,
     posCharIdx:0,   thinCharIdx:1,
-    firstBlock:1,   // 1=food first, 2=social first
-    round:1,        // 1=Phase1, 2=Phase2(combined)
+    firstBlock:1,
+    round:1,
     phase:'baseline',
-    attnContext:'post_fam', // 'post_fam' | 'pre_round2'
+    attnContext:'post_fam',
     trialSeq:[], trialIdx:0, trialStart:0,
     trainIdx:0, trainTrials:[],
     data:[], muted:false,
     pipState:'neutral',
   };
 
-  let attnFoodStart = 0;
-  let attnSocStart  = 0;
+  let attnFoodStart=0, attnSocStart=0;
 
-  /* ── Utils ── */
-  const shuf = a => { const b=[...a]; for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];} return b; };
-  const $    = id => document.getElementById(id);
-  const wait = ms  => new Promise(r => setTimeout(r,ms));
-  const showScreen = id => { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); window.scrollTo(0,0); };
+  const shuf=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;};
+  const $=id=>document.getElementById(id);
+  const wait=ms=>new Promise(r=>setTimeout(r,ms));
+  const showScreen=id=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');window.scrollTo(0,0);};
 
-  const setPip = (id,state,animCls='') => {
-    const el=$(id); if(!el) return;
+  const setPip=(id,state,animCls='')=>{
+    const el=$(id);if(!el)return;
     el.className=el.className.replace(/a-\S+/g,'').trim()+(animCls?' '+animCls:'');
     el.innerHTML=CHARS.pip(state);
   };
 
-  const synth = window.speechSynthesis;
-  const speak = (txt,rate=0.72,pitch=1.88) => {
-    if(S.muted||!synth) return; synth.cancel();
+  const synth=window.speechSynthesis;
+  const speak=(txt,rate=0.72,pitch=1.88)=>{
+    if(S.muted||!synth)return;synth.cancel();
     const u=new SpeechSynthesisUtterance(txt);
-    u.rate=rate; u.pitch=pitch; u.volume=1;
+    u.rate=rate;u.pitch=pitch;u.volume=1;
     const vs=synth.getVoices();
     u.voice=vs.find(v=>v.lang==='en-US'&&/samantha|karen|female/i.test(v.name))||vs.find(v=>v.lang==='en-US')||vs[0]||null;
     synth.speak(u);
   };
 
-  $('mute-btn').addEventListener('click',()=>{ S.muted=!S.muted; $('mute-btn').textContent=S.muted?'🔇':'🔊'; if(S.muted) synth.cancel(); });
-  if(synth.onvoiceschanged!==undefined) synth.onvoiceschanged=()=>{};
+  $('mute-btn').addEventListener('click',()=>{S.muted=!S.muted;$('mute-btn').textContent=S.muted?'🔇':'🔊';if(S.muted)synth.cancel();});
+  if(synth.onvoiceschanged!==undefined)synth.onvoiceschanged=()=>{};
 
-  /* ── Item helpers ── */
-  const likedFood    = () => FOOD_POOL[S.likedFoodIdx];
-  const dislikedFood = () => FOOD_POOL[S.dislikedFoodIdx];
-  const posChar      = () => CHAR_POOL[S.posCharIdx];
-  const thinChar     = () => CHAR_POOL[S.thinCharIdx];
+  const likedFood    = ()=>FOOD_POOL[S.likedFoodIdx];
+  const dislikedFood = ()=>FOOD_POOL[S.dislikedFoodIdx];
+  const posChar      = ()=>CHAR_POOL[S.posCharIdx];
+  const thinChar     = ()=>CHAR_POOL[S.thinCharIdx];
 
   /* Always 2 fruits + 2 characters */
-  const buildChoices = () => {
-    const food2role = S.variant==='unknown' ? 'unknown_food'   : 'disliked_food';
-    const char2role = S.variant==='unknown' ? 'unknown_social' : 'thin_social';
+  const buildChoices=()=>{
+    const f2=S.variant==='unknown'?'unknown_food':'disliked_food';
+    const c2=S.variant==='unknown'?'unknown_social':'thin_social';
     return shuf([
-      {...likedFood(),    role:'liked_food'      },
-      {...dislikedFood(), role: food2role        },
-      {...posChar(),      role:'positive_social' },
-      {...thinChar(),     role: char2role        },
+      {...likedFood(),    role:'liked_food'     },
+      {...dislikedFood(), role:f2               },
+      {...posChar(),      role:'positive_social'},
+      {...thinChar(),     role:c2               },
     ]);
   };
 
-  const buildSeq = () => { const t=['food','sad','neutral','toy']; return S.orderMode==='random'?shuf(t):t; };
+  /*
+   * chosePreferred: 1 if the child chose the preferred item
+   * (liked_food OR positive_social), 0 otherwise.
+   * Recorded for every trial including baseline.
+   */
+  const isPreferred = role => role==='liked_food' || role==='positive_social';
 
-  const flash = (html,color='#27ae60') => {
+  const buildSeq=()=>{const t=['food','sad','neutral','toy'];return S.orderMode==='random'?shuf(t):t;};
+
+  const flash=(html,color='#27ae60')=>{
     document.querySelector('.flash-overlay')?.remove();
-    const el=document.createElement('div'); el.className='flash-overlay';
+    const el=document.createElement('div');el.className='flash-overlay';
     el.innerHTML=`<div class="flash-box" style="color:${color};">${html}</div>`;
     document.body.appendChild(el);
-    setTimeout(()=>{ el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(()=>el.remove(),320); },1100);
+    setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),320);},1100);
   };
 
-  const confetti = (x,y) => {
-    '⭐💫✨🎉🎊'.split('').forEach((ch,i)=>{ const p=document.createElement('div'); p.textContent=ch; p.style.cssText=`position:fixed;font-size:1.5em;pointer-events:none;z-index:9999;left:${x+(Math.random()-.5)*80}px;top:${y+(Math.random()-.5)*50}px;transform:translate(-50%,-50%);animation:floatUp .9s ease-out ${i*.06}s forwards;`; document.body.appendChild(p); setTimeout(()=>p.remove(),1000+i*60); });
-  };
+  const confetti=(x,y)=>{'⭐💫✨🎉🎊'.split('').forEach((ch,i)=>{const p=document.createElement('div');p.textContent=ch;p.style.cssText=`position:fixed;font-size:1.5em;pointer-events:none;z-index:9999;left:${x+(Math.random()-.5)*80}px;top:${y+(Math.random()-.5)*50}px;transform:translate(-50%,-50%);animation:floatUp .9s ease-out ${i*.06}s forwards;`;document.body.appendChild(p);setTimeout(()=>p.remove(),1000+i*60);});};
 
-  /* roomContentHTML: pass raw HTML string to override room contents */
-  const makeDoor = (item,colorClass,roomContentHTML=null) => {
-    const wrap=document.createElement('div'); wrap.className=`door-wrap ${colorClass}`;
+  const makeDoor=(item,colorClass,roomContentHTML=null)=>{
+    const wrap=document.createElement('div');wrap.className=`door-wrap ${colorClass}`;
     let roomContent;
-    if(roomContentHTML!==null){ roomContent=roomContentHTML; }
-    else if(item.isSocial&&item.charKey){ roomContent=`<div class="char-display" style="width:clamp(50px,10vw,70px);height:clamp(50px,10vw,70px);">${CHARS[item.charKey]()}</div>`; }
-    else { roomContent=`<div class="room-item">${item.emoji}</div>`; }
+    if(roomContentHTML!==null){roomContent=roomContentHTML;}
+    else if(item.isSocial&&item.charKey){roomContent=`<div class="char-display" style="width:clamp(50px,10vw,70px);height:clamp(50px,10vw,70px);">${CHARS[item.charKey]()}</div>`;}
+    else{roomContent=`<div class="room-item">${item.emoji}</div>`;}
     const doorFace=(item.isSocial&&item.charKey)?`<div class="dp-svg">${CHARS[item.charKey]()}</div>`:`<div class="dp-emoji">${item.emoji}</div>`;
     wrap.innerHTML=`
       <div class="door-frame">
@@ -666,35 +611,32 @@ const G = (() => {
     return wrap;
   };
 
-  /* ════════════ SETUP ════════════ */
-  const setup = () => {
+  /* ════════ SETUP ════════ */
+  const setup=()=>{
     const pid=$('f-pid').value.trim();
     const age=parseFloat($('f-age').value);
-    if(!pid){ alert('Please enter a Participant ID.'); return; }
-    if(isNaN(age)||age<1){ alert('Please enter a valid age.'); return; }
+    if(!pid){alert('Please enter a Participant ID.');return;}
+    if(isNaN(age)||age<1){alert('Please enter a valid age.');return;}
 
-    S.pid=pid; S.age=age;
+    S.pid=pid;S.age=age;
     S.pType=$('f-type').value;
     S.variant=$('f-variant').value;
     S.orderMode=$('f-order').value;
 
-    const startPref=$('f-start').value;
-    S.firstBlock=startPref==='random'?(Math.random()<.5?1:2):parseInt(startPref);
+    const sp=$('f-start').value;
+    S.firstBlock=sp==='random'?(Math.random()<.5?1:2):parseInt(sp);
 
-    const fIdxs=shuf([0,1,2,3]); S.likedFoodIdx=fIdxs[0]; S.dislikedFoodIdx=fIdxs[1];
-    const cIdxs=shuf([0,1,2,3]); S.posCharIdx=cIdxs[0]; S.thinCharIdx=cIdxs[1];
+    const fIdxs=shuf([0,1,2,3]);S.likedFoodIdx=fIdxs[0];S.dislikedFoodIdx=fIdxs[1];
+    const cIdxs=shuf([0,1,2,3]);S.posCharIdx=cIdxs[0];S.thinCharIdx=cIdxs[1];
 
-    S.round=1; S.phase='baseline'; S.attnContext='post_fam'; S.data=[];
+    S.round=1;S.phase='baseline';S.attnContext='post_fam';S.data=[];
 
-    /* Inject Pip into all static slots */
-    const slots=[
-      ['wel-pip','happy','a-bounce'],['bi-pip','neutral','a-float'],
-      ['ffi-pip','hungry','a-bounce'],['trn-pip','neutral','a-float'],
-      ['ti-pip','happy','a-bounce'],['end-pip','excited','a-bounce'],
-      ['attn-pip-food','neutral','a-float'],['attn-pip-social','neutral','a-float'],
-      ['food-sum-pip','happy','a-float'],['soc-sum-pip','excited','a-float'],
-    ];
-    slots.forEach(([id,st,an])=>setPip(id,st,an));
+    [['wel-pip','happy','a-bounce'],['bi-pip','neutral','a-float'],
+     ['ffi-pip','hungry','a-bounce'],['trn-pip','neutral','a-float'],
+     ['ti-pip','happy','a-bounce'],['end-pip','excited','a-bounce'],
+     ['attn-pip-food','neutral','a-float'],['attn-pip-social','neutral','a-float'],
+     ['food-sum-pip','happy','a-float'],['soc-sum-pip','excited','a-float'],
+    ].forEach(([id,st,an])=>setPip(id,st,an));
 
     $('sfi-pos').innerHTML=CHARS[posChar().charKey]();
     $('sfi-thin').innerHTML=CHARS[thinChar().charKey]();
@@ -705,34 +647,29 @@ const G = (() => {
     setTimeout(()=>speak('This is Pip. We are going to play a game with Pip today.'),500);
   };
 
-  /* ════════════ TRAINING — 4 exploration trials ════════════ */
-  const goTrainIntro = () => { showScreen('s-train-intro'); };
+  /* ════════ TRAINING ════════ */
+  const goTrainIntro=()=>showScreen('s-train-intro');
 
-  const startTraining = () => {
-    S.trainIdx=0; S.trainTrials=[];
+  const startTraining=()=>{
+    S.trainIdx=0;S.trainTrials=[];
     const pool=[...T_EMOJIS];
-    for(let i=0;i<4;i++){
-      let opts=[];
-      while(opts.length<4){ const r=pool[0|Math.random()*pool.length]; if(!opts.includes(r)) opts.push(r); }
-      S.trainTrials.push({opts:shuf(opts)});
-    }
-    showScreen('s-training'); renderTrain();
+    for(let i=0;i<4;i++){let opts=[];while(opts.length<4){const r=pool[0|Math.random()*pool.length];if(!opts.includes(r))opts.push(r);}S.trainTrials.push({opts:shuf(opts)});}
+    showScreen('s-training');renderTrain();
   };
 
-  const renderTrain = () => {
+  const renderTrain=()=>{
     const i=S.trainIdx;
-    if(i>=4){ onTrainDone(); return; }
+    if(i>=4){onTrainDone();return;}
     const t=S.trainTrials[i];
     $('trn-lbl').textContent=`Practice ${i+1} of 4`;
     $('trn-fill').style.width=`${i/4*100}%`;
     setTimeout(()=>speak('Click any door to see what happens!'),150);
     setPip('trn-pip','neutral','a-float');
     $('trn-pip').style.opacity='1';
-    const wc=$('trn-walk'); if(wc) wc.style.display='none';
-    const grid=$('trn-doors'); grid.innerHTML='';
+    const wc=$('trn-walk');if(wc)wc.style.display='none';
+    const grid=$('trn-doors');grid.innerHTML='';
     const cols=shuf([...DCOLS]);
     t.opts.forEach((opt,idx)=>{
-      /* Room shows Pip + item — child sees them together when door opens */
       const roomHTML=`<div style="display:flex;align-items:center;gap:3px;padding:4px;">
         <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;">${CHARS.pip('happy')}</div>
         <span style="font-size:1.5em;">${opt}</span>
@@ -743,224 +680,227 @@ const G = (() => {
     });
   };
 
-  const walkIntoTrainDoor = async (doorWrap) => {
+  const walkIntoTrainDoor=async(doorWrap)=>{
     const wc=$('trn-walk'),ce=$('trn-pip'),screen=$('s-training');
     const sRect=screen.getBoundingClientRect(),cRect=ce.getBoundingClientRect(),dRect=doorWrap.querySelector('.door-frame').getBoundingClientRect();
-    const sx=cRect.left-sRect.left+cRect.width/2, sy=cRect.top-sRect.top+cRect.height/2;
-    const tx=dRect.left-sRect.left+dRect.width/2,  ty=dRect.top-sRect.top+dRect.height/2;
+    const sx=cRect.left-sRect.left+cRect.width/2,sy=cRect.top-sRect.top+cRect.height/2;
+    const tx=dRect.left-sRect.left+dRect.width/2,ty=dRect.top-sRect.top+dRect.height/2;
     const sz=cRect.width;
     wc.innerHTML=CHARS.pip('neutral');
     wc.style.cssText=`display:block;position:absolute;width:${sz}px;height:${sz}px;left:${sx}px;top:${sy}px;border-radius:50%;overflow:hidden;transform:translate(-50%,-50%) scale(1);opacity:1;transition:none;z-index:50;pointer-events:none;`;
-    ce.style.opacity='0.12'; await wait(60);
+    ce.style.opacity='0.12';await wait(60);
     wc.style.transition='all .9s cubic-bezier(.4,0,.2,1)';
-    wc.style.left=`${tx}px`; wc.style.top=`${ty}px`;
-    wc.style.transform='translate(-50%,-50%) scale(0.25)'; wc.style.opacity='0';
-    await wait(960); ce.style.opacity='1'; wc.style.display='none';
+    wc.style.left=`${tx}px`;wc.style.top=`${ty}px`;
+    wc.style.transform='translate(-50%,-50%) scale(0.25)';wc.style.opacity='0';
+    await wait(960);ce.style.opacity='1';wc.style.display='none';
   };
 
-  const onTrainClick = async (wrap,grid) => {
+  const onTrainClick=async(wrap,grid)=>{
     grid.querySelectorAll('.door-wrap').forEach(w=>w.classList.add('locked'));
     wrap.querySelector('.door-panel').classList.add('open');
     await wait(380);
     await walkIntoTrainDoor(wrap);
-    await wait(1200); /* pause to see Pip + item in room */
-    S.trainIdx++; renderTrain();
+    await wait(1200);
+    S.trainIdx++;renderTrain();
   };
 
-  const onTrainDone = () => {
-    speak('Great!');
-    setTimeout(()=>{ setBaseIntro(); showScreen('s-base-intro'); },900);
-  };
+  const onTrainDone=()=>{speak('Great!');setTimeout(()=>{setBaseIntro();showScreen('s-base-intro');},900);};
 
-  /* ════════════ BLOCK INTRO ════════════ */
-  const setBaseIntro = () => {
+  /* ════════ BLOCK INTRO ════════ */
+  const setBaseIntro=()=>{
     $('bi-text').innerHTML='Pip will show you how they are feeling.<br>You can open a door and Pip will go inside.';
     setPip('bi-pip',S.round===2?'excited':'neutral','a-float');
     speak(S.round===2?'New round!':"Let's play!");
   };
 
-  /* ════════════ TRIALS ════════════ */
-  const startTrials = () => { S.trialIdx=0; S.trialSeq=buildSeq(); showScreen('s-trial'); renderTrial(); };
+  /* ════════ TRIALS ════════ */
+  const startTrials=()=>{S.trialIdx=0;S.trialSeq=buildSeq();showScreen('s-trial');renderTrial();};
 
-  const renderTrial = () => {
-    const i=S.trialIdx, type=S.trialSeq[i], isTest=S.phase==='test';
+  const renderTrial=()=>{
+    const i=S.trialIdx,type=S.trialSeq[i],isTest=S.phase==='test';
     $('trl-lbl').textContent=`Trial ${i+1} of 4`;
     $('trl-fill').style.width=`${i/4*100}%`;
-
-    let badge='Practice';
-    if(S.phase==='test') badge=S.round===1?'Round 1':'Round 2';
+    let badge=S.phase==='baseline'?'Practice':(S.round===1?'Round 1':'Round 2');
     $('trl-phase').textContent=badge;
 
-    const tear=$('trl-tears'), prompt=$('trl-prompt');
-    $('trl-pip').style.opacity='1';
-    tear.style.display='none';
+    const tear=$('trl-tears'),prompt=$('trl-prompt');
+    $('trl-pip').style.opacity='1';tear.style.display='none';
 
-    /* Prompt text only visible on baseline; audio plays on ALL trials */
     switch(type){
       case 'food':
-        setPip('trl-pip','hungry','a-pulse'); S.pipState='hungry';
+        setPip('trl-pip','hungry','a-pulse');S.pipState='hungry';
         prompt.textContent='Pip is hungry!';
-        setTimeout(()=>speak('Pip is hungry!'),300); break;
+        setTimeout(()=>speak('Pip is hungry!'),300);break;
       case 'sad':
-        setPip('trl-pip','sad','a-sadshk'); S.pipState='sad';
+        setPip('trl-pip','sad','a-sadshk');S.pipState='sad';
         tear.style.display='flex';
         prompt.textContent='Pip is sad.';
-        setTimeout(()=>speak('Pip is sad.'),300); break;
+        setTimeout(()=>speak('Pip is sad.'),300);break;
       case 'neutral':
-        setPip('trl-pip','neutral','a-wiggle'); S.pipState='neutral';
+        setPip('trl-pip','neutral','a-wiggle');S.pipState='neutral';
         prompt.textContent='Pip is feeling fine.';
-        setTimeout(()=>speak('Pip is feeling fine.'),300); break;
+        setTimeout(()=>speak('Pip is feeling fine.'),300);break;
       case 'toy':
-        setPip('trl-pip','excited','a-bounce'); S.pipState='excited';
+        setPip('trl-pip','excited','a-bounce');S.pipState='excited';
         prompt.textContent='Pip wants to play!';
-        setTimeout(()=>speak('Pip wants to play!'),300); break;
+        setTimeout(()=>speak('Pip wants to play!'),300);break;
     }
-
-    /* On test trials: hide the directive text */
     prompt.style.visibility=isTest?'hidden':'visible';
 
     $('walk-char').style.display='none';
-    const choices=buildChoices(), cols=shuf([...DCOLS]);
-    const grid=$('trl-doors'); grid.innerHTML='';
-    choices.forEach((c,idx)=>{ const w=makeDoor(c,cols[idx]); w.addEventListener('click',()=>onDoorClick(w,c,type)); grid.appendChild(w); });
+    const choices=buildChoices(),cols=shuf([...DCOLS]);
+    const grid=$('trl-doors');grid.innerHTML='';
+    choices.forEach((c,idx)=>{const w=makeDoor(c,cols[idx]);w.addEventListener('click',()=>onDoorClick(w,c,type));grid.appendChild(w);});
     S.trialStart=Date.now();
   };
 
-  const onDoorClick = async (chosenWrap,choice,trialType) => {
+  const onDoorClick=async(chosenWrap,choice,trialType)=>{
     const rt=Date.now()-S.trialStart;
-    document.querySelectorAll('#trl-doors .door-wrap').forEach(w=>{ w.classList.add('locked'); if(w!==chosenWrap) w.classList.add('fading'); });
+    document.querySelectorAll('#trl-doors .door-wrap').forEach(w=>{w.classList.add('locked');if(w!==chosenWrap)w.classList.add('fading');});
     chosenWrap.classList.add('chosen');
     chosenWrap.querySelector('.door-panel').classList.add('open');
-    await wait(380); await walkIntoDoor(chosenWrap);
+    await wait(380);await walkIntoDoor(chosenWrap);
 
     const phaseLabel=S.phase==='baseline'?'baseline':(S.round===1?'test1':'test2');
+
+    /*
+     * chosePreferred: 1 = chose the liked food or positive social partner
+     *                 0 = chose the disliked/unknown food or thin/unknown social
+     * Recorded on every trial (baseline and test).
+     */
+    const chosePreferred = isPreferred(choice.role) ? 1 : 0;
+
     S.data.push({
       pid:S.pid,age:S.age,pType:S.pType,variant:S.variant,
       firstBlock:S.firstBlock,round:S.round,phase:phaseLabel,
       trialNum:S.trialIdx+1,trialType,
       role:choice.role,choiceLabel:choice.label,
+      chosePreferred,                          /* ← new column */
       rt_ms:rt,trialOrder:S.trialSeq.join('-'),
       likedFood:likedFood().label,dislikedFood:dislikedFood().label,
       posChar:posChar().label,thinChar:thinChar().label,
       attnCorrect:'',timestamp:new Date().toISOString(),
     });
-    await wait(280); showResultRoom(choice);
+    await wait(280);showResultRoom(choice);
   };
 
-  const walkIntoDoor = async (doorWrap) => {
+  const walkIntoDoor=async(doorWrap)=>{
     const wc=$('walk-char'),ce=$('trl-pip'),screen=$('s-trial');
     const sRect=screen.getBoundingClientRect(),cRect=ce.getBoundingClientRect(),dRect=doorWrap.querySelector('.door-frame').getBoundingClientRect();
-    const sx=cRect.left-sRect.left+cRect.width/2,  sy=cRect.top-sRect.top+cRect.height/2;
-    const tx=dRect.left-sRect.left+dRect.width/2,  ty=dRect.top-sRect.top+dRect.height/2;
+    const sx=cRect.left-sRect.left+cRect.width/2,sy=cRect.top-sRect.top+cRect.height/2;
+    const tx=dRect.left-sRect.left+dRect.width/2,ty=dRect.top-sRect.top+dRect.height/2;
     const sz=cRect.width;
     wc.innerHTML=CHARS.pip(S.pipState);
     wc.style.cssText=`display:block;position:absolute;width:${sz}px;height:${sz}px;left:${sx}px;top:${sy}px;border-radius:50%;overflow:hidden;transform:translate(-50%,-50%) scale(1);opacity:1;transition:none;z-index:50;pointer-events:none;`;
-    ce.style.opacity='0.12'; await wait(60);
+    ce.style.opacity='0.12';await wait(60);
     wc.style.transition='all .9s cubic-bezier(.4,0,.2,1)';
-    wc.style.left=`${tx}px`; wc.style.top=`${ty}px`;
-    wc.style.transform='translate(-50%,-50%) scale(0.25)'; wc.style.opacity='0';
-    await wait(960); ce.style.opacity='1'; wc.style.display='none';
+    wc.style.left=`${tx}px`;wc.style.top=`${ty}px`;
+    wc.style.transform='translate(-50%,-50%) scale(0.25)';wc.style.opacity='0';
+    await wait(960);ce.style.opacity='1';wc.style.display='none';
   };
 
-  /* ════════════ RESULT ROOM — neutral, no reaction ════════════ */
-  const showResultRoom = (choice) => {
-    let badge='Practice';
-    if(S.phase==='test') badge=S.round===1?'Round 1':'Round 2';
+  /* ════════ RESULT ROOM ════════ */
+  const showResultRoom=(choice)=>{
+    let badge=S.phase==='baseline'?'Practice':(S.round===1?'Round 1':'Round 2');
     $('rr-phase').textContent=badge;
-
-    const stage=$('rr-stage'); stage.innerHTML='';
-    const chars=document.createElement('div'); chars.className='rr-chars';
-
-    const pipDiv=document.createElement('div'); pipDiv.className='rr-char';
+    const stage=$('rr-stage');stage.innerHTML='';
+    const chars=document.createElement('div');chars.className='rr-chars';
+    const pipDiv=document.createElement('div');pipDiv.className='rr-char';
     pipDiv.innerHTML=`<div class="char-display" style="width:72px;height:72px;">${CHARS.pip('neutral')}</div><div class="rr-lbl">Pip</div>`;
     chars.appendChild(pipDiv);
-
-    const foundDiv=document.createElement('div'); foundDiv.className='rr-char';
-    if(choice.isSocial&&choice.charKey){
-      foundDiv.innerHTML=`<div class="char-display" style="width:72px;height:72px;">${CHARS[choice.charKey]()}</div>`;
-    } else {
-      foundDiv.innerHTML=`<div style="font-size:clamp(2.2em,6vw,3.5em);">${choice.emoji}</div>`;
-    }
-    chars.appendChild(foundDiv); stage.appendChild(chars); showScreen('s-result');
+    const foundDiv=document.createElement('div');foundDiv.className='rr-char';
+    if(choice.isSocial&&choice.charKey){foundDiv.innerHTML=`<div class="char-display" style="width:72px;height:72px;">${CHARS[choice.charKey]()}</div>`;}
+    else{foundDiv.innerHTML=`<div style="font-size:clamp(2.2em,6vw,3.5em);">${choice.emoji}</div>`;}
+    chars.appendChild(foundDiv);stage.appendChild(chars);showScreen('s-result');
   };
 
-  const nextTrial = () => { S.trialIdx++; if(S.trialIdx>=4){onBlockDone();}else{showScreen('s-trial');renderTrial();} };
+  const nextTrial=()=>{S.trialIdx++;if(S.trialIdx>=4){onBlockDone();}else{showScreen('s-trial');renderTrial();}};
 
-  const onBlockDone = () => {
+  const onBlockDone=()=>{
     if(S.phase==='baseline'){
-      /* After baseline → go to Phase 1 fam */
-      if(S.firstBlock===1){ showScreen('s-ffi'); }
-      else{ showScreen('s-sfi'); }
+      if(S.firstBlock===1){showScreen('s-ffi');}
+      else{showScreen('s-sfi');}
     } else {
-      /* After test phase */
-      if(S.round===1){ showPreRound2Check(); }
-      else{ showEndScreen(); }
+      if(S.round===1){showPreRound2Check();}
+      else{showEndScreen();}
     }
   };
 
-  /* ════════════ FOOD FAM — 3 reps, Pip overlaps fruit ════════════ */
-  const playFoodFam = () => { showScreen('s-ff'); runFoodAnim(); };
+  /* ════════ FOOD FAM — 3 reps ════════
+   *
+   * LIKED fruit:   Pip moves to 62%, fruit at 68% → OVERLAP ✓
+   * DISLIKED:      Pip moves to 62%, tries, backs away → OVERLAP then retreat ✓
+   * UNKNOWN:       Pip moves to only 36% — stays away from fruit at 68% → NO overlap ✓
+   *                Instead, Pip is shown overlapping with best friend later (social fam)
+   */
+  const playFoodFam=()=>{showScreen('s-ff');runFoodAnim();};
 
-  const runFoodAnim = async () => {
+  const runFoodAnim=async()=>{
     const scene=$('food-scene'),capEl=$('food-cap'),nextDiv=$('food-next');
-    nextDiv.style.display='none'; scene.innerHTML='';
+    nextDiv.style.display='none';scene.innerHTML='';
     const lf=likedFood(),df=dislikedFood();
 
     const mkPip=(state,leftPct)=>{
       const el=document.createElement('div');
       el.className='scene-char';
       el.style.cssText=`left:${leftPct}%;width:58px;height:58px;z-index:3;`;
-      el.innerHTML=CHARS.pip(state); scene.appendChild(el); return el;
+      el.innerHTML=CHARS.pip(state);scene.appendChild(el);return el;
     };
     const mkItem=(emoji,leftPct)=>{
-      const el=document.createElement('div'); el.className='scene-item';
-      el.textContent=emoji; el.style.left=leftPct+'%'; scene.appendChild(el); return el;
+      const el=document.createElement('div');el.className='scene-item';
+      el.textContent=emoji;el.style.left=leftPct+'%';scene.appendChild(el);return el;
     };
-    const setCaption=txt=>{ let c=scene.querySelector('.scene-caption'); if(!c){c=document.createElement('div');c.className='scene-caption';scene.appendChild(c);} c.textContent=txt; };
-    const popText=async(txt,lPct,tPx)=>{ const el=document.createElement('div'); el.className='food-pop'; el.textContent=txt; el.style.left=lPct+'%'; el.style.top=tPx+'px'; scene.appendChild(el); await wait(50); el.classList.add('show'); await wait(1800); el.classList.remove('show'); await wait(400); el.remove(); };
+    const setCaption=txt=>{let c=scene.querySelector('.scene-caption');if(!c){c=document.createElement('div');c.className='scene-caption';scene.appendChild(c);}c.textContent=txt;};
+    const popText=async(txt,lPct,tPx)=>{const el=document.createElement('div');el.className='food-pop';el.textContent=txt;el.style.left=lPct+'%';el.style.top=tPx+'px';scene.appendChild(el);await wait(50);el.classList.add('show');await wait(1800);el.classList.remove('show');await wait(400);el.remove();};
 
     for(let rep=0;rep<3;rep++){
-      /* Liked fruit */
-      scene.innerHTML='';
-      setCaption('Pip sees some fruit!'); capEl.textContent='Pip sees some fruit!';
-      const p1=mkPip('neutral',6); mkItem(lf.emoji,68); /* food at 68% */
-      await wait(1000);
-      p1.style.left='62%'; /* Pip moves to 62% — overlaps food at 68% */
-      setCaption(`Pip tries the ${lf.label}…`); capEl.textContent=`Pip tries the ${lf.label}…`;
-      speak(`Pip tries the ${lf.label}.`); await wait(1400);
-      p1.innerHTML=CHARS.pip('excited'); /* face swap */
-      setCaption(`Pip loves the ${lf.label}!`); capEl.textContent=`Pip loves the ${lf.label}!`;
-      speak('Yum!'); popText('😋 YUM!',50,8); await wait(2200);
 
-      /* Second fruit */
+      /* ── LIKED fruit — Pip overlaps with it ── */
+      scene.innerHTML='';
+      setCaption('Pip sees some fruit!');capEl.textContent='Pip sees some fruit!';
+      const p1=mkPip('neutral',6);mkItem(lf.emoji,68);
+      await wait(1000);
+      p1.style.left='62%';  /* Pip at 62%, fruit at 68% → clear overlap */
+      setCaption(`Pip tries the ${lf.label}…`);capEl.textContent=`Pip tries the ${lf.label}…`;
+      speak(`Pip tries the ${lf.label}.`);await wait(1400);
+      p1.innerHTML=CHARS.pip('excited');
+      setCaption(`Pip loves the ${lf.label}!`);capEl.textContent=`Pip loves the ${lf.label}!`;
+      speak('Yum!');popText('😋 YUM!',50,8);await wait(2200);
+
+      /* ── SECOND fruit ── */
       scene.innerHTML='';
       if(S.variant==='dislike'){
-        setCaption(`Now Pip sees the ${df.label}…`); capEl.textContent=`Now Pip sees the ${df.label}…`;
-        const p2=mkPip('neutral',6); mkItem(df.emoji,68);
+        /* Disliked: Pip approaches and overlaps, then backs away */
+        setCaption(`Now Pip sees the ${df.label}…`);capEl.textContent=`Now Pip sees the ${df.label}…`;
+        const p2=mkPip('neutral',6);mkItem(df.emoji,68);
         await wait(1000);
-        p2.style.left='62%'; /* overlap */
-        setCaption(`Pip tries the ${df.label}…`); capEl.textContent=`Pip tries the ${df.label}…`;
-        speak(`Pip tries the ${df.label}.`); await wait(1400);
-        p2.innerHTML=CHARS.pip('sad'); p2.style.left='26%'; /* backs away */
-        setCaption(`Pip does NOT like the ${df.label}!`); capEl.textContent=`Pip does NOT like the ${df.label}!`;
-        speak('Yuck!'); popText('🤢 YUCK!',22,8); await wait(2200);
+        p2.style.left='62%';  /* overlap */
+        setCaption(`Pip tries the ${df.label}…`);capEl.textContent=`Pip tries the ${df.label}…`;
+        speak(`Pip tries the ${df.label}.`);await wait(1400);
+        p2.innerHTML=CHARS.pip('sad');p2.style.left='26%';  /* backs away */
+        setCaption(`Pip does NOT like the ${df.label}!`);capEl.textContent=`Pip does NOT like the ${df.label}!`;
+        speak('Yuck!');popText('🤢 YUCK!',22,8);await wait(2200);
       } else {
-        /* Unknown variant */
-        setCaption(`Now Pip sees the ${df.label}…`); capEl.textContent=`Now Pip sees the ${df.label}…`;
-        const p2=mkPip('neutral',6); mkItem(df.emoji,68);
+        /*
+         * UNKNOWN: Pip stays far away — NO overlap with fruit.
+         * Pip remains at ~36%, fruit is at 68%.
+         * This keeps clear visual separation.
+         */
+        setCaption(`Pip sees the ${df.label}…`);capEl.textContent=`Pip sees the ${df.label}…`;
+        const p2=mkPip('neutral',6);mkItem(df.emoji,68);
         await wait(1000);
-        p2.style.left='62%'; /* approach — stays neutral */
-        setCaption(`Pip doesn't know this fruit.`); capEl.textContent=`Pip doesn't know this fruit.`;
-        speak(`Pip doesn't know this fruit.`); await wait(2500);
+        p2.style.left='36%';  /* stops well short of fruit — no overlap */
+        setCaption(`Pip doesn't know this fruit.`);capEl.textContent=`Pip doesn't know this fruit.`;
+        speak(`Pip doesn't know this fruit.`);await wait(2500);
       }
     }
 
-    capEl.textContent=''; nextDiv.style.display='flex';
+    capEl.textContent='';nextDiv.style.display='flex';
   };
 
-  const doneFoodFam = () => { showFoodSummary(); };
+  const doneFoodFam=()=>showFoodSummary();
 
-  const showFoodSummary = () => {
+  const showFoodSummary=()=>{
     const lf=likedFood(),df=dislikedFood();
     setPip('food-sum-pip','happy','a-float');
     $('fsum-like-emoji').textContent=lf.emoji;
@@ -977,70 +917,96 @@ const G = (() => {
     speak(`Pip loves ${lf.label}!`);
   };
 
-  const afterFoodSummary = () => { S.attnContext='post_fam'; showFoodAttnCheck(); };
+  const afterFoodSummary=()=>{S.attnContext='post_fam';showFoodAttnCheck();};
 
-  /* ════════════ SOCIAL FAM — 3 reps, simple summary ════════════ */
-  const playSocialFam = () => { showScreen('s-sf'); runSnuggleAnim(); };
+  /* ════════ SOCIAL FAM — 3 reps ════════
+   *
+   * BEST FRIEND: Pip moves to 38%, friend at 46% → characters OVERLAP ✓
+   * NOT FRIEND / UNKNOWN: no overlap
+   */
+  const playSocialFam=()=>{showScreen('s-sf');runSnuggleAnim();};
 
-  const runSnuggleAnim = async () => {
+  const runSnuggleAnim=async()=>{
     const stage=$('snug-stage'),capEl=$('snug-cap'),nextDiv=$('snug-next');
-    nextDiv.style.display='none'; stage.innerHTML='';
+    nextDiv.style.display='none';stage.innerHTML='';
     const pos=posChar(),thin=thinChar();
 
-    const mkPip=(state,leftPct,size=58)=>{ const el=document.createElement('div'); el.className='scene-char'; el.style.cssText=`left:${leftPct}%;width:${size}px;height:${size}px;z-index:3;`; el.innerHTML=CHARS.pip(state); stage.appendChild(el); return el; };
-    const mkChar=(charKey,leftPct,size=58)=>{ const el=document.createElement('div'); el.className='scene-char'; el.style.cssText=`left:${leftPct}%;width:${size}px;height:${size}px;`; el.innerHTML=CHARS[charKey](); stage.appendChild(el); return el; };
-    const setCaption=txt=>{ let c=stage.querySelector('.scene-caption'); if(!c){c=document.createElement('div');c.className='scene-caption';stage.appendChild(c);} c.textContent=txt; };
-    const addHeart=(xPct,yPx)=>{ const h=document.createElement('div'); h.className='heart-p'; h.textContent=['💕','💗','💖','❤️'][0|Math.random()*4]; h.style.left=xPct+'%'; h.style.top=yPx+'px'; stage.appendChild(h); setTimeout(()=>h.remove(),1550); };
+    const mkPip=(state,leftPct,size=58)=>{
+      const el=document.createElement('div');el.className='scene-char';
+      el.style.cssText=`left:${leftPct}%;width:${size}px;height:${size}px;z-index:3;`;
+      el.innerHTML=CHARS.pip(state);stage.appendChild(el);return el;
+    };
+    const mkChar=(charKey,leftPct,size=58)=>{
+      const el=document.createElement('div');el.className='scene-char';
+      el.style.cssText=`left:${leftPct}%;width:${size}px;height:${size}px;`;
+      el.innerHTML=CHARS[charKey]();stage.appendChild(el);return el;
+    };
+    const setCaption=txt=>{let c=stage.querySelector('.scene-caption');if(!c){c=document.createElement('div');c.className='scene-caption';stage.appendChild(c);}c.textContent=txt;};
+    const addHeart=(xPct,yPx)=>{const h=document.createElement('div');h.className='heart-p';h.textContent=['💕','💗','💖','❤️'][0|Math.random()*4];h.style.left=xPct+'%';h.style.top=yPx+'px';stage.appendChild(h);setTimeout(()=>h.remove(),1550);};
 
     for(let rep=0;rep<3;rep++){
-      /* Best friend scene */
+
+      /* ── BEST FRIEND — Pip and friend overlap ── */
       stage.innerHTML='';
-      setCaption(`Pip sees ${pos.label}!`); capEl.textContent=`Pip sees ${pos.label}!`;
-      const pipA=mkPip('neutral',8); const posEl=mkChar(pos.charKey,74);
+      setCaption(`Pip sees ${pos.label}!`);capEl.textContent=`Pip sees ${pos.label}!`;
+      const pipA=mkPip('neutral',8);const posEl=mkChar(pos.charKey,74);
       await wait(1000);
-      pipA.style.left='37%'; posEl.style.left='53%';
-      setCaption(`Pip runs to ${pos.label}!`); capEl.textContent=`Pip runs to ${pos.label}!`; await wait(1200);
-      pipA.style.left='40%'; posEl.style.left='50%'; await wait(400);
-      pipA.innerHTML=CHARS.pip('excited'); /* face swap */
-      pipA.classList.add('a-snug'); posEl.classList.add('a-snug');
+
+      /* First approach — getting close */
+      pipA.style.left='37%';posEl.style.left='53%';
+      setCaption(`Pip runs to ${pos.label}!`);capEl.textContent=`Pip runs to ${pos.label}!`;
+      await wait(1200);
+
+      /*
+       * Final snuggle positions: Pip at 38%, friend at 46%.
+       * With 58px characters on a ~580px-wide stage:
+       *   Pip right edge  ≈ 38% × 580 + 58 = 278px
+       *   Friend left edge≈ 46% × 580      = 267px
+       * → ~11px overlap — visually snuggling ✓
+       */
+      pipA.style.left='38%';posEl.style.left='46%';
+      await wait(400);
+
+      pipA.innerHTML=CHARS.pip('excited');  /* face swap */
+      pipA.classList.add('a-snug');posEl.classList.add('a-snug');
       setCaption(`${pos.label} and Pip are best friends!`);
       capEl.textContent=`${pos.label} and Pip are best friends!`;
       speak(`${pos.label} and Pip are best friends!`);
       const hi=setInterval(()=>addHeart(36+Math.random()*18,8+Math.random()*40),270);
-      await wait(2800); clearInterval(hi);
-      pipA.classList.remove('a-snug'); posEl.classList.remove('a-snug');
+      await wait(2800);clearInterval(hi);
+      pipA.classList.remove('a-snug');posEl.classList.remove('a-snug');
       setCaption(`${pos.label} is Pip's best friend!`);
-      capEl.textContent=`${pos.label} is Pip's best friend!`; await wait(1400);
+      capEl.textContent=`${pos.label} is Pip's best friend!`;await wait(1400);
 
-      /* Second character */
+      /* ── SECOND CHARACTER ── */
       stage.innerHTML='';
-      setCaption(`Now Pip sees ${thin.label}…`); capEl.textContent=`Now Pip sees ${thin.label}…`;
-      const pipB=mkPip('neutral',8); const thinEl=mkChar(thin.charKey,74);
+      setCaption(`Now Pip sees ${thin.label}…`);capEl.textContent=`Now Pip sees ${thin.label}…`;
+      const pipB=mkPip('neutral',8);const thinEl=mkChar(thin.charKey,74);
       await wait(1000);
       pipB.style.left='37%';
-      setCaption('Pip moves closer…'); capEl.textContent='Pip moves closer…'; await wait(1200);
+      setCaption('Pip moves closer…');capEl.textContent='Pip moves closer…';await wait(1200);
 
       if(S.variant==='dislike'){
-        thinEl.style.left='88%'; /* moves away */
-        setCaption(`${thin.label} is not a friend.`); capEl.textContent=`${thin.label} is not a friend.`;
+        /* Moves away — no overlap */
+        thinEl.style.left='88%';
+        setCaption(`${thin.label} is not a friend.`);capEl.textContent=`${thin.label} is not a friend.`;
         speak(`${thin.label} is not a friend.`);
-        pipB.innerHTML=CHARS.pip('sad'); await wait(1900); /* face swap */
+        pipB.innerHTML=CHARS.pip('sad');await wait(1900);
         setCaption(`${thin.label} is not Pip's best friend.`);
-        capEl.textContent=`${thin.label} is not Pip's best friend.`; await wait(1400);
+        capEl.textContent=`${thin.label} is not Pip's best friend.`;await wait(1400);
       } else {
-        /* Unknown variant — character stays, neutral */
-        setCaption(`Pip doesn't know ${thin.label}.`); capEl.textContent=`Pip doesn't know ${thin.label}.`;
-        speak(`Pip doesn't know ${thin.label}.`); await wait(2500);
+        /* Unknown — stays but no overlap, Pip neutral */
+        setCaption(`Pip doesn't know ${thin.label}.`);capEl.textContent=`Pip doesn't know ${thin.label}.`;
+        speak(`Pip doesn't know ${thin.label}.`);await wait(2500);
       }
     }
 
-    /* No animated summary — go straight to summary card */
-    capEl.textContent=''; nextDiv.style.display='flex';
+    capEl.textContent='';nextDiv.style.display='flex';
   };
 
-  const doneSocialFam = () => { showSocialSummary(); };
+  const doneSocialFam=()=>showSocialSummary();
 
-  const showSocialSummary = () => {
+  const showSocialSummary=()=>{
     const pos=posChar(),thin=thinChar();
     setPip('soc-sum-pip','excited','a-float');
     $('ssum-friend-char').innerHTML=CHARS[pos.charKey]();
@@ -1057,17 +1023,17 @@ const G = (() => {
     speak(`Pip is best friends with ${pos.label}!`);
   };
 
-  const afterSocialSummary = () => { S.attnContext='post_fam'; showSocialAttnCheck(); };
+  const afterSocialSummary=()=>{S.attnContext='post_fam';showSocialAttnCheck();};
 
-  /* ════════════ PRE-ROUND 2 CHECK — reminder of Phase 1 ════════════ */
-  const showPreRound2Check = () => {
+  /* ════════ PRE-ROUND 2 CHECK ════════ */
+  const showPreRound2Check=()=>{
     S.attnContext='pre_round2';
-    if(S.firstBlock===1){ showFoodAttnCheck(); } /* food was first → remind about food */
-    else{ showSocialAttnCheck(); }               /* social was first → remind about social */
+    if(S.firstBlock===1){showFoodAttnCheck();}
+    else{showSocialAttnCheck();}
   };
 
-  /* ════════════ FOOD ATTENTION CHECK ════════════ */
-  const showFoodAttnCheck = () => {
+  /* ════════ FOOD ATTENTION CHECK ════════ */
+  const showFoodAttnCheck=()=>{
     showScreen('s-attn-food');
     setPip('attn-pip-food','neutral','a-float');
     const isReminder=S.attnContext==='pre_round2';
@@ -1075,44 +1041,49 @@ const G = (() => {
     $('attn-food-q').textContent=q;
     speak(q);
     const choices=shuf([{...likedFood(),isCorrect:true},{...dislikedFood(),isCorrect:false}]);
-    const grid=$('attn-food-doors'); grid.innerHTML='';
+    const grid=$('attn-food-doors');grid.innerHTML='';
     const cols=shuf([DCOLS[0],DCOLS[1]]);
-    choices.forEach((c,idx)=>{ const w=makeDoor(c,cols[idx]); w.addEventListener('click',()=>onAttnFoodClick(w,c,grid)); grid.appendChild(w); });
+    choices.forEach((c,idx)=>{const w=makeDoor(c,cols[idx]);w.addEventListener('click',()=>onAttnFoodClick(w,c,grid));grid.appendChild(w);});
     attnFoodStart=Date.now();
   };
 
-  const onAttnFoodClick = async (wrap,choice,grid) => {
+  const onAttnFoodClick=async(wrap,choice,grid)=>{
     const rt=Date.now()-attnFoodStart;
     grid.querySelectorAll('.door-wrap').forEach(w=>w.classList.add('locked'));
     wrap.querySelector('.door-panel').classList.add('open');
     const trialType=S.attnContext==='pre_round2'?'attn_reminder_food':'attn_food';
-    S.data.push({ pid:S.pid,age:S.age,pType:S.pType,variant:S.variant,firstBlock:S.firstBlock,round:S.round,phase:'attn_check',trialNum:trialType,trialType,role:choice.role||'',choiceLabel:choice.label,rt_ms:rt,trialOrder:'',likedFood:likedFood().label,dislikedFood:dislikedFood().label,posChar:posChar().label,thinChar:thinChar().label,attnCorrect:choice.isCorrect,timestamp:new Date().toISOString() });
+    S.data.push({
+      pid:S.pid,age:S.age,pType:S.pType,variant:S.variant,
+      firstBlock:S.firstBlock,round:S.round,phase:'attn_check',
+      trialNum:trialType,trialType,
+      role:choice.role||'',choiceLabel:choice.label,
+      chosePreferred: choice.isCorrect ? 1 : 0,   /* ← also recorded for attn checks */
+      rt_ms:rt,trialOrder:'',
+      likedFood:likedFood().label,dislikedFood:dislikedFood().label,
+      posChar:posChar().label,thinChar:thinChar().label,
+      attnCorrect:choice.isCorrect,timestamp:new Date().toISOString(),
+    });
     await wait(700);
-    if(choice.isCorrect){ flash('✅','#27ae60'); }
+    if(choice.isCorrect){flash('✅','#27ae60');}
     else{
-      /* Open correct door (identified by emoji since food has no label) */
-      grid.querySelectorAll('.door-wrap').forEach(w=>{ const dp=w.querySelector('.dp-emoji'); if(dp&&dp.textContent.trim()===likedFood().emoji) w.querySelector('.door-panel').classList.add('open'); });
+      grid.querySelectorAll('.door-wrap').forEach(w=>{const dp=w.querySelector('.dp-emoji');if(dp&&dp.textContent.trim()===likedFood().emoji)w.querySelector('.door-panel').classList.add('open');});
       flash(`Pip loves ${likedFood().emoji}!`,'#e67e22');
       speak(`Pip loves ${likedFood().label}!`);
     }
     setTimeout(()=>afterFoodAttn(),1800);
   };
 
-  const afterFoodAttn = () => {
+  const afterFoodAttn=()=>{
     if(S.attnContext==='pre_round2'){
-      /* Pre-round2 food check done → go to social fam (Phase 2) */
-      S.attnContext='post_fam'; S.round=2;
+      S.attnContext='post_fam';S.round=2;
       showScreen('s-sfi');
     } else {
-      /* Post-fam check done → go to test */
-      S.phase='test';
-      setPip('ti-pip','happy','a-bounce');
-      showScreen('s-ti');
+      S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');
     }
   };
 
-  /* ════════════ SOCIAL ATTENTION CHECK ════════════ */
-  const showSocialAttnCheck = () => {
+  /* ════════ SOCIAL ATTENTION CHECK ════════ */
+  const showSocialAttnCheck=()=>{
     showScreen('s-attn-social');
     setPip('attn-pip-social','neutral','a-float');
     const isReminder=S.attnContext==='pre_round2';
@@ -1120,54 +1091,65 @@ const G = (() => {
     $('attn-social-q').textContent=q;
     speak(q);
     const choices=shuf([{...posChar(),isCorrect:true},{...thinChar(),isCorrect:false}]);
-    const grid=$('attn-social-doors'); grid.innerHTML='';
+    const grid=$('attn-social-doors');grid.innerHTML='';
     const cols=shuf([DCOLS[0],DCOLS[1]]);
-    choices.forEach((c,idx)=>{ const w=makeDoor(c,cols[idx]); w.addEventListener('click',()=>onAttnSocialClick(w,c,grid)); grid.appendChild(w); });
+    choices.forEach((c,idx)=>{const w=makeDoor(c,cols[idx]);w.addEventListener('click',()=>onAttnSocialClick(w,c,grid));grid.appendChild(w);});
     attnSocStart=Date.now();
   };
 
-  const onAttnSocialClick = async (wrap,choice,grid) => {
+  const onAttnSocialClick=async(wrap,choice,grid)=>{
     const rt=Date.now()-attnSocStart;
     grid.querySelectorAll('.door-wrap').forEach(w=>w.classList.add('locked'));
     wrap.querySelector('.door-panel').classList.add('open');
     const trialType=S.attnContext==='pre_round2'?'attn_reminder_social':'attn_social';
-    S.data.push({ pid:S.pid,age:S.age,pType:S.pType,variant:S.variant,firstBlock:S.firstBlock,round:S.round,phase:'attn_check',trialNum:trialType,trialType,role:choice.role||'',choiceLabel:choice.label,rt_ms:rt,trialOrder:'',likedFood:likedFood().label,dislikedFood:dislikedFood().label,posChar:posChar().label,thinChar:thinChar().label,attnCorrect:choice.isCorrect,timestamp:new Date().toISOString() });
+    S.data.push({
+      pid:S.pid,age:S.age,pType:S.pType,variant:S.variant,
+      firstBlock:S.firstBlock,round:S.round,phase:'attn_check',
+      trialNum:trialType,trialType,
+      role:choice.role||'',choiceLabel:choice.label,
+      chosePreferred: choice.isCorrect ? 1 : 0,   /* ← also recorded for attn checks */
+      rt_ms:rt,trialOrder:'',
+      likedFood:likedFood().label,dislikedFood:dislikedFood().label,
+      posChar:posChar().label,thinChar:thinChar().label,
+      attnCorrect:choice.isCorrect,timestamp:new Date().toISOString(),
+    });
     await wait(700);
-    if(choice.isCorrect){ flash('✅','#27ae60'); }
+    if(choice.isCorrect){flash('✅','#27ae60');}
     else{
-      grid.querySelectorAll('.door-wrap').forEach(w=>{ const lbl=w.querySelector('.dp-label'); if(lbl&&lbl.textContent===posChar().label) w.querySelector('.door-panel').classList.add('open'); });
+      grid.querySelectorAll('.door-wrap').forEach(w=>{const lbl=w.querySelector('.dp-label');if(lbl&&lbl.textContent===posChar().label)w.querySelector('.door-panel').classList.add('open');});
       flash(`${posChar().label} is Pip's best friend!`,'#e67e22');
       speak(`${posChar().label} is Pip's best friend!`);
     }
     setTimeout(()=>afterSocialAttn(),1800);
   };
 
-  const afterSocialAttn = () => {
+  const afterSocialAttn=()=>{
     if(S.attnContext==='pre_round2'){
-      /* Pre-round2 social check done → go to food fam (Phase 2) */
-      S.attnContext='post_fam'; S.round=2;
+      S.attnContext='post_fam';S.round=2;
       showScreen('s-ffi');
     } else {
-      /* Post-fam check done → go to test */
-      S.phase='test';
-      setPip('ti-pip','happy','a-bounce');
-      showScreen('s-ti');
+      S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');
     }
   };
 
-  /* ════════════ END ════════════ */
-  const showEndScreen = () => {
-    showScreen('s-end');
-    setPip('end-pip','excited','a-bounce');
-    speak('Amazing! Well done!');
-    const row=$('end-stars'); row.innerHTML='';
-    '⭐🌟💫✨🎉🎊🏆🎈'.split('').forEach((st,i)=>{ const el=document.createElement('span'); el.className='end-star'; el.textContent=st; el.style.setProperty('--d',`${i*.12}`); row.appendChild(el); });
+  /* ════════ END ════════ */
+  const showEndScreen=()=>{
+    showScreen('s-end');setPip('end-pip','excited','a-bounce');speak('Amazing! Well done!');
+    const row=$('end-stars');row.innerHTML='';
+    '⭐🌟💫✨🎉🎊🏆🎈'.split('').forEach((st,i)=>{const el=document.createElement('span');el.className='end-star';el.textContent=st;el.style.setProperty('--d',`${i*.12}`);row.appendChild(el);});
   };
 
-  /* ════════════ DATA ════════════ */
-  const downloadCSV = () => {
-    if(!S.data.length){ alert('No data yet.'); return; }
-    const hdr=['pid','age','pType','variant','firstBlock','round','phase','trialNum','trialType','role','choiceLabel','rt_ms','trialOrder','likedFood','dislikedFood','posChar','thinChar','attnCorrect','timestamp'];
+  /* ════════ DATA ════════ */
+  const downloadCSV=()=>{
+    if(!S.data.length){alert('No data yet.');return;}
+    const hdr=[
+      'pid','age','pType','variant','firstBlock','round','phase',
+      'trialNum','trialType','role','choiceLabel',
+      'chosePreferred',                            /* ← new column */
+      'rt_ms','trialOrder',
+      'likedFood','dislikedFood','posChar','thinChar',
+      'attnCorrect','timestamp'
+    ];
     const rows=S.data.map(d=>hdr.map(k=>String(d[k]??'').replace(/,/g,';')));
     const csv=[hdr,...rows].map(r=>r.join(',')).join('\n');
     const a=document.createElement('a');
@@ -1176,29 +1158,34 @@ const G = (() => {
     a.click();
   };
 
-  const toggleTable = () => {
+  const toggleTable=()=>{
     const wrap=$('res-wrap');
     if(wrap.style.display==='none'){
       wrap.style.display='block';
-      if(!S.data.length){ $('res-container').innerHTML='<p style="text-align:center;color:#aaa;padding:16px;">No data yet.</p>'; return; }
-      const hdr=['pid','age','pType','variant','firstBlock','round','phase','trialNum','trialType','role','choiceLabel','rt_ms','attnCorrect'];
+      if(!S.data.length){$('res-container').innerHTML='<p style="text-align:center;color:#aaa;padding:16px;">No data yet.</p>';return;}
+      const hdr=[
+        'pid','age','pType','variant','firstBlock','round','phase',
+        'trialNum','trialType','role','choiceLabel',
+        'chosePreferred',                          /* ← new column */
+        'rt_ms','attnCorrect'
+      ];
       let t=`<table class="res-table"><thead><tr>${hdr.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>`;
-      S.data.forEach(d=>{ t+=`<tr>${hdr.map(x=>`<td>${d[x]??''}</td>`).join('')}</tr>`; });
+      S.data.forEach(d=>{t+=`<tr>${hdr.map(x=>`<td>${d[x]??''}</td>`).join('')}</tr>`;});
       $('res-container').innerHTML=t+'</tbody></table>';
-    } else { wrap.style.display='none'; }
+    } else {wrap.style.display='none';}
   };
 
-  const restart = () => {
-    if(!confirm('Start new participant?\nDownload data first!')) return;
-    S.data=[]; $('f-pid').value=''; $('f-age').value='';
-    $('res-wrap').style.display='none'; showScreen('s-setup');
+  const restart=()=>{
+    if(!confirm('Start new participant?\nDownload data first!'))return;
+    S.data=[];$('f-pid').value='';$('f-age').value='';
+    $('res-wrap').style.display='none';showScreen('s-setup');
   };
 
   return {
-    setup, goTrainIntro, startTraining, startTrials,
-    playFoodFam, doneFoodFam, afterFoodSummary,
-    playSocialFam, doneSocialFam, afterSocialSummary,
-    nextTrial, downloadCSV, toggleTable, restart,
+    setup,goTrainIntro,startTraining,startTrials,
+    playFoodFam,doneFoodFam,afterFoodSummary,
+    playSocialFam,doneSocialFam,afterSocialSummary,
+    nextTrial,downloadCSV,toggleTable,restart,
   };
 })();
 </script>
