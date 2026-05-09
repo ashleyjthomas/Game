@@ -59,6 +59,7 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
 .form-row label { display:block; font-size:1em; color:#2c3e50; margin-bottom:3px; font-weight:600; }
 .form-row input,.form-row select { width:100%; padding:9px 12px; font-size:1em; font-family:inherit; border:2px solid #bdc3c7; border-radius:10px; outline:none; }
 .form-row input:focus,.form-row select:focus { border-color:#3498db; }
+.form-row .hint { font-size:.75em; color:#aaa; margin-top:3px; }
 .door-area { display:grid; grid-template-columns:1fr 1fr; gap:16px; width:100%; max-width:480px; margin:8px auto; }
 .door-wrap { display:flex; flex-direction:column; align-items:center; cursor:pointer; transition:transform .15s; }
 .door-wrap:hover:not(.locked):not(.fading) { transform:translateY(-6px); }
@@ -86,7 +87,6 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
 .scene-char { position:absolute; bottom:22px; z-index:2; transition:left 1.1s cubic-bezier(.25,.46,.45,.94),opacity .4s; }
 .scene-char svg { width:100%; height:100%; display:block; }
 .scene-item { position:absolute; bottom:26px; font-size:clamp(1.8em,4.5vw,3em); transition:left 1.1s cubic-bezier(.25,.46,.45,.94),opacity .4s; z-index:2; user-select:none; }
-/* Sun is added via JS so no ::before needed */
 .stage { width:100%; max-width:580px; height:210px; background:linear-gradient(180deg,#87CEEB 56%,#90EE90 56%); border-radius:20px; position:relative; overflow:hidden; margin:10px 0; border:3px solid #bdc3c7; }
 .scene-sun { position:absolute; top:7px; right:12px; font-size:1.4em; pointer-events:none; z-index:1; user-select:none; }
 .scene-caption { position:absolute; bottom:5px; left:50%; transform:translateX(-50%); background:rgba(255,255,255,.88); border-radius:10px; padding:2px 14px; font-size:clamp(.72em,1.9vw,.92em); color:#2c3e50; white-space:nowrap; border:1px solid #ddd; z-index:4; }
@@ -104,6 +104,24 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
 .sum-card.sum-no  { background:#fdecea; border-color:#e74c3c; }
 .sum-card.sum-unk { background:#eaf2ff; border-color:#2980b9; }
 .sum-card p { margin-top:8px; font-size:0.9em; }
+
+/* ── CORRECTION VISUAL OVERLAY ── */
+.correction-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.38);
+  display:flex; align-items:center; justify-content:center;
+  z-index:960; pointer-events:none; animation:fadeIn .2s ease;
+}
+.correction-card {
+  background:#fff; border-radius:30px; padding:32px 44px;
+  display:flex; align-items:center; gap:22px;
+  box-shadow:0 22px 65px rgba(0,0,0,.28);
+  animation:popIn .35s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn {
+  from { transform:scale(.4); opacity:0; }
+  to   { transform:scale(1);  opacity:1; }
+}
+
 .star-row { display:flex; flex-wrap:wrap; justify-content:center; margin:8px 0; }
 @keyframes starPop { 0%{opacity:0;transform:scale(0) rotate(-15deg)} 70%{transform:scale(1.25) rotate(5deg)} 100%{opacity:1;transform:scale(1) rotate(0)} }
 .end-star { font-size:clamp(1.4em,4vw,2.1em); opacity:0; animation:starPop .5s cubic-bezier(.34,1.56,.64,1) forwards; animation-delay:calc(var(--d)*1s); margin:3px; }
@@ -116,6 +134,9 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
 .flash-box { background:#fff; border-radius:22px; padding:20px 46px; font-size:clamp(1.3em,4.5vw,2.2em); text-align:center; box-shadow:0 16px 50px rgba(0,0,0,.22); font-family:inherit; }
 @keyframes floatUp { 0%{opacity:1;transform:translate(-50%,-50%) translateY(0) scale(1)} 100%{opacity:0;transform:translate(-50%,-50%) translateY(-55px) scale(1.3)} }
 #mute-btn { position:fixed; top:12px; right:12px; width:42px; height:42px; background:rgba(255,255,255,.9); border:2px solid #ddd; border-radius:50%; font-size:1.1em; cursor:pointer; box-shadow:0 3px 8px rgba(0,0,0,.1); z-index:999; display:flex; align-items:center; justify-content:center; }
+.gh-status { font-size:.78em; color:#aaa; margin-top:6px; text-align:center; min-height:1.2em; }
+.gh-status.ok  { color:#27ae60; }
+.gh-status.err { color:#e74c3c; }
 @media(max-width:500px){ .screen{padding:16px 12px 12px} .door-area{gap:10px;max-width:340px} .stage{height:165px} }
 </style>
 </head>
@@ -151,6 +172,18 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
       <option value="random">Randomised</option>
       <option value="fixed">Fixed (Food - Sad - Neutral - Toy)</option>
     </select>
+  </div>
+  <div class="div"></div>
+  <p style="font-size:.8em;color:#aaa;margin-bottom:6px;text-align:center;">Data Sync (optional)</p>
+  <div class="form-row">
+    <label>GitHub Token</label>
+    <input id="f-gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx">
+    <p class="hint">Fine-grained PAT with Contents: Read &amp; Write on your data repo.</p>
+  </div>
+  <div class="form-row">
+    <label>GitHub Repo</label>
+    <input id="f-gh-repo" type="text" placeholder="username/haf-data">
+    <p class="hint">Data saved to data/ folder after each session.</p>
   </div>
   <div class="div"></div>
   <button class="btn btn-green" onclick="G.setup()">Start</button>
@@ -189,7 +222,7 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
   <div id="trn-walk"></div>
 </div>
 
-<!-- TRAINING RESULT — new screen showing Pip inside -->
+<!-- TRAINING RESULT -->
 <div id="s-train-result" class="screen">
   <h2>Pip goes inside the door you open!</h2>
   <div class="rr-stage" id="trn-rr-stage"></div>
@@ -358,6 +391,7 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
     <button class="btn btn-purple" onclick="G.toggleTable()">View Data</button>
     <button class="btn btn-gray"   onclick="G.restart()">New Participant</button>
   </div>
+  <p class="gh-status" id="gh-status"></p>
   <div id="res-wrap" style="display:none;width:100%;margin-top:12px;">
     <div class="res-scroll" id="res-container"></div>
   </div>
@@ -367,8 +401,14 @@ h2 { font-size:clamp(1.2em,4vw,1.9em); color:#2c3e50; text-align:center; margin-
 <script>
 /* ═══════════════════════════════════
    SVG CHARACTER LIBRARY
+   Pip   — pink pig, 5 expressions
+   Daisy — yellow duck (replaces Benny)
+   Milo  — grey mouse
+   Rosie — pink rabbit
+   Bruno — brown bear
 ═══════════════════════════════════ */
 const CHARS = {
+
   pip:(state='neutral')=>{
     const eyes={
       neutral:`<circle cx="35" cy="47" r="5" fill="#2c1a0e"/><circle cx="65" cy="47" r="5" fill="#2c1a0e"/><circle cx="37" cy="45" r="1.8" fill="#fff"/><circle cx="67" cy="45" r="1.8" fill="#fff"/>`,
@@ -402,14 +442,34 @@ const CHARS = {
       ${mouths[s]}
     </svg>`;
   },
-  benny:()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block"><polygon points="22,40 15,21 36,33" fill="#7599de" stroke="#4a6db8" stroke-width="1.5"/><polygon points="78,40 85,21 64,33" fill="#7599de" stroke="#4a6db8" stroke-width="1.5"/><polygon points="23,38 18,24 34,32" fill="#b3c8f8"/><polygon points="77,38 82,24 66,32" fill="#b3c8f8"/><circle cx="50" cy="56" r="34" fill="#7599de" stroke="#4a6db8" stroke-width="2"/><circle cx="28" cy="58" r="9" fill="#8899ee" opacity="0.18"/><circle cx="72" cy="58" r="9" fill="#8899ee" opacity="0.18"/><circle cx="35" cy="47" r="5" fill="#1a1a2e"/><circle cx="65" cy="47" r="5" fill="#1a1a2e"/><circle cx="37" cy="45" r="1.8" fill="#fff"/><circle cx="67" cy="45" r="1.8" fill="#fff"/><ellipse cx="50" cy="57" rx="3.5" ry="2.5" fill="#4a6db8"/><line x1="16" y1="56" x2="40" y2="58" stroke="#cce" stroke-width="1.4"/><line x1="16" y1="61" x2="40" y2="61" stroke="#cce" stroke-width="1.4"/><line x1="60" y1="58" x2="84" y2="56" stroke="#cce" stroke-width="1.4"/><line x1="60" y1="61" x2="84" y2="61" stroke="#cce" stroke-width="1.4"/><path d="M42 63 Q50 67 58 63" stroke="#4a6db8" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+
+  /* Yellow duck — clearly distinct from Pip */
+  daisy:()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+    <ellipse cx="38" cy="21" rx="7" ry="13" fill="#FFD700" stroke="#e6a800" stroke-width="1.5" transform="rotate(-18 38 21)"/>
+    <ellipse cx="52" cy="18" rx="6" ry="12" fill="#FFD700" stroke="#e6a800" stroke-width="1.5" transform="rotate(4 52 18)"/>
+    <ellipse cx="64" cy="23" rx="5" ry="10" fill="#FFD700" stroke="#e6a800" stroke-width="1.5" transform="rotate(22 64 23)"/>
+    <circle cx="50" cy="56" r="33" fill="#FFD700" stroke="#e6a800" stroke-width="2"/>
+    <circle cx="27" cy="60" r="9" fill="#FF9900" opacity="0.2"/>
+    <circle cx="73" cy="60" r="9" fill="#FF9900" opacity="0.2"/>
+    <circle cx="37" cy="47" r="5.5" fill="#1a0a00"/>
+    <circle cx="63" cy="47" r="5.5" fill="#1a0a00"/>
+    <circle cx="38" cy="45" r="1.8" fill="#fff"/>
+    <circle cx="64" cy="45" r="1.8" fill="#fff"/>
+    <ellipse cx="50" cy="62" rx="12" ry="6.5" fill="#FF8C00" stroke="#cc6000" stroke-width="1.5"/>
+    <line x1="38" y1="62" x2="62" y2="62" stroke="#cc6000" stroke-width="1.5"/>
+    <path d="M42 65 Q50 68 58 65" stroke="#cc6000" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  </svg>`,
+
   milo:()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block"><circle cx="28" cy="28" r="16" fill="#b0a0b0" stroke="#8a7890" stroke-width="1.5"/><circle cx="72" cy="28" r="16" fill="#b0a0b0" stroke="#8a7890" stroke-width="1.5"/><circle cx="28" cy="28" r="10" fill="#d4bcc4"/><circle cx="72" cy="28" r="10" fill="#d4bcc4"/><circle cx="50" cy="56" r="34" fill="#b8a8b8" stroke="#8a7890" stroke-width="2"/><ellipse cx="50" cy="60" rx="22" ry="16" fill="#d4bcc4" opacity="0.5"/><circle cx="37" cy="48" r="5" fill="#1e1830"/><circle cx="63" cy="48" r="5" fill="#1e1830"/><circle cx="39" cy="46" r="1.8" fill="#fff"/><circle cx="65" cy="46" r="1.8" fill="#fff"/><ellipse cx="50" cy="59" rx="4" ry="3" fill="#c06070"/><line x1="15" y1="57" x2="42" y2="60" stroke="#9a8898" stroke-width="1.4"/><line x1="15" y1="63" x2="42" y2="63" stroke="#9a8898" stroke-width="1.4"/><line x1="58" y1="60" x2="85" y2="57" stroke="#9a8898" stroke-width="1.4"/><line x1="58" y1="63" x2="85" y2="63" stroke="#9a8898" stroke-width="1.4"/><path d="M44 66 Q50 70 56 66" stroke="#8a6878" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`,
+
   rosie:()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block"><ellipse cx="33" cy="22" rx="10" ry="21" fill="#f0b8cc" stroke="#c87898" stroke-width="1.5"/><ellipse cx="67" cy="22" rx="10" ry="21" fill="#f0b8cc" stroke="#c87898" stroke-width="1.5"/><ellipse cx="33" cy="22" rx="6" ry="16" fill="#fcd8e8"/><ellipse cx="67" cy="22" rx="6" ry="16" fill="#fcd8e8"/><circle cx="50" cy="58" r="33" fill="#f0b8cc" stroke="#c87898" stroke-width="2"/><circle cx="27" cy="62" r="9" fill="#ff88aa" opacity="0.2"/><circle cx="73" cy="62" r="9" fill="#ff88aa" opacity="0.2"/><circle cx="35" cy="50" r="5" fill="#1a1020"/><circle cx="65" cy="50" r="5" fill="#1a1020"/><circle cx="37" cy="48" r="1.8" fill="#fff"/><circle cx="67" cy="48" r="1.8" fill="#fff"/><ellipse cx="50" cy="60" rx="3.5" ry="2.5" fill="#c87898"/><line x1="15" y1="59" x2="40" y2="61" stroke="#ddd" stroke-width="1.4"/><line x1="15" y1="64" x2="40" y2="64" stroke="#ddd" stroke-width="1.4"/><line x1="60" y1="61" x2="85" y2="59" stroke="#ddd" stroke-width="1.4"/><line x1="60" y1="64" x2="85" y2="64" stroke="#ddd" stroke-width="1.4"/><path d="M43 66 Q50 71 57 66" stroke="#c87898" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+
   bruno:()=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block"><circle cx="24" cy="28" r="16" fill="#a06828" stroke="#784a10" stroke-width="1.5"/><circle cx="76" cy="28" r="16" fill="#a06828" stroke="#784a10" stroke-width="1.5"/><circle cx="24" cy="28" r="10" fill="#c88840"/><circle cx="76" cy="28" r="10" fill="#c88840"/><circle cx="50" cy="57" r="33" fill="#a06828" stroke="#784a10" stroke-width="2"/><ellipse cx="50" cy="65" rx="17" ry="12" fill="#c88840"/><circle cx="24" cy="60" r="9" fill="#b87838" opacity="0.18"/><circle cx="76" cy="60" r="9" fill="#b87838" opacity="0.18"/><circle cx="35" cy="46" r="6.5" fill="#fff"/><circle cx="65" cy="46" r="6.5" fill="#fff"/><circle cx="35" cy="47" r="4.5" fill="#1a0a00"/><circle cx="65" cy="47" r="4.5" fill="#1a0a00"/><circle cx="36" cy="45" r="1.8" fill="#fff"/><circle cx="66" cy="45" r="1.8" fill="#fff"/><ellipse cx="50" cy="59" rx="5.5" ry="3.5" fill="#1a0a00"/><path d="M44 65 Q50 70 56 65" stroke="#1a0a00" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`
 };
 
 /* ═══════════════════════════════════
-   POOLS — actual Unicode emoji characters
+   POOLS
+   CHAR_POOL: 4 distinct animals, none resembling Pip
 ═══════════════════════════════════ */
 const FOOD_POOL=[
   {emoji:'🍓',label:'Strawberry',type:'food0',isSocial:false},
@@ -419,12 +479,12 @@ const FOOD_POOL=[
 ];
 const CHAR_POOL=[
   {emoji:'🐭',label:'Milo', type:'char0',isSocial:true,charKey:'milo' },
-  {emoji:'🐷',label:'Benny',type:'char1',isSocial:true,charKey:'benny'},
+  {emoji:'🦆',label:'Daisy',type:'char1',isSocial:true,charKey:'daisy'},
   {emoji:'🐰',label:'Rosie',type:'char2',isSocial:true,charKey:'rosie'},
   {emoji:'🐻',label:'Bruno',type:'char3',isSocial:true,charKey:'bruno'},
 ];
+
 const DCOLS   =['dc-green','dc-blue','dc-orange','dc-purple'];
-/* actual Unicode emoji so textContent works correctly */
 const T_EMOJIS=['🍎','⭐','🌈','🎈','🐸','🌸','🦋','🍦','🎀','🦄'];
 
 /* ═══════════════════════════════════
@@ -442,6 +502,7 @@ const G=(()=>{
     trialSeq:[],trialIdx:0,trialStart:0,
     trainIdx:0,trainTrials:[],
     data:[],muted:false,pipState:'neutral',
+    github:{token:'',repo:''},
   };
   let attnFoodStart=0,attnSocStart=0;
 
@@ -456,11 +517,9 @@ const G=(()=>{
     el.innerHTML=CHARS.pip(state);
   };
 
-  /* Adds a coloured sun emoji to a scene container via JS (avoids CSS pseudo-element rendering issues) */
   const addSun=(el)=>{
     const s=document.createElement('span');
-    s.className='scene-sun';
-    s.textContent='☀️';
+    s.className='scene-sun';s.textContent='☀️';
     el.appendChild(s);
   };
 
@@ -474,7 +533,6 @@ const G=(()=>{
     synth.speak(u);
   };
 
-  /* Use innerHTML for emoji toggle on mute button */
   $('mute-btn').addEventListener('click',()=>{
     S.muted=!S.muted;
     $('mute-btn').innerHTML=S.muted?'🔇':'🔊';
@@ -508,14 +566,62 @@ const G=(()=>{
     setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),320);},1100);
   };
 
-  /* Use actual emoji array so textContent works correctly */
   const confetti=(x,y)=>{
     ['⭐','💫','✨','🎉','🎊'].forEach((ch,i)=>{
-      const p=document.createElement('div');
-      p.textContent=ch;
+      const p=document.createElement('div');p.textContent=ch;
       p.style.cssText=`position:fixed;font-size:1.5em;pointer-events:none;z-index:9999;left:${x+(Math.random()-.5)*80}px;top:${y+(Math.random()-.5)*50}px;transform:translate(-50%,-50%);animation:floatUp .9s ease-out ${i*.06}s forwards;`;
       document.body.appendChild(p);setTimeout(()=>p.remove(),1000+i*60);
     });
+  };
+
+  /* ════════════════════════════════════════════
+     CORRECTION VISUAL
+     Shows Pip + heart + correct item as an overlay
+     instead of a text flash when the child picks wrong.
+  ════════════════════════════════════════════ */
+  const showCorrectionVisual=(correctItem)=>{
+    document.querySelector('.correction-overlay')?.remove();
+
+    const overlay=document.createElement('div');
+    overlay.className='correction-overlay';
+
+    const card=document.createElement('div');
+    card.className='correction-card';
+
+    /* Pip — happy face */
+    const pipEl=document.createElement('div');
+    pipEl.className='char-display';
+    pipEl.style.cssText='width:88px;height:88px;';
+    pipEl.innerHTML=CHARS.pip('happy');
+
+    /* Heart */
+    const heartEl=document.createElement('div');
+    heartEl.style.cssText='font-size:3em;line-height:1;';
+    heartEl.textContent='💕';
+
+    /* Correct item — SVG character or emoji */
+    const itemEl=document.createElement('div');
+    if(correctItem.isSocial&&correctItem.charKey){
+      itemEl.className='char-display';
+      itemEl.style.cssText='width:88px;height:88px;';
+      itemEl.innerHTML=CHARS[correctItem.charKey]();
+    } else {
+      itemEl.style.cssText='font-size:4em;line-height:1;';
+      itemEl.textContent=correctItem.emoji;
+    }
+
+    card.appendChild(pipEl);
+    card.appendChild(heartEl);
+    card.appendChild(itemEl);
+    overlay.appendChild(card);
+    document.body.appendChild(overlay);
+
+    /* Auto-dismiss after 2.4 s */
+    setTimeout(()=>{
+      overlay.style.transition='opacity .3s';
+      overlay.style.opacity='0';
+      setTimeout(()=>overlay.remove(),320);
+    },2400);
   };
 
   const makeDoor=(item,colorClass,roomContentHTML=null)=>{
@@ -538,6 +644,52 @@ const G=(()=>{
     return wrap;
   };
 
+  /* ════════ GITHUB DATA PUSH ════════ */
+  const pushToGitHub=async()=>{
+    const {token,repo}=S.github;
+    if(!token||!repo||!S.data.length)return;
+
+    const hdr=['pid','age','pType','variant','firstBlock','round','phase','trialNum','trialType','role','choiceLabel','chosePreferred','rt_ms','trialOrder','likedFood','dislikedFood','posChar','thinChar','attnCorrect','timestamp'];
+    const rows=S.data.map(d=>hdr.map(k=>String(d[k]??'').replace(/,/g,';')));
+    const csvContent=[hdr,...rows].map(r=>r.join(',')).join('\n');
+
+    const ts=new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
+    const path=`data/haf_${S.pid}_${ts}.csv`;
+    const url=`https://api.github.com/repos/${repo}/contents/${path}`;
+
+    /* UTF-8 safe base64 encoding */
+    const content=btoa(unescape(encodeURIComponent(csvContent)));
+
+    const statusEl=$('gh-status');
+    if(statusEl)statusEl.textContent='Syncing to GitHub...';
+
+    try{
+      const resp=await fetch(url,{
+        method:'PUT',
+        headers:{
+          'Authorization':`Bearer ${token}`,
+          'Content-Type':'application/json',
+          'Accept':'application/vnd.github+json',
+          'X-GitHub-Api-Version':'2022-11-28',
+        },
+        body:JSON.stringify({
+          message:`Data: ${S.pid} — ${new Date().toISOString().slice(0,10)}`,
+          content,
+        }),
+      });
+      if(resp.ok){
+        if(statusEl){statusEl.textContent='Synced to GitHub';statusEl.className='gh-status ok';}
+      } else {
+        const err=await resp.json();
+        if(statusEl){statusEl.textContent=`GitHub error: ${err.message}`;statusEl.className='gh-status err';}
+        console.warn('GitHub push failed:',err.message);
+      }
+    }catch(e){
+      if(statusEl){statusEl.textContent='GitHub sync failed (network error)';statusEl.className='gh-status err';}
+      console.warn('GitHub push error:',e);
+    }
+  };
+
   /* ════════ SETUP ════════ */
   const setup=()=>{
     const pid=$('f-pid').value.trim();
@@ -550,19 +702,29 @@ const G=(()=>{
     S.orderMode=$('f-order').value;
     const sp=$('f-start').value;
     S.firstBlock=sp==='random'?(Math.random()<.5?1:2):parseInt(sp);
+
     const fIdxs=shuf([0,1,2,3]);S.likedFoodIdx=fIdxs[0];S.dislikedFoodIdx=fIdxs[1];
     const cIdxs=shuf([0,1,2,3]);S.posCharIdx=cIdxs[0];S.thinCharIdx=cIdxs[1];
+
+    S.github={
+      token:$('f-gh-token').value.trim(),
+      repo:$('f-gh-repo').value.trim(),
+    };
+
     S.round=1;S.phase='baseline';S.attnContext='post_fam';S.data=[];
+
     [['wel-pip','happy','a-bounce'],['bi-pip','neutral','a-float'],
      ['ffi-pip','hungry','a-bounce'],['trn-pip','neutral','a-float'],
      ['ti-pip','happy','a-bounce'],['end-pip','excited','a-bounce'],
      ['attn-pip-food','neutral','a-float'],['attn-pip-social','neutral','a-float'],
      ['food-sum-pip','happy','a-float'],['soc-sum-pip','excited','a-float'],
     ].forEach(([id,st,an])=>setPip(id,st,an));
+
     $('sfi-pos').innerHTML=CHARS[posChar().charKey]();
     $('sfi-thin').innerHTML=CHARS[thinChar().charKey]();
     $('sfi-pos-tag').textContent=posChar().label;
     $('sfi-thin-tag').textContent=thinChar().label;
+
     showScreen('s-welcome');
     setTimeout(()=>speak('This is Pip. We are going to play a game with Pip today.'),500);
   };
@@ -594,7 +756,6 @@ const G=(()=>{
     const grid=$('trn-doors');grid.innerHTML='';
     const cols=shuf([...DCOLS]);
     t.opts.forEach((opt,idx)=>{
-      /* room shows Pip + chosen emoji so child can see what happens */
       const roomHTML=`<div style="display:flex;align-items:center;gap:3px;padding:4px;">
         <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;">${CHARS.pip('happy')}</div>
         <span style="font-size:1.5em;">${opt}</span>
@@ -620,51 +781,37 @@ const G=(()=>{
     await wait(960);ce.style.opacity='1';wc.style.display='none';
   };
 
-  /* After walking, show a new result screen like test trials */
   const onTrainClick=async(wrap,chosenEmoji,grid)=>{
     grid.querySelectorAll('.door-wrap').forEach(w=>w.classList.add('locked'));
     wrap.querySelector('.door-panel').classList.add('open');
     await wait(380);
     await walkIntoTrainDoor(wrap);
-
-    /* Build training result room */
-    const stage=$('trn-rr-stage');
-    stage.innerHTML='';
-    const chars=document.createElement('div');
-    chars.className='rr-chars';
-    const pipDiv=document.createElement('div');
-    pipDiv.className='rr-char';
+    /* Show training result screen */
+    const stage=$('trn-rr-stage');stage.innerHTML='';
+    const chars=document.createElement('div');chars.className='rr-chars';
+    const pipDiv=document.createElement('div');pipDiv.className='rr-char';
     pipDiv.innerHTML=`<div class="char-display" style="width:72px;height:72px;">${CHARS.pip('happy')}</div><div class="rr-lbl">Pip</div>`;
     chars.appendChild(pipDiv);
-    const emojiDiv=document.createElement('div');
-    emojiDiv.className='rr-char';
+    const emojiDiv=document.createElement('div');emojiDiv.className='rr-char';
     emojiDiv.innerHTML=`<div style="font-size:clamp(2.2em,6vw,3.5em);">${chosenEmoji}</div>`;
     chars.appendChild(emojiDiv);
     stage.appendChild(chars);
     showScreen('s-train-result');
   };
 
-  /* Called by the Next button on the training result screen */
   const nextTrainTrial=()=>{
     S.trainIdx++;
     if(S.trainIdx>=4){onTrainDone();}
     else{showScreen('s-training');renderTrain();}
   };
 
-  const onTrainDone=()=>{
-    setBaseIntro();
-    showScreen('s-base-intro');
-  };
+  const onTrainDone=()=>{setBaseIntro();showScreen('s-base-intro');};
 
   /* ════════ BLOCK INTRO ════════ */
   const setBaseIntro=()=>{
     $('bi-text').innerHTML='Pip will show you how they are feeling.<br>You can open a door and Pip will go inside.';
     setPip('bi-pip',S.round===2?'excited':'neutral','a-float');
-    if(S.round===2){
-      speak('New round!');
-    } else {
-      speak('Pip will show you how they are feeling. You can open a door and Pip will go inside.');
-    }
+    speak(S.round===2?'New round!':'Pip will show you how they are feeling. You can open a door and Pip will go inside.');
   };
 
   /* ════════ TRIALS ════════ */
@@ -695,8 +842,7 @@ const G=(()=>{
   const onDoorClick=async(chosenWrap,choice,trialType)=>{
     const rt=Date.now()-S.trialStart;
     document.querySelectorAll('#trl-doors .door-wrap').forEach(w=>{w.classList.add('locked');if(w!==chosenWrap)w.classList.add('fading');});
-    chosenWrap.classList.add('chosen');
-    chosenWrap.querySelector('.door-panel').classList.add('open');
+    chosenWrap.classList.add('chosen');chosenWrap.querySelector('.door-panel').classList.add('open');
     await wait(380);await walkIntoDoor(chosenWrap);
     const phaseLabel=S.phase==='baseline'?'baseline':(S.round===1?'test1':'test2');
     S.data.push({
@@ -728,7 +874,6 @@ const G=(()=>{
     await wait(960);ce.style.opacity='1';wc.style.display='none';
   };
 
-  /* ════════ RESULT ROOM ════════ */
   const showResultRoom=(choice)=>{
     const badge=S.phase==='baseline'?'Practice':(S.round===1?'Round 1':'Round 2');
     $('rr-phase').textContent=badge;
@@ -747,78 +892,47 @@ const G=(()=>{
 
   const onBlockDone=()=>{
     if(S.phase==='baseline'){
-      if(S.firstBlock===1){showScreen('s-ffi');}
-      else{showScreen('s-sfi');}
+      if(S.firstBlock===1){showScreen('s-ffi');}else{showScreen('s-sfi');}
     } else {
-      if(S.round===1){showPreRound2Check();}
-      else{showEndScreen();}
+      if(S.round===1){showPreRound2Check();}else{showEndScreen();}
     }
   };
 
-  /* ════════ FOOD FAM — 3 reps, sun added via JS ════════ */
+  /* ════════ FOOD FAM ════════ */
   const playFoodFam=()=>{showScreen('s-ff');runFoodAnim();};
 
   const runFoodAnim=async()=>{
     const scene=$('food-scene'),capEl=$('food-cap'),nextDiv=$('food-next');
     nextDiv.style.display='none';scene.innerHTML='';
     const lf=likedFood(),df=dislikedFood();
-
-    const mkPip=(state,leftPct)=>{
-      const el=document.createElement('div');
-      el.className='scene-char';
-      el.style.cssText=`left:${leftPct}%;width:62px;height:62px;z-index:3;`;
-      el.innerHTML=CHARS.pip(state);scene.appendChild(el);return el;
-    };
-    const mkItem=(emoji,leftPct)=>{
-      const el=document.createElement('div');el.className='scene-item';
-      el.textContent=emoji; /* actual Unicode emoji — textContent works */
-      el.style.left=leftPct+'%';scene.appendChild(el);return el;
-    };
-    const setCaption=txt=>{
-      let c=scene.querySelector('.scene-caption');
-      if(!c){c=document.createElement('div');c.className='scene-caption';scene.appendChild(c);}
-      c.textContent=txt;
-    };
-    const popText=async(txt,lPct,tPx)=>{
-      const el=document.createElement('div');el.className='food-pop';
-      el.textContent=txt;el.style.left=lPct+'%';el.style.top=tPx+'px';
-      scene.appendChild(el);await wait(50);el.classList.add('show');
-      await wait(1800);el.classList.remove('show');await wait(400);el.remove();
-    };
-
+    const mkPip=(state,leftPct)=>{const el=document.createElement('div');el.className='scene-char';el.style.cssText=`left:${leftPct}%;width:62px;height:62px;z-index:3;`;el.innerHTML=CHARS.pip(state);scene.appendChild(el);return el;};
+    const mkItem=(emoji,leftPct)=>{const el=document.createElement('div');el.className='scene-item';el.textContent=emoji;el.style.left=leftPct+'%';scene.appendChild(el);return el;};
+    const setCaption=txt=>{let c=scene.querySelector('.scene-caption');if(!c){c=document.createElement('div');c.className='scene-caption';scene.appendChild(c);}c.textContent=txt;};
+    const popText=async(txt,lPct,tPx)=>{const el=document.createElement('div');el.className='food-pop';el.textContent=txt;el.style.left=lPct+'%';el.style.top=tPx+'px';scene.appendChild(el);await wait(50);el.classList.add('show');await wait(1800);el.classList.remove('show');await wait(400);el.remove();};
     for(let rep=0;rep<3;rep++){
-      /* Liked fruit */
-      scene.innerHTML='';
-      addSun(scene); /* coloured sun added via JS each time scene is cleared */
+      scene.innerHTML='';addSun(scene);
       setCaption('Pip sees some fruit!');capEl.textContent='Pip sees some fruit!';
       const p1=mkPip('neutral',6);mkItem(lf.emoji,68);
-      await wait(1000);
-      p1.style.left='60%'; /* overlap with fruit at 68% */
+      await wait(1000);p1.style.left='60%';
       setCaption(`Pip tries the ${lf.label}...`);capEl.textContent=`Pip tries the ${lf.label}...`;
       speak(`Pip tries the ${lf.label}.`);await wait(1400);
-      p1.innerHTML=CHARS.pip('excited'); /* face swap */
+      p1.innerHTML=CHARS.pip('excited');
       setCaption(`Pip loves the ${lf.label}!`);capEl.textContent=`Pip loves the ${lf.label}!`;
       speak('Yum!');popText('YUM!',50,8);await wait(2200);
-
-      /* Second fruit */
-      scene.innerHTML='';
-      addSun(scene);
+      scene.innerHTML='';addSun(scene);
       if(S.variant==='dislike'){
         setCaption(`Now Pip sees the ${df.label}...`);capEl.textContent=`Now Pip sees the ${df.label}...`;
         const p2=mkPip('neutral',6);mkItem(df.emoji,68);
-        await wait(1000);
-        p2.style.left='60%'; /* overlap then backs away */
+        await wait(1000);p2.style.left='60%';
         setCaption(`Pip tries the ${df.label}...`);capEl.textContent=`Pip tries the ${df.label}...`;
         speak(`Pip tries the ${df.label}.`);await wait(1400);
-        p2.innerHTML=CHARS.pip('sad');p2.style.left='26%'; /* face swap + backs away */
+        p2.innerHTML=CHARS.pip('sad');p2.style.left='26%';
         setCaption(`Pip does NOT like the ${df.label}!`);capEl.textContent=`Pip does NOT like the ${df.label}!`;
         speak('Yuck!');popText('YUCK!',22,8);await wait(2200);
       } else {
-        /* Unknown — Pip stays well away, NO overlap */
         setCaption(`Pip sees the ${df.label}...`);capEl.textContent=`Pip sees the ${df.label}...`;
         const p2=mkPip('neutral',6);mkItem(df.emoji,68);
-        await wait(1000);
-        p2.style.left='36%'; /* stops far short of fruit */
+        await wait(1000);p2.style.left='36%';
         setCaption(`Pip doesn't know this fruit.`);capEl.textContent=`Pip doesn't know this fruit.`;
         speak(`Pip doesn't know this fruit.`);await wait(2500);
       }
@@ -841,80 +955,47 @@ const G=(()=>{
 
   const afterFoodSummary=()=>{S.attnContext='post_fam';showFoodAttnCheck();};
 
-  /* ════════ SOCIAL FAM — 3 reps, overlap fixed, sun via JS ════════ */
+  /* ════════ SOCIAL FAM ════════ */
   const playSocialFam=()=>{showScreen('s-sf');runSnuggleAnim();};
 
   const runSnuggleAnim=async()=>{
     const stage=$('snug-stage'),capEl=$('snug-cap'),nextDiv=$('snug-next');
     nextDiv.style.display='none';stage.innerHTML='';
     const pos=posChar(),thin=thinChar();
-
-    const mkPip=(state,leftPct,size=64)=>{
-      const el=document.createElement('div');el.className='scene-char';
-      el.style.cssText=`left:${leftPct}%;width:${size}px;height:${size}px;z-index:3;`;
-      el.innerHTML=CHARS.pip(state);stage.appendChild(el);return el;
-    };
-    const mkChar=(charKey,leftPct,size=64)=>{
-      const el=document.createElement('div');el.className='scene-char';
-      el.style.cssText=`left:${leftPct}%;width:${size}px;height:${size}px;`;
-      el.innerHTML=CHARS[charKey]();stage.appendChild(el);return el;
-    };
-    const setCaption=txt=>{
-      let c=stage.querySelector('.scene-caption');
-      if(!c){c=document.createElement('div');c.className='scene-caption';stage.appendChild(c);}
-      c.textContent=txt;
-    };
-    /* Use innerHTML so actual emoji characters render correctly */
-    const addHeart=(xPct,yPx)=>{
-      const h=document.createElement('div');h.className='heart-p';
-      h.innerHTML=['💕','💗','💖','❤️'][0|Math.random()*4];
-      h.style.left=xPct+'%';h.style.top=yPx+'px';
-      stage.appendChild(h);setTimeout(()=>h.remove(),1550);
-    };
-
+    const mkPip=(state,leftPct,size=64)=>{const el=document.createElement('div');el.className='scene-char';el.style.cssText=`left:${leftPct}%;width:${size}px;height:${size}px;z-index:3;`;el.innerHTML=CHARS.pip(state);stage.appendChild(el);return el;};
+    const mkChar=(charKey,leftPct,size=64)=>{const el=document.createElement('div');el.className='scene-char';el.style.cssText=`left:${leftPct}%;width:${size}px;height:${size}px;`;el.innerHTML=CHARS[charKey]();stage.appendChild(el);return el;};
+    const setCaption=txt=>{let c=stage.querySelector('.scene-caption');if(!c){c=document.createElement('div');c.className='scene-caption';stage.appendChild(c);}c.textContent=txt;};
+    const addHeart=(xPct,yPx)=>{const h=document.createElement('div');h.className='heart-p';h.innerHTML=['💕','💗','💖','❤️'][0|Math.random()*4];h.style.left=xPct+'%';h.style.top=yPx+'px';stage.appendChild(h);setTimeout(()=>h.remove(),1550);};
     for(let rep=0;rep<3;rep++){
-      /* Best friend scene */
-      stage.innerHTML='';
-      addSun(stage);
+      stage.innerHTML='';addSun(stage);
       setCaption(`Pip sees ${pos.label}!`);capEl.textContent=`Pip sees ${pos.label}!`;
       const pipA=mkPip('neutral',8);const posEl=mkChar(pos.charKey,72);
       await wait(1000);
-
-      /* Step 1 — approach */
       pipA.style.left='20%';posEl.style.left='52%';
       setCaption(`Pip runs to ${pos.label}!`);capEl.textContent=`Pip runs to ${pos.label}!`;
-      await wait(1200); /* full 1.1s CSS transition */
-
-      /* Step 2 — snuggle with guaranteed overlap */
+      await wait(1200);
+      /* Snuggle — guaranteed overlap at 28% and 36% */
       pipA.style.left='28%';posEl.style.left='36%';
-      await wait(1200); /* wait for friend to arrive before face swap */
-
-      pipA.innerHTML=CHARS.pip('excited'); /* face swap */
+      await wait(1200);
+      pipA.innerHTML=CHARS.pip('excited');
       pipA.classList.add('a-snug');posEl.classList.add('a-snug');
-      setCaption(`${pos.label} and Pip are best friends!`);
-      capEl.textContent=`${pos.label} and Pip are best friends!`;
+      setCaption(`${pos.label} and Pip are best friends!`);capEl.textContent=`${pos.label} and Pip are best friends!`;
       speak(`${pos.label} and Pip are best friends!`);
       const hi=setInterval(()=>addHeart(28+Math.random()*18,8+Math.random()*38),270);
       await wait(2800);clearInterval(hi);
       pipA.classList.remove('a-snug');posEl.classList.remove('a-snug');
-      setCaption(`${pos.label} is Pip's best friend!`);
-      capEl.textContent=`${pos.label} is Pip's best friend!`;await wait(1400);
-
-      /* Second character */
-      stage.innerHTML='';
-      addSun(stage);
+      setCaption(`${pos.label} is Pip's best friend!`);capEl.textContent=`${pos.label} is Pip's best friend!`;await wait(1400);
+      stage.innerHTML='';addSun(stage);
       setCaption(`Now Pip sees ${thin.label}...`);capEl.textContent=`Now Pip sees ${thin.label}...`;
       const pipB=mkPip('neutral',8);const thinEl=mkChar(thin.charKey,72);
-      await wait(1000);
-      pipB.style.left='37%';
+      await wait(1000);pipB.style.left='37%';
       setCaption('Pip moves closer...');capEl.textContent='Pip moves closer...';await wait(1200);
       if(S.variant==='dislike'){
         thinEl.style.left='88%';
         setCaption(`${thin.label} is not a friend.`);capEl.textContent=`${thin.label} is not a friend.`;
         speak(`${thin.label} is not a friend.`);
         pipB.innerHTML=CHARS.pip('sad');await wait(1900);
-        setCaption(`${thin.label} is not Pip's best friend.`);
-        capEl.textContent=`${thin.label} is not Pip's best friend.`;await wait(1400);
+        setCaption(`${thin.label} is not Pip's best friend.`);capEl.textContent=`${thin.label} is not Pip's best friend.`;await wait(1400);
       } else {
         setCaption(`Pip doesn't know ${thin.label}.`);capEl.textContent=`Pip doesn't know ${thin.label}.`;
         speak(`Pip doesn't know ${thin.label}.`);await wait(2500);
@@ -941,8 +1022,7 @@ const G=(()=>{
   /* ════════ PRE-ROUND 2 CHECK ════════ */
   const showPreRound2Check=()=>{
     S.attnContext='pre_round2';
-    if(S.firstBlock===1){showFoodAttnCheck();}
-    else{showSocialAttnCheck();}
+    if(S.firstBlock===1){showFoodAttnCheck();}else{showSocialAttnCheck();}
   };
 
   /* ════════ FOOD ATTENTION CHECK ════════ */
@@ -951,8 +1031,7 @@ const G=(()=>{
     setPip('attn-pip-food','neutral','a-float');
     const isReminder=['pre_round2','pre_test2','pre_test2_new'].includes(S.attnContext);
     const q=isReminder?'Do you remember? Which fruit does Pip like?':'Which fruit does Pip like?';
-    $('attn-food-q').textContent=q;
-    speak(q);
+    $('attn-food-q').textContent=q;speak(q);
     const choices=shuf([{...likedFood(),isCorrect:true},{...dislikedFood(),isCorrect:false}]);
     const grid=$('attn-food-doors');grid.innerHTML='';
     const cols=shuf([DCOLS[0],DCOLS[1]]);
@@ -981,26 +1060,28 @@ const G=(()=>{
       attnCorrect:choice.isCorrect,timestamp:new Date().toISOString(),
     });
     await wait(700);
-    if(choice.isCorrect){flash('✅','#27ae60');}
-    else{
+    if(choice.isCorrect){
+      flash('✅','#27ae60');
+      setTimeout(()=>afterFoodAttn(),1400);
+    } else {
+      /* Open correct door */
       grid.querySelectorAll('.door-wrap').forEach(w=>{
         const dp=w.querySelector('.dp-emoji');
-        if(dp&&dp.textContent.trim()===likedFood().emoji)w.querySelector('.door-panel').classList.add('open');
+        if(dp&&dp.textContent.trim()===likedFood().emoji)
+          w.querySelector('.door-panel').classList.add('open');
       });
-      flash(`Pip loves ${likedFood().emoji}!`,'#e67e22');
+      /* Show Pip + heart + correct item visually */
+      showCorrectionVisual(likedFood());
       speak(`Pip loves ${likedFood().label}!`);
+      setTimeout(()=>afterFoodAttn(),2900);
     }
-    setTimeout(()=>afterFoodAttn(),1800);
   };
 
   const afterFoodAttn=()=>{
-    if(S.attnContext==='pre_round2'){
-      S.attnContext='post_fam';S.round=2;showScreen('s-sfi');
-    } else if(S.attnContext==='pre_test2'){
-      S.attnContext='pre_test2_new';showSocialAttnCheck();
-    } else if(S.attnContext==='pre_test2_new'){
-      S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');
-    } else {
+    if(S.attnContext==='pre_round2'){S.attnContext='post_fam';S.round=2;showScreen('s-sfi');}
+    else if(S.attnContext==='pre_test2'){S.attnContext='pre_test2_new';showSocialAttnCheck();}
+    else if(S.attnContext==='pre_test2_new'){S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');}
+    else{
       if(S.round===2){S.attnContext='pre_test2';showSocialAttnCheck();}
       else{S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');}
     }
@@ -1012,8 +1093,7 @@ const G=(()=>{
     setPip('attn-pip-social','neutral','a-float');
     const isReminder=['pre_round2','pre_test2','pre_test2_new'].includes(S.attnContext);
     const q=isReminder?"Do you remember? Who is Pip's best friend?":"Who is Pip's best friend?";
-    $('attn-social-q').textContent=q;
-    speak(q);
+    $('attn-social-q').textContent=q;speak(q);
     const choices=shuf([{...posChar(),isCorrect:true},{...thinChar(),isCorrect:false}]);
     const grid=$('attn-social-doors');grid.innerHTML='';
     const cols=shuf([DCOLS[0],DCOLS[1]]);
@@ -1042,26 +1122,28 @@ const G=(()=>{
       attnCorrect:choice.isCorrect,timestamp:new Date().toISOString(),
     });
     await wait(700);
-    if(choice.isCorrect){flash('✅','#27ae60');}
-    else{
+    if(choice.isCorrect){
+      flash('✅','#27ae60');
+      setTimeout(()=>afterSocialAttn(),1400);
+    } else {
+      /* Open correct door */
       grid.querySelectorAll('.door-wrap').forEach(w=>{
         const lbl=w.querySelector('.dp-label');
-        if(lbl&&lbl.textContent===posChar().label)w.querySelector('.door-panel').classList.add('open');
+        if(lbl&&lbl.textContent===posChar().label)
+          w.querySelector('.door-panel').classList.add('open');
       });
-      flash(`${posChar().label} is Pip's best friend!`,'#e67e22');
+      /* Show Pip + heart + correct character visually */
+      showCorrectionVisual(posChar());
       speak(`${posChar().label} is Pip's best friend!`);
+      setTimeout(()=>afterSocialAttn(),2900);
     }
-    setTimeout(()=>afterSocialAttn(),1800);
   };
 
   const afterSocialAttn=()=>{
-    if(S.attnContext==='pre_round2'){
-      S.attnContext='post_fam';S.round=2;showScreen('s-ffi');
-    } else if(S.attnContext==='pre_test2'){
-      S.attnContext='pre_test2_new';showFoodAttnCheck();
-    } else if(S.attnContext==='pre_test2_new'){
-      S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');
-    } else {
+    if(S.attnContext==='pre_round2'){S.attnContext='post_fam';S.round=2;showScreen('s-ffi');}
+    else if(S.attnContext==='pre_test2'){S.attnContext='pre_test2_new';showFoodAttnCheck();}
+    else if(S.attnContext==='pre_test2_new'){S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');}
+    else{
       if(S.round===2){S.attnContext='pre_test2';showFoodAttnCheck();}
       else{S.phase='test';setPip('ti-pip','happy','a-bounce');showScreen('s-ti');}
     }
@@ -1073,9 +1155,10 @@ const G=(()=>{
     const row=$('end-stars');row.innerHTML='';
     ['⭐','🌟','💫','✨','🎉','🎊','🏆','🎈'].forEach((st,i)=>{
       const el=document.createElement('span');el.className='end-star';
-      el.textContent=st; /* actual emoji — textContent works */
-      el.style.setProperty('--d',`${i*.12}`);row.appendChild(el);
+      el.textContent=st;el.style.setProperty('--d',`${i*.12}`);row.appendChild(el);
     });
+    /* Auto-push to GitHub if configured */
+    pushToGitHub();
   };
 
   /* ════════ DATA ════════ */
@@ -1088,6 +1171,8 @@ const G=(()=>{
     a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
     a.download=`haf_${S.pid}_${new Date().toISOString().slice(0,10)}.csv`;
     a.click();
+    /* Also push to GitHub */
+    pushToGitHub();
   };
 
   const toggleTable=()=>{
@@ -1105,6 +1190,7 @@ const G=(()=>{
   const restart=()=>{
     if(!confirm('Start new participant?\nDownload data first!'))return;
     S.data=[];$('f-pid').value='';$('f-age').value='';
+    const statusEl=$('gh-status');if(statusEl){statusEl.textContent='';statusEl.className='gh-status';}
     $('res-wrap').style.display='none';showScreen('s-setup');
   };
 
